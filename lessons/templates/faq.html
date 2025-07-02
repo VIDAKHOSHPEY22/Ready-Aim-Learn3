@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Ready Aim Learn Shooting Lessons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Agency+FB:wght@400;700&family=Teko:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e8b923;
+            --primary-dark: #c99a1a;
+            --secondary: #1a1a1a;
+            --accent: #8b0000;
+            --light: #e6e6e6;
+            --dark: #121212;
+            --gray: #4d4d4d;
+            --light-gray: #333333;
+            --white: #ffffff;
+            --black: #000000;
+            --camo-green: #3a4a3a;
+            --camo-brown: #5d5d5d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Teko', 'Agency FB', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            background-image: 
+                linear-gradient(rgba(20, 20, 20, 0.95), rgba(20, 20, 20, 0.95)),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            color: var(--light);
+            line-height: 1.7;
+            min-height: 100vh;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Tactical Pattern Overlay */
+        body:after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(232, 185, 35, 0.03) 0%, transparent 8%),
+                radial-gradient(circle at 80% 70%, rgba(232, 185, 35, 0.03) 0%, transparent 8%),
+                radial-gradient(circle at 40% 60%, rgba(232, 185, 35, 0.03) 0%, transparent 6%),
+                radial-gradient(circle at 60% 40%, rgba(232, 185, 35, 0.03) 0%, transparent 6%);
+            background-size: 300px 300px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* ================= HEADER STYLES ================= */
+        .site-header {
+            background: linear-gradient(to bottom, rgba(26, 26, 26, 0.95), rgba(20, 20, 20, 0.9));
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
+            padding: 12px 0;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(232, 185, 35, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Agency FB', sans-serif;
+            text-decoration: none;
+        }
+
+        .logo-text:hover {
+            text-shadow: 0 0 15px rgba(232, 185, 35, 0.7);
+            transform: scale(1.03);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 1.3rem;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+            text-shadow: 0 0 8px rgba(232, 185, 35, 0.5);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.4s ease;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(232, 185, 35, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .auth-btn:hover:before {
+            left: 100%;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+            box-shadow: 0 4px 8px rgba(232, 185, 35, 0.4);
+        }
+
+        .auth-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(232, 185, 35, 0.5);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 8px 16px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .user-info:hover {
+            background: rgba(50, 50, 50, 0.8);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.3);
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 0 12px rgba(232, 185, 35, 0.5);
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* ================= FAQ STYLES ================= */
+        .faq-container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 25px;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            padding-bottom: 25px;
+        }
+
+        .faq-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 30%;
+            right: 30%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            border-radius: 2px;
+        }
+
+        .faq-title {
+            font-size: 3.2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(232, 185, 35, 0.3);
+            position: relative;
+            font-family: 'Agency FB', sans-serif;
+        }
+
+        .faq-title:after {
+            content: '✱';
+            position: absolute;
+            top: -15px;
+            right: 15%;
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .faq-subtitle {
+            color: var(--light);
+            font-size: 1.5rem;
+            letter-spacing: 1.5px;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .faq-section {
+            margin-bottom: 60px;
+            background: rgba(30, 30, 30, 0.4);
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            font-family: 'Agency FB', sans-serif;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 150px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(232, 185, 35, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+            border-color: rgba(232, 185, 35, 0.4);
+        }
+
+        .faq-question {
+            padding: 22px 28px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(74, 74, 74, 0.25);
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(232, 185, 35, 0.1);
+        }
+
+        .faq-question:after {
+            content: '+';
+            font-size: 2rem;
+            color: var(--primary);
+            transition: all 0.4s ease;
+        }
+
+        .faq-item.active .faq-question:after {
+            content: '−';
+            transform: rotate(0);
+        }
+
+        .faq-answer {
+            padding: 0 28px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease, padding 0.6s ease;
+            background: rgba(30, 30, 30, 0.4);
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 25px 28px;
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            margin-bottom: 18px;
+            font-size: 1.2rem;
+        }
+
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ================= COMMENTS SECTION ================= */
+        .comments-section {
+            margin-top: 80px;
+            background: rgba(30, 30, 30, 0.7);
+            padding: 35px;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comments-section:before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 80px;
+            height: 80px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000" opacity="0.1"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.42,0-8-3.58-8-8s3.58-8,8-8s8,3.58,8,8 S16.42,20,12,20z"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/></svg>');
+            background-size: contain;
+            z-index: -1;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 20px;
+            background: var(--light-gray);
+            border: 2px solid var(--gray);
+            color: var(--light);
+            border-radius: 6px;
+            resize: vertical;
+            min-height: 140px;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            font-family: 'Teko', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(232, 185, 35, 0.3);
+        }
+
+        .comment-form button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+            padding: 14px 35px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            border-radius: 6px;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 8px rgba(232, 185, 35, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comment-form button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .comment-form button:hover:before {
+            left: 100%;
+        }
+
+        .comment-form button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .comment-list {
+            margin-top: 45px;
+        }
+
+        .comment-list h3 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--gray);
+            padding-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Agency FB', sans-serif;
+        }
+
+        .comment {
+            background: rgba(58, 58, 58, 0.5);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comment:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e8b923" opacity="0.1"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7z"/></svg>');
+            background-size: contain;
+            z-index: -1;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--primary);
+            align-items: center;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .comment-author i {
+            color: var(--primary);
+        }
+
+        .comment-date {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .comment-content {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            padding-left: 28px;
+        }
+
+        .comment-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .comment-actions a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-left: 20px;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comment-actions a:hover {
+            color: #c00;
+            text-decoration: underline;
+        }
+
+        /* ================= BULLET DECORATIONS ================= */
+        .bullet-hole {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000" opacity="0.15"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>');
+            background-size: contain;
+            z-index: -1;
+        }
+
+        .bullet-1 { top: 15%; left: 8%; }
+        .bullet-2 { top: 25%; right: 12%; }
+        .bullet-3 { bottom: 20%; left: 15%; }
+        .bullet-4 { bottom: 30%; right: 5%; }
+
+        /* ================= RESPONSIVE STYLES ================= */
+        @media (max-width: 1100px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-container {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .nav-links {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+                margin-top: 20px;
+            }
+            
+            .auth-links {
+                order: 1;
+            }
+            
+            .faq-title {
+                font-size: 2.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .faq-title {
+                font-size: 2.2rem;
+            }
+            
+            .faq-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .faq-question {
+                font-size: 1.3rem;
+                padding: 18px 22px;
+            }
+            
+            .faq-item.active .faq-answer {
+                padding: 20px 22px;
+            }
+            
+            .comments-section {
+                padding: 25px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            
+            .auth-btn {
+                padding: 8px 18px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .faq-title {
+                font-size: 1.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .faq-question {
+                font-size: 1.2rem;
+                padding: 15px 18px;
+            }
+            
+            .faq-question:after {
+                font-size: 1.8rem;
+            }
+            
+            .comment-form button {
+                padding: 12px 25px;
+                font-size: 1.2rem;
+                width: 100%;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .auth-links {
+                gap: 10px;
+            }
+            
+            .auth-btn {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bullet hole decorations -->
+    <div class="bullet-hole bullet-1"></div>
+    <div class="bullet-hole bullet-2"></div>
+    <div class="bullet-hole bullet-3"></div>
+    <div class="bullet-hole bullet-4"></div>
+
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="{% url 'home' %}" class="logo-text">Ready Aim Learn</a>
+            </div>
+            
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'packages' %}">Packages</a></li>
+                    <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'faq' %}" class="active">FAQ</a></li>
+                </ul>
+                
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <span class="user-name">{{ user.username }}</span>
+                            <a href="{% url 'logout' %}" class="auth-btn">Logout</a>
+                        </div>
+                    {% else %}
+                        <div class="auth-state">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">Login</a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">Sign Up</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="faq-container">
+        <div class="faq-header">
+            <h1 class="faq-title">Frequently Asked Questions</h1>
+            <p class="faq-subtitle">Find answers to common questions about our shooting lessons and services</p>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">General Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">What are the requirements to participate?</div>
+                    <div class="faq-answer">
+                        <p>Participants must be at least 18 years old (or accompanied by a parent/guardian if younger), provide valid identification, and complete a safety waiver. No prior experience is necessary for beginner courses.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Do I need to bring my own firearm?</div>
+                    <div class="faq-answer">
+                        <p>No, we provide all necessary firearms and equipment for our lessons. However, if you prefer to use your own firearm, it must be inspected by our range safety officer first.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What should I wear to my lesson?</div>
+                    <div class="faq-answer">
+                        <p>We recommend comfortable, weather-appropriate clothing with closed-toe shoes. Avoid loose sleeves or low-cut tops. We provide protective eyewear and hearing protection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Booking & Payments</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">How do I book a lesson?</div>
+                    <div class="faq-answer">
+                        <p>You can book lessons online through our website, by phone, or in person at our facility. We recommend booking at least 48 hours in advance for weekday lessons and 72 hours for weekends.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What is your cancellation policy?</div>
+                    <div class="faq-answer">
+                        <p>Cancellations made more than 24 hours in advance receive a full refund. Cancellations within 24 hours may be rescheduled but are not eligible for refunds. No-shows forfeit their payment.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer group discounts?</div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer discounts for groups of 4 or more. Corporate and team-building events are also available with custom pricing. Contact us for details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Safety & Training</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">How safe are your shooting lessons?</div>
+                    <div class="faq-answer">
+                        <p>Safety is our top priority. All lessons begin with comprehensive safety training. Our instructors are certified professionals who maintain strict safety protocols at all times.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What certifications do your instructors have?</div>
+                    <div class="faq-answer">
+                        <p>Our instructors hold multiple certifications including NRA Certified Instructor, USCCA Certified Trainer, and state-licensed firearms instructors. Many have military or law enforcement backgrounds.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Can I get certified through your courses?</div>
+                    <div class="faq-answer">
+                        <p>We offer several certification programs including NRA Basic Pistol Certification, Concealed Carry Certification, and Advanced Tactical Training Certification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comments-section">
+            <h2 class="section-title">Have a Question?</h2>
+            <p>If you don't see your question answered here, feel free to ask below and we'll respond as soon as possible.</p>
+            
+            <form class="comment-form" method="post" action="{% url 'faq' %}">
+                {% csrf_token %}
+                <textarea name="comment" placeholder="Type your question here..." required></textarea>
+                <button type="submit">Submit Question</button>
+            </form>
+            
+            <div class="comment-list">
+                <h3>Recent Questions</h3>
+                
+                {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="comment-author">
+                            <i class="fas fa-user"></i>
+                            <span>{{ comment.user.username }}</span>
+                        </div>
+                        <span class="comment-date">{{ comment.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <p class="comment-content">{{ comment.text }}</p>
+                    {% if comment.user == request.user %}
+                    <div class="comment-actions">
+                        <a href="{% url 'delete_comment' comment.id %}"><i class="fas fa-trash-alt"></i> Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // FAQ Accordion Functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                const isActive = item.classList.contains('active');
+                
+                // Close all items first
+                document.querySelectorAll('.faq-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.site-header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.7)';
+                header.style.background = 'rgba(20, 20, 20, 0.95)';
+            } else {
+                header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.7)';
+                header.style.background = 'linear-gradient(to bottom, rgba(26, 26, 26, 0.95), rgba(20, 20, 20, 0.9))';
+            }
+        });
+        
+        // Form submission feedback
+        const commentForm = document.querySelector('.comment-form');
+        if (commentForm) {
+            commentForm.addEventListener('submit', function(e) {
+                const textarea = this.querySelector('textarea');
+                if (textarea.value.trim() === '') {
+                    e.preventDefault();
+                    textarea.focus();
+                    textarea.style.borderColor = 'var(--accent)';
+                    textarea.style.boxShadow = '0 0 0 3px rgba(139, 0, 0, 0.3)';
+                    
+                    setTimeout(() => {
+                        textarea.style.borderColor = '';
+                        textarea.style.boxShadow = '';
+                    }, 3000);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
