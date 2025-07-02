@@ -28,6 +28,11 @@ class FAQComment(models.Model):
         auto_now=True,
         verbose_name='Last updated'
     )
+    is_active = models.BooleanField(
+        default=True,  # این خط را اضافه کنید
+        verbose_name='Is Active',
+        help_text='Designates whether this comment should be shown publicly'
+    )
 
     class Meta:
         ordering = ['-created_at']  # Show newest comments first

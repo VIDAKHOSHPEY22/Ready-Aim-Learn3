@@ -38,8 +38,8 @@ def faq(request):
          "a": "No permit is required. All instruction is legal and supervised."},
     ]
 
-    # Get all parent comments (not replies) ordered by newest first
-    comments = FAQComment.objects.filter(parent__isnull=True).order_by('-created_at')
+    # Get all active parent comments (not replies) ordered by newest first
+    comments = FAQComment.objects.filter(parent__isnull=True, is_active=True).order_by('-created_at')
 
     # Handle comment submission
     if request.method == 'POST':
@@ -51,6 +51,7 @@ def faq(request):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
+            comment.is_active = True  # این خط کامنت‌ها را فعال می‌کند
             
             # Handle parent comment if this is a reply
             parent_id = request.POST.get('parent_id')
@@ -65,8 +66,6 @@ def faq(request):
             comment.save()
             messages.success(request, "Your comment has been posted successfully!")
             return redirect('faq')
-        
-        # If form is invalid, we'll continue to render the page with errors
     else:
         form = FAQCommentForm()
 

@@ -854,7 +854,7 @@
             
             <form class="comment-form" method="post" action="{% url 'faq' %}">
                 {% csrf_token %}
-                <textarea name="comment" placeholder="Type your question here..." required></textarea>
+                {{ form.content }}  <!-- استفاده از فرم Django به جای textarea خام -->
                 <button type="submit">Submit Question</button>
             </form>
             
@@ -870,15 +870,37 @@
                         </div>
                         <span class="comment-date">{{ comment.created_at|date:"M d, Y" }}</span>
                     </div>
-                    <p class="comment-content">{{ comment.text }}</p>
+                    <p class="comment-content">{{ comment.content }}</p>  <!-- تغییر از text به content -->
                     {% if comment.user == request.user %}
                     <div class="comment-actions">
-                        <a href="{% url 'delete_comment' comment.id %}"><i class="fas fa-trash-alt"></i> Delete</a>
+                        <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
                     </div>
                     {% endif %}
+                    
+                    <!-- نمایش پاسخ‌ها -->
+                    {% for reply in comment.replies.all %}
+                    <div class="reply">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <i class="fas fa-reply"></i>
+                                <span>{{ reply.user.username }}</span>
+                            </div>
+                            <span class="comment-date">{{ reply.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        <p class="comment-content">{{ reply.content }}</p>
+                    </div>
+                    {% endfor %}
                 </div>
+                {% empty %}
+                <p>No questions yet. Be the first to ask!</p>
                 {% endfor %}
             </div>
+        </div>
         </div>
     </main>
 
