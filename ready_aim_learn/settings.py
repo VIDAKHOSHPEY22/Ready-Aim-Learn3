@@ -117,11 +117,18 @@ USE_TZ = True
 
 # settings.py
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # این خط را اضافه کنید
+# settings.py
+DEBUG = True  # Must be True during development
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+# Add for JavaScript MIME type fix
+import mimetypes
+mimetypes.add_type("text/javascript", ".js", True)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

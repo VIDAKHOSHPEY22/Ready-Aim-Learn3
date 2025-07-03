@@ -1,0 +1,558 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Training Packages | Ready Aim Learn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explore our firearms training packages for beginners, couples, and CCW preparation. Private lessons with certified instructors.">
+    <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
+    <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <style>
+        /* ================= HEADER STYLES ================= */
+        .site-header {
+            background-color: rgba(26, 26, 26, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
+        }
+    
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+    
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            height: 100%;
+        }
+    
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+        }
+    
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+    
+        .nav-menu {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+    
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
+        }
+    
+        .nav-links a {
+            font-weight: 600;
+            color: var(--light);
+            padding: 8px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+    
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+    
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+    
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+    
+        /* ================= AUTHENTICATION STYLES ================= */
+        .auth-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+            height: 100%;
+        }
+    
+        .auth-state {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            height: 100%;
+        }
+    
+        .auth-btn {
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 25px;
+            box-sizing: border-box;
+        }
+    
+        .auth-btn:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    
+        .auth-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+    
+        .auth-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+    
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            transition: all 0.3s ease;
+            height: 40px;
+            box-sizing: border-box;
+        }
+    
+        .user-info:hover {
+            background: rgba(50, 50, 50, 0.8);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+        }
+    
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+        }
+    
+        .user-name {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+    
+        .logout-form {
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* Tactical Effects for Auth Elements */
+        .auth-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(232, 185, 35, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+    
+        .auth-btn:hover:before {
+            left: 100%;
+        }
+    
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .site-header .container {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 0;
+            }
+            
+            .nav-menu {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .auth-links {
+                margin-left: 0;
+                margin-top: 20px;
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+            
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    
+        @media (max-width: 576px) {
+            .logo {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1.2rem;
+            }
+            
+            .auth-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .user-info {
+                padding: 6px 10px;
+            }
+            
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+        }
+    
+        /* Animation for User Avatar */
+        @keyframes tactical-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(232, 185, 35, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0);
+            }
+        }
+    
+        .user-info:hover .user-avatar {
+            animation: tactical-pulse 1.5s infinite;
+        }
+    </style>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
+            </div>
+
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'packages' %}" class="active">Packages</a></li>
+                    <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                </ul>
+
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <span class="user-name">{{ user.username }}</span>
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="auth-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="auth-state">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="packages-main">
+        <section class="packages-hero">
+            <div class="container">
+                <h1>Our Training Packages</h1>
+                <p>Choose the perfect training program for your needs</p>
+            </div>
+        </section>
+
+        <section class="package-categories">
+            <div class="container">
+                <div class="category-tabs">
+                    <button class="tab-button active" data-category="beginner">Beginner Courses</button>
+                    <button class="tab-button" data-category="specialty">Specialty Training</button>
+                    <button class="tab-button" data-category="group">Group Packages</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="packages-grid">
+            <div class="container">
+                <div class="package-cards">
+                    <!-- Beginner Package 1 -->
+                    <div class="package-card" data-category="beginner">
+                        <div class="package-header">
+                            <h3>Basic Firearms Familiarization</h3>
+                            <div class="price">$150</div>
+                        </div>
+                        <div class="package-details">
+                            <ul class="features">
+                                <li><i class="fas fa-check"></i> 2-hour private session</li>
+                                <li><i class="fas fa-check"></i> Firearm safety fundamentals</li>
+                                <li><i class="fas fa-check"></i> Hands-on handling practice</li>
+                                <li><i class="fas fa-check"></i> Live fire exercises (50 rounds)</li>
+                                <li><i class="fas fa-check"></i> Equipment provided</li>
+                            </ul>
+                            <a href="{% url 'booking' %}" class="book-button">Book Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Beginner Package 2 -->
+                    <div class="package-card" data-category="beginner">
+                        <div class="package-header">
+                            <h3>Beginner's Complete Course</h3>
+                            <div class="price">$350</div>
+                        </div>
+                        <div class="package-details">
+                            <ul class="features">
+                                <li><i class="fas fa-check"></i> Three 2-hour sessions</li>
+                                <li><i class="fas fa-check"></i> Comprehensive safety training</li>
+                                <li><i class="fas fa-check"></i> Marksmanship fundamentals</li>
+                                <li><i class="fas fa-check"></i> 200 rounds of ammunition</li>
+                                <li><i class="fas fa-check"></i> Range fee included</li>
+                            </ul>
+                            <a href="{% url 'booking' %}" class="book-button">Book Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Specialty Package 1 -->
+                    <div class="package-card" data-category="specialty">
+                        <div class="package-header">
+                            <h3>Couples Training Package</h3>
+                            <div class="price">$250</div>
+                        </div>
+                        <div class="package-details">
+                            <ul class="features">
+                                <li><i class="fas fa-check"></i> 3-hour private session</li>
+                                <li><i class="fas fa-check"></i> Designed for two people</li>
+                                <li><i class="fas fa-check"></i> Safety training for home defense</li>
+                                <li><i class="fas fa-check"></i> 100 rounds per person</li>
+                                <li><i class="fas fa-check"></i> Discount on future sessions</li>
+                            </ul>
+                            <a href="{% url 'booking' %}" class="book-button">Book Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Specialty Package 2 -->
+                    <div class="package-card" data-category="specialty">
+                        <div class="package-header">
+                            <h3>CCW Preparation Course</h3>
+                            <div class="price">$400</div>
+                        </div>
+                        <div class="package-details">
+                            <ul class="features">
+                                <li><i class="fas fa-check"></i> Meets state requirements</li>
+                                <li><i class="fas fa-check"></i> 8 hours of instruction</li>
+                                <li><i class="fas fa-check"></i> Legal considerations</li>
+                                <li><i class="fas fa-check"></i> Live fire qualification</li>
+                                <li><i class="fas fa-check"></i> Certificate provided</li>
+                            </ul>
+                            <a href="{% url 'booking' %}" class="book-button">Book Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Group Package -->
+                    <div class="package-card" data-category="group">
+                        <div class="package-header">
+                            <h3>Family Safety Package</h3>
+                            <div class="price">$500</div>
+                        </div>
+                        <div class="package-details">
+                            <ul class="features">
+                                <li><i class="fas fa-check"></i> Up to 4 family members</li>
+                                <li><i class="fas fa-check"></i> 4-hour comprehensive session</li>
+                                <li><i class="fas fa-check"></i> Home firearm safety</li>
+                                <li><i class="fas fa-check"></i> 75 rounds per person</li>
+                                <li><i class="fas fa-check"></i> Emergency protocols</li>
+                            </ul>
+                            <a href="{% url 'booking' %}" class="book-button">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="package-faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-items">
+                    <div class="faq-item">
+                        <button class="faq-question">What should I bring to my lesson?</button>
+                        <div class="faq-answer">
+                            <p>Just bring yourself and valid ID. We provide all firearms, ammunition, eye and ear protection. Wear comfortable clothing and closed-toe shoes.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Can I use my own firearm?</button>
+                        <div class="faq-answer">
+                            <p>Yes, after inspection by our instructors. There may be additional range fees for non-standard calibers.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Are gift certificates available?</button>
+                        <div class="faq-answer">
+                            <p>Yes! We offer digital gift certificates that can be applied to any training package.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="package-cta">
+            <div class="container">
+                <h2>Not Sure Which Package is Right For You?</h2>
+                <p>Contact us for a free consultation to determine the best training path for your needs.</p>
+                <div class="cta-buttons">
+                    <a href="{% url 'contact' %}" class="cta-button">Get Advice</a>
+                    <a href="tel:+15551234567" class="cta-button secondary">
+                        <i class="fas fa-phone"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
+                    <p class="footer-about">Providing safe, professional firearms training for beginners in a comfortable and private setting.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'packages' %}">Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Ready Aim Learn. All rights reserved. | <a href="{% url 'legal' %}">Terms & Waiver</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'lessons/js/main.js' %}"></script>
+</body>
+</html>

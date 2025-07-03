@@ -72,6 +72,7 @@
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
         }
 
         .header-container {
@@ -257,6 +258,12 @@
             max-width: 1000px;
             margin: 60px auto;
             padding: 0 25px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .faq-header {
@@ -313,6 +320,12 @@
             padding: 25px;
             border: 1px solid rgba(232, 185, 35, 0.1);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .faq-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .section-title {
@@ -518,6 +531,11 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .comment:hover {
+            transform: translateX(5px);
         }
 
         .comment:after {
@@ -582,6 +600,42 @@
         .comment-actions a:hover {
             color: #c00;
             text-decoration: underline;
+        }
+
+        /* Reply styles */
+        .reply {
+            background: rgba(40, 40, 40, 0.6);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
+            position: relative;
+        }
+
+        .reply:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: -10px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 10px solid var(--accent);
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0;
+            transition: color 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            color: #c00;
         }
 
         /* ================= BULLET DECORATIONS ================= */
@@ -751,7 +805,12 @@
                                 {{ user.username|first|upper }}
                             </div>
                             <span class="user-name">{{ user.username }}</span>
-                            <a href="{% url 'logout' %}" class="auth-btn">Logout</a>
+                            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
                         </div>
                     {% else %}
                         <div class="auth-state">
@@ -854,7 +913,7 @@
             
             <form class="comment-form" method="post" action="{% url 'faq' %}">
                 {% csrf_token %}
-                {{ form.content }}  <!-- استفاده از فرم Django به جای textarea خام -->
+                {{ form.content }}
                 <button type="submit">Submit Question</button>
             </form>
             
@@ -870,7 +929,7 @@
                         </div>
                         <span class="comment-date">{{ comment.created_at|date:"M d, Y" }}</span>
                     </div>
-                    <p class="comment-content">{{ comment.content }}</p>  <!-- تغییر از text به content -->
+                    <p class="comment-content">{{ comment.content }}</p>
                     {% if comment.user == request.user %}
                     <div class="comment-actions">
                         <form method="POST" action="{% url 'delete_comment' comment.id %}">
@@ -900,7 +959,6 @@
                 <p>No questions yet. Be the first to ask!</p>
                 {% endfor %}
             </div>
-        </div>
         </div>
     </main>
 
@@ -940,7 +998,7 @@
         if (commentForm) {
             commentForm.addEventListener('submit', function(e) {
                 const textarea = this.querySelector('textarea');
-                if (textarea.value.trim() === '') {
+                if (textarea && textarea.value.trim() === '') {
                     e.preventDefault();
                     textarea.focus();
                     textarea.style.borderColor = 'var(--accent)';

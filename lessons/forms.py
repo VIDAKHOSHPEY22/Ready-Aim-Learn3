@@ -15,6 +15,6 @@ class FAQCommentForm(forms.ModelForm):
     
     def clean_content(self):
         content = self.cleaned_data['content']
-        if len(content) < 10:
-            raise forms.ValidationError("Comment must be at least 10 characters")
+        if len(content) < 5:
+            raise forms.ValidationError("Comment must be at least 5 characters")
         return content
