@@ -9,10 +9,36 @@
     <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ================= HEADER STYLES (from home.html) ================= */
+       :root {
+            --primary: #e8b923;
+            --primary-dark: #d8a91b;
+            --accent: #e8b923;
+            --black: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #888;
+        }
+
+        /* ================= BASE STYLES ================= */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ================= IMPROVED HEADER STYLES (MATCHING HOME.HTML) ================= */
         .site-header {
-            background-color: rgba(26, 26, 26, 0.9);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             position: fixed;
             width: 100%;
             top: 0;
@@ -20,70 +46,80 @@
             padding: 12px 0;
             border-bottom: 1px solid var(--primary);
         }
-    
+
         .site-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 60px;
         }
-    
+
         .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
-            height: 100%;
         }
-    
+
         .logo {
             height: 40px;
             width: auto;
-            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.7));
         }
-    
+
         .site-title {
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            letter-spacing: 1px;
-            line-height: 1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1.5px;
         }
-    
+
+        /* ================= HAMBURGER MENU (MATCHING HOME.HTML) ================= */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
         .nav-menu {
             display: flex;
-            height: 100%;
             align-items: center;
         }
-    
+
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 20px;
+            gap: 25px;
             margin: 0;
             padding: 0;
-            height: 100%;
-            align-items: center;
         }
-    
+
         .nav-links a {
             font-weight: 600;
             color: var(--light);
             padding: 8px 0;
             position: relative;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            height: 100%;
-            display: flex;
-            align-items: center;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-    
+
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--primary);
         }
-    
+
         .nav-links a:after {
             content: '';
             position: absolute;
@@ -94,28 +130,26 @@
             background-color: var(--primary);
             transition: width 0.3s ease;
         }
-    
+
         .nav-links a:hover:after,
         .nav-links a.active:after {
             width: 100%;
         }
-    
-        /* ================= AUTH STYLES (from home.html) ================= */
+
+        /* ================= AUTH STYLES (MATCHING HOME.HTML EXACTLY) ================= */
         .auth-links {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-left: 20px;
-            height: 100%;
+            margin-left: 30px;
         }
-    
+
         .auth-state {
             display: flex;
             gap: 15px;
             align-items: center;
-            height: 100%;
         }
-    
+
         .auth-btn {
             padding: 10px 20px;
             border-radius: 3px;
@@ -136,25 +170,25 @@
             box-sizing: border-box;
             text-decoration: none;
         }
-    
+
         .auth-btn:hover {
             background: var(--primary);
             color: var(--black);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-    
+
         .auth-btn.primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--black);
             border: none;
         }
-    
+
         .auth-btn.primary:hover {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
         }
-    
+
         .user-info {
             display: flex;
             align-items: center;
@@ -167,12 +201,12 @@
             height: 40px;
             box-sizing: border-box;
         }
-    
+
         .user-info:hover {
             background: rgba(50, 50, 50, 0.8);
             box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
         }
-    
+
         .user-avatar {
             width: 32px;
             height: 32px;
@@ -186,6 +220,17 @@
             font-size: 1rem;
             box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
         }
+
+        .user-name {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .logout-form {
+            margin: 0;
+            padding: 0;
+        }
+
     
         /* ================= FAQ CONTENT STYLES ================= */
         .faq-container {
@@ -285,6 +330,7 @@
             border-radius: 4px;
             min-height: 120px;
             resize: vertical;
+            font-size: large;
         }
         
         .comment-form button {
@@ -296,6 +342,7 @@
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: large;
         }
         
         .comment-form button:hover {
@@ -326,51 +373,106 @@
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
-
-        /* ================= HAMBURGER MENU ================= */
-        .hamburger {
+       /* ================= HAMBURGER MENU STYLES ================= */
+       .hamburger {
             display: none;
             cursor: pointer;
-            width: 30px;
-            height: 30px;
-            flex-direction: column;
-            justify-content: space-around;
+            background: none;
+            border: none;
+            padding: 10px;
             z-index: 1001;
         }
-
-        .hamburger span {
-            display: block;
-            height: 3px;
-            width: 100%;
-            background: var(--primary);
-            transition: all 0.3s ease;
+    
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.5rem;
         }
-
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(10px) rotate(45deg);
+    
+        /* ================= MOBILE MENU STYLES ================= */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: block;
+            }
+    
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+                border-top: 1px solid var(--primary);
+            }
+    
+            .nav-menu.active {
+                left: 0;
+            }
+    
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+    
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+    
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+    
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+    
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
         }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-10px) rotate(-45deg);
+    
+        @media (max-width: 576px) {
+            .logo {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1.2rem;
+            }
+            
+            .auth-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .user-info {
+                padding: 6px 10px;
+            }
+            
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
         }
 
         /* ================= LARGER FONT SIZES ================= */
-        body {
-            font-size: 18px;
-        }
-
-        .nav-links a {
-            font-size: 1rem;
-        }
-
-        .auth-btn {
-            font-size: 1rem;
-        }
-
+    
         .faq-question {
             font-size: 1.3rem;
         }
@@ -469,11 +571,10 @@
                 <h1 class="site-title">Ready Aim Learn</h1>
             </div>
 
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="hamburger" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
 
             <nav class="nav-menu">
                 <ul class="nav-links">
