@@ -1,242 +1,181 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - Ready Aim Learn Shooting Lessons</title>
-    <link href="https://fonts.googleapis.com/css2?family=Agency+FB:wght@400;700&family=Teko:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>FAQ | Ready Aim Learn | Private Firearms Training</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Frequently asked questions about private firearms training for beginners. Get answers about safety, what to expect, and more.">
+    <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
+    <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #e8b923;
-            --primary-dark: #c99a1a;
-            --secondary: #1a1a1a;
-            --accent: #8b0000;
-            --light: #e6e6e6;
-            --dark: #121212;
-            --gray: #4d4d4d;
-            --light-gray: #333333;
-            --white: #ffffff;
-            --black: #000000;
-            --camo-green: #3a4a3a;
-            --camo-brown: #5d5d5d;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Teko', 'Agency FB', sans-serif;
-        }
-
-        body {
-            background-color: var(--dark);
-            background-image: 
-                linear-gradient(rgba(20, 20, 20, 0.95), rgba(20, 20, 20, 0.95)),
-                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            color: var(--light);
-            line-height: 1.7;
-            min-height: 100vh;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Tactical Pattern Overlay */
-        body:after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(232, 185, 35, 0.03) 0%, transparent 8%),
-                radial-gradient(circle at 80% 70%, rgba(232, 185, 35, 0.03) 0%, transparent 8%),
-                radial-gradient(circle at 40% 60%, rgba(232, 185, 35, 0.03) 0%, transparent 6%),
-                radial-gradient(circle at 60% 40%, rgba(232, 185, 35, 0.03) 0%, transparent 6%);
-            background-size: 300px 300px;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        /* ================= HEADER STYLES ================= */
+        /* ================= HEADER STYLES (from home.html) ================= */
         .site-header {
-            background: linear-gradient(to bottom, rgba(26, 26, 26, 0.95), rgba(20, 20, 20, 0.9));
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
-            padding: 12px 0;
-            border-bottom: 2px solid var(--primary);
-            position: sticky;
+            background-color: rgba(26, 26, 26, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
         }
-
-        .header-container {
+    
+        .site-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 25px;
+            height: 60px;
         }
-
-        .logo {
+    
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
+            height: 100%;
         }
-
-        .logo-text {
-            font-size: 2.2rem;
-            font-weight: bold;
+    
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+        }
+    
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(232, 185, 35, 0.4);
-            transition: all 0.3s ease;
-            font-family: 'Agency FB', sans-serif;
-            text-decoration: none;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+            line-height: 1;
         }
-
-        .logo-text:hover {
-            text-shadow: 0 0 15px rgba(232, 185, 35, 0.7);
-            transform: scale(1.03);
-        }
-
-        .nav-container {
+    
+        .nav-menu {
             display: flex;
+            height: 100%;
             align-items: center;
-            gap: 40px;
         }
-
+    
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 20px;
             margin: 0;
             padding: 0;
+            height: 100%;
+            align-items: center;
         }
-
+    
         .nav-links a {
-            text-decoration: none;
+            font-weight: 600;
             color: var(--light);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 1.3rem;
-            position: relative;
             padding: 8px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
-
+    
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--primary);
-            text-shadow: 0 0 8px rgba(232, 185, 35, 0.5);
         }
-
+    
         .nav-links a:after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transition: width 0.4s ease;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
         }
-
+    
         .nav-links a:hover:after,
         .nav-links a.active:after {
             width: 100%;
         }
-
+    
+        /* ================= AUTH STYLES (from home.html) ================= */
         .auth-links {
             display: flex;
-            gap: 18px;
             align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+            height: 100%;
         }
-
+    
+        .auth-state {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            height: 100%;
+        }
+    
         .auth-btn {
-            padding: 10px 25px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 3px;
             font-weight: 600;
-            cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 1.2rem;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            border: 2px solid var(--primary);
-            background: rgba(30, 30, 30, 0.6);
-            color: var(--primary);
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+            box-sizing: border-box;
+            text-decoration: none;
         }
-
-        .auth-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(232, 185, 35, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .auth-btn:hover:before {
-            left: 100%;
-        }
-
+    
         .auth-btn:hover {
             background: var(--primary);
             color: var(--black);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-
+    
         .auth-btn.primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--black);
             border: none;
-            box-shadow: 0 4px 8px rgba(232, 185, 35, 0.4);
         }
-
+    
         .auth-btn.primary:hover {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 15px rgba(232, 185, 35, 0.5);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
         }
-
+    
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
-            color: var(--primary);
-            font-weight: 600;
-            padding: 8px 16px;
+            gap: 12px;
+            padding: 8px 15px;
             background: rgba(40, 40, 40, 0.6);
             border-radius: 30px;
             border: 1px solid rgba(232, 185, 35, 0.3);
             transition: all 0.3s ease;
+            height: 40px;
+            box-sizing: border-box;
         }
-
+    
         .user-info:hover {
             background: rgba(50, 50, 50, 0.8);
-            box-shadow: 0 0 15px rgba(232, 185, 35, 0.3);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
         }
-
+    
         .user-avatar {
-            width: 42px;
-            height: 42px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             display: flex;
@@ -244,455 +183,247 @@
             justify-content: center;
             color: var(--black);
             font-weight: bold;
-            font-size: 1.3rem;
-            box-shadow: 0 0 12px rgba(232, 185, 35, 0.5);
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
         }
-
-        .user-name {
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
-
-        /* ================= FAQ STYLES ================= */
+    
+        /* ================= FAQ CONTENT STYLES ================= */
         .faq-container {
             max-width: 1000px;
-            margin: 60px auto;
+            margin: 120px auto 60px;
             padding: 0 25px;
-            animation: fadeIn 0.8s ease-out;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        
         .faq-header {
             text-align: center;
             margin-bottom: 60px;
-            position: relative;
-            padding-bottom: 25px;
         }
-
-        .faq-header:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 30%;
-            right: 30%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            border-radius: 2px;
-        }
-
+        
         .faq-title {
-            font-size: 3.2rem;
+            font-size: 2.5rem;
             color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 3px;
             margin-bottom: 15px;
-            text-shadow: 0 0 15px rgba(232, 185, 35, 0.3);
-            position: relative;
-            font-family: 'Agency FB', sans-serif;
+            text-transform: uppercase;
         }
-
-        .faq-title:after {
-            content: '✱';
-            position: absolute;
-            top: -15px;
-            right: 15%;
-            color: var(--accent);
-            font-size: 1.8rem;
-        }
-
+        
         .faq-subtitle {
             color: var(--light);
-            font-size: 1.5rem;
-            letter-spacing: 1.5px;
+            font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto;
-            font-weight: 300;
         }
-
+        
         .faq-section {
-            margin-bottom: 60px;
-            background: rgba(30, 30, 30, 0.4);
-            border-radius: 8px;
-            padding: 25px;
-            border: 1px solid rgba(232, 185, 35, 0.1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 50px;
         }
-
-        .faq-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-
+        
         .section-title {
             color: var(--primary);
-            font-size: 2rem;
-            margin-bottom: 30px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--gray);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            font-family: 'Agency FB', sans-serif;
         }
-
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 150px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .faq-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-            gap: 20px;
-        }
-
+        
         .faq-item {
-            background: rgba(40, 40, 40, 0.7);
-            border-radius: 6px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 5px;
+            margin-bottom: 15px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid rgba(232, 185, 35, 0.15);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(232, 185, 35, 0.1);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 30, 30, 0.5);
+        }
+        
+        .faq-question:after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .faq-item.active .faq-question:after {
+            content: '-';
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        /* ================= COMMENTS SECTION ================= */
+        .comments-section {
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 5px;
+        }
+        
+        .comment-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid var(--gray);
+            color: var(--light);
+            border-radius: 4px;
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .comment-form button {
+            background: var(--primary);
+            color: var(--black);
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .comment-form button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .comment-list {
+            margin-top: 30px;
+        }
+        
+        .comment {
+            background: rgba(40, 40, 40, 0.7);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .comment-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
         }
 
-        .faq-item:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-            transform: translateY(-5px);
-            border-color: rgba(232, 185, 35, 0.4);
+        /* ================= HAMBURGER MENU ================= */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            flex-direction: column;
+            justify-content: space-around;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* ================= LARGER FONT SIZES ================= */
+        body {
+            font-size: 18px;
+        }
+
+        .nav-links a {
+            font-size: 1rem;
+        }
+
+        .auth-btn {
+            font-size: 1rem;
         }
 
         .faq-question {
-            padding: 22px 28px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(74, 74, 74, 0.25);
-            transition: background 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: rgba(232, 185, 35, 0.1);
-        }
-
-        .faq-question:after {
-            content: '+';
-            font-size: 2rem;
-            color: var(--primary);
-            transition: all 0.4s ease;
-        }
-
-        .faq-item.active .faq-question:after {
-            content: '−';
-            transform: rotate(0);
+            font-size: 1.3rem;
         }
 
         .faq-answer {
-            padding: 0 28px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s ease, padding 0.6s ease;
-            background: rgba(30, 30, 30, 0.4);
-            line-height: 1.8;
-        }
-
-        .faq-item.active .faq-answer {
-            padding: 25px 28px;
-            max-height: 500px;
-        }
-
-        .faq-answer p {
-            margin-bottom: 18px;
-            font-size: 1.2rem;
-        }
-
-        .faq-answer p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* ================= COMMENTS SECTION ================= */
-        .comments-section {
-            margin-top: 80px;
-            background: rgba(30, 30, 30, 0.7);
-            padding: 35px;
-            border-radius: 8px;
-            border-top: 4px solid var(--accent);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .comments-section:before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 80px;
-            height: 80px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000" opacity="0.1"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.42,0-8-3.58-8-8s3.58-8,8-8s8,3.58,8,8 S16.42,20,12,20z"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/></svg>');
-            background-size: contain;
-            z-index: -1;
-        }
-
-        .comment-form textarea {
-            width: 100%;
-            padding: 18px;
-            margin-bottom: 20px;
-            background: var(--light-gray);
-            border: 2px solid var(--gray);
-            color: var(--light);
-            border-radius: 6px;
-            resize: vertical;
-            min-height: 140px;
-            font-size: 1.2rem;
-            transition: all 0.4s ease;
-            font-family: 'Teko', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .comment-form textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(232, 185, 35, 0.3);
-        }
-
-        .comment-form button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--black);
-            border: none;
-            padding: 14px 35px;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.4s ease;
-            border-radius: 6px;
-            font-size: 1.3rem;
-            box-shadow: 0 4px 8px rgba(232, 185, 35, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .comment-form button:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .comment-form button:hover:before {
-            left: 100%;
-        }
-
-        .comment-form button:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
-        }
-
-        .comment-list {
-            margin-top: 45px;
-        }
-
-        .comment-list h3 {
-            color: var(--primary);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            border-bottom: 2px solid var(--gray);
-            padding-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: 'Agency FB', sans-serif;
-        }
-
-        .comment {
-            background: rgba(58, 58, 58, 0.5);
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 6px;
-            border-left: 4px solid var(--primary);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .comment:hover {
-            transform: translateX(5px);
-        }
-
-        .comment:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40px;
-            height: 40px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e8b923" opacity="0.1"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7z"/></svg>');
-            background-size: contain;
-            z-index: -1;
-        }
-
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            color: var(--primary);
-            align-items: center;
-        }
-
-        .comment-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        .comment-author i {
-            color: var(--primary);
-        }
-
-        .comment-date {
-            font-size: 1rem;
-            color: var(--gray);
-        }
-
-        .comment-content {
-            font-size: 1.2rem;
-            line-height: 1.7;
-            padding-left: 28px;
-        }
-
-        .comment-actions {
-            margin-top: 15px;
-            text-align: right;
-        }
-
-        .comment-actions a {
-            color: var(--accent);
-            text-decoration: none;
             font-size: 1.1rem;
-            margin-left: 20px;
-            transition: color 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
         }
 
-        .comment-actions a:hover {
-            color: #c00;
-            text-decoration: underline;
-        }
-
-        /* Reply styles */
-        .reply {
-            background: rgba(40, 40, 40, 0.6);
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 4px;
-            border-left: 3px solid var(--accent);
-            position: relative;
-        }
-
-        .reply:before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: -10px;
-            width: 0;
-            height: 0;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-right: 10px solid var(--accent);
-        }
-
-        .btn-delete {
-            background: none;
-            border: none;
-            color: var(--accent);
-            cursor: pointer;
-            font-size: 1.1rem;
-            padding: 0;
-            transition: color 0.3s ease;
-        }
-
-        .btn-delete:hover {
-            color: #c00;
-        }
-
-        /* ================= BULLET DECORATIONS ================= */
-        .bullet-hole {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000" opacity="0.15"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>');
-            background-size: contain;
-            z-index: -1;
-        }
-
-        .bullet-1 { top: 15%; left: 8%; }
-        .bullet-2 { top: 25%; right: 12%; }
-        .bullet-3 { bottom: 20%; left: 15%; }
-        .bullet-4 { bottom: 30%; right: 5%; }
-
-        /* ================= RESPONSIVE STYLES ================= */
-        @media (max-width: 1100px) {
-            .faq-grid {
-                grid-template-columns: 1fr;
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: flex;
             }
-            
-            .nav-links {
-                gap: 20px;
-            }
-            
-            .nav-links a {
-                font-size: 1.2rem;
-            }
-        }
 
-        @media (max-width: 900px) {
-            .header-container {
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.95);
                 flex-direction: column;
-                gap: 20px;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
             }
-            
-            .nav-container {
-                width: 100%;
-                justify-content: space-between;
-                flex-wrap: wrap;
+
+            .nav-menu.active {
+                left: 0;
             }
-            
+
             .nav-links {
-                order: 2;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .auth-btn {
                 width: 100%;
                 justify-content: center;
-                margin-top: 20px;
-            }
-            
-            .auth-links {
-                order: 1;
-            }
-            
-            .faq-title {
-                font-size: 2.6rem;
             }
         }
 
@@ -701,94 +432,50 @@
                 font-size: 2.2rem;
             }
             
-            .faq-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 1.7rem;
-            }
-            
             .faq-question {
-                font-size: 1.3rem;
-                padding: 18px 22px;
+                font-size: 1.2rem;
+                padding: 18px;
             }
-            
-            .faq-item.active .faq-answer {
-                padding: 20px 22px;
+
+            .section-title {
+                font-size: 1.6rem;
             }
-            
-            .comments-section {
-                padding: 25px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-            }
-            
-            .nav-links a {
-                font-size: 1.1rem;
-            }
-            
-            .auth-btn {
-                padding: 8px 18px;
-                font-size: 1.1rem;
+
+            body {
+                font-size: 16px;
             }
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 480px) {
             .faq-title {
-                font-size: 1.9rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .faq-question {
-                font-size: 1.2rem;
-                padding: 15px 18px;
-            }
-            
-            .faq-question:after {
                 font-size: 1.8rem;
             }
-            
-            .comment-form button {
-                padding: 12px 25px;
-                font-size: 1.2rem;
-                width: 100%;
-            }
-            
-            .user-name {
-                display: none;
-            }
-            
-            .auth-links {
-                gap: 10px;
-            }
-            
-            .auth-btn {
-                padding: 8px 15px;
+
+            .faq-subtitle {
                 font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Bullet hole decorations -->
-    <div class="bullet-hole bullet-1"></div>
-    <div class="bullet-hole bullet-2"></div>
-    <div class="bullet-hole bullet-3"></div>
-    <div class="bullet-hole bullet-4"></div>
-
     <header class="site-header">
-        <div class="header-container">
-            <div class="logo">
-                <a href="{% url 'home' %}" class="logo-text">Ready Aim Learn</a>
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
             </div>
-            
-            <div class="nav-container">
+
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav class="nav-menu">
                 <ul class="nav-links">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'packages' %}">Packages</a></li>
@@ -797,7 +484,7 @@
                     <li><a href="{% url 'contact' %}">Contact</a></li>
                     <li><a href="{% url 'faq' %}" class="active">FAQ</a></li>
                 </ul>
-                
+
                 <div class="auth-links">
                     {% if user.is_authenticated %}
                         <div class="user-info">
@@ -805,21 +492,25 @@
                                 {{ user.username|first|upper }}
                             </div>
                             <span class="user-name">{{ user.username }}</span>
-                            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
                                 {% csrf_token %}
-                                <button type="submit" class="btn-delete">
+                                <button type="submit" class="auth-btn">
                                     <i class="fas fa-sign-out-alt"></i>
                                 </button>
                             </form>
                         </div>
                     {% else %}
                         <div class="auth-state">
-                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">Login</a>
-                            <a href="{% url 'signup' %}" class="auth-btn primary">Sign Up</a>
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
                         </div>
                     {% endif %}
                 </div>
-            </div>
+            </nav>
         </div>
     </header>
 
@@ -831,129 +522,170 @@
 
         <div class="faq-section">
             <h2 class="section-title">General Questions</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <div class="faq-question">What are the requirements to participate?</div>
-                    <div class="faq-answer">
-                        <p>Participants must be at least 18 years old (or accompanied by a parent/guardian if younger), provide valid identification, and complete a safety waiver. No prior experience is necessary for beginner courses.</p>
-                    </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What should I bring to my first lesson?</div>
+                <div class="faq-answer">
+                    <p>For your first lesson, you only need to bring yourself and comfortable clothing (avoid low-cut tops). We provide all firearms, ammunition, eye and ear protection, and any other necessary equipment.</p>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Do I need to bring my own firearm?</div>
-                    <div class="faq-answer">
-                        <p>No, we provide all necessary firearms and equipment for our lessons. However, if you prefer to use your own firearm, it must be inspected by our range safety officer first.</p>
-                    </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is prior experience required?</div>
+                <div class="faq-answer">
+                    <p>No prior experience is necessary. Our beginner courses are designed specifically for first-time shooters. We start with the absolute basics in a comfortable, judgment-free environment.</p>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">What should I wear to my lesson?</div>
-                    <div class="faq-answer">
-                        <p>We recommend comfortable, weather-appropriate clothing with closed-toe shoes. Avoid loose sleeves or low-cut tops. We provide protective eyewear and hearing protection.</p>
-                    </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What is the minimum age for training?</div>
+                <div class="faq-answer">
+                    <p>We accept students aged 12 and older for our training programs. Minors must be accompanied by a parent or legal guardian who will also participate in the training session.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Are your instructors certified?</div>
+                <div class="faq-answer">
+                    <p>Yes, all our instructors are NRA-certified and have extensive experience in firearms training. They undergo regular training to stay current with the latest safety protocols and teaching methods.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What types of firearms do you use for training?</div>
+                <div class="faq-answer">
+                    <p>We primarily use 9mm handguns for beginner training as they offer a good balance of control and manageable recoil. As students progress, we introduce other firearms including revolvers, rifles, and shotguns based on individual interests.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Safety & Procedures</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">What safety measures do you have in place?</div>
+                <div class="faq-answer">
+                    <p>Safety is our top priority. We maintain strict protocols including: 1:1 instructor supervision, unloaded firearms until ready to shoot, clearly marked safe zones, and comprehensive safety briefings before every session.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Can I bring my own firearm?</div>
+                <div class="faq-answer">
+                    <p>Yes, after completing at least one beginner session with our equipment. All personal firearms must be unloaded and cased when arriving, and will be inspected by our staff before use.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What if I'm nervous about handling a gun?</div>
+                <div class="faq-answer">
+                    <p>It's completely normal to feel nervous. Our instructors are specially trained to help first-timers overcome anxiety. We start with unloaded firearms and progress at your comfort level.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Do you offer training for people with disabilities?</div>
+                <div class="faq-answer">
+                    <p>Yes, our facility is wheelchair accessible and our instructors have experience adapting training methods for various physical abilities. Please contact us in advance so we can best accommodate your needs.</p>
                 </div>
             </div>
         </div>
 
         <div class="faq-section">
             <h2 class="section-title">Booking & Payments</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <div class="faq-question">How do I book a lesson?</div>
-                    <div class="faq-answer">
-                        <p>You can book lessons online through our website, by phone, or in person at our facility. We recommend booking at least 48 hours in advance for weekday lessons and 72 hours for weekends.</p>
-                    </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How do I book a lesson?</div>
+                <div class="faq-answer">
+                    <p>You can book lessons online through our website, by phone, or in person at our facility. We recommend booking at least 48 hours in advance.</p>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">What is your cancellation policy?</div>
-                    <div class="faq-answer">
-                        <p>Cancellations made more than 24 hours in advance receive a full refund. Cancellations within 24 hours may be rescheduled but are not eligible for refunds. No-shows forfeit their payment.</p>
-                    </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What is your cancellation policy?</div>
+                <div class="faq-answer">
+                    <p>We require 24 hours notice for cancellations to receive a full refund. Late cancellations may be charged 50% of the lesson fee. No-shows will be charged the full amount.</p>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Do you offer group discounts?</div>
-                    <div class="faq-answer">
-                        <p>Yes, we offer discounts for groups of 4 or more. Corporate and team-building events are also available with custom pricing. Contact us for details.</p>
-                    </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Do you offer gift certificates?</div>
+                <div class="faq-answer">
+                    <p>Yes, we offer gift certificates that can be purchased for any amount or specific package. They make excellent gifts for birthdays, holidays, or special occasions.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Are there any discounts available?</div>
+                <div class="faq-answer">
+                    <p>We offer 10% discounts for military, law enforcement, and first responders. We also have package deals that provide savings when booking multiple sessions at once.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What payment methods do you accept?</div>
+                <div class="faq-answer">
+                    <p>We accept all major credit cards, debit cards, cash, and Venmo. Payment is required at time of booking to secure your appointment.</p>
                 </div>
             </div>
         </div>
 
         <div class="faq-section">
-            <h2 class="section-title">Safety & Training</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <div class="faq-question">How safe are your shooting lessons?</div>
-                    <div class="faq-answer">
-                        <p>Safety is our top priority. All lessons begin with comprehensive safety training. Our instructors are certified professionals who maintain strict safety protocols at all times.</p>
-                    </div>
+            <h2 class="section-title">After Training</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Will I receive any certification?</div>
+                <div class="faq-answer">
+                    <p>Yes, upon completing any of our courses you'll receive a certificate of completion. For those interested in concealed carry permits, we offer state-approved certification courses.</p>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">What certifications do your instructors have?</div>
-                    <div class="faq-answer">
-                        <p>Our instructors hold multiple certifications including NRA Certified Instructor, USCCA Certified Trainer, and state-licensed firearms instructors. Many have military or law enforcement backgrounds.</p>
-                    </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How often should I take refresher courses?</div>
+                <div class="faq-answer">
+                    <p>We recommend at least one refresher session every 6 months to maintain skills. Many students choose to train monthly to continually improve their proficiency.</p>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Can I get certified through your courses?</div>
-                    <div class="faq-answer">
-                        <p>We offer several certification programs including NRA Basic Pistol Certification, Concealed Carry Certification, and Advanced Tactical Training Certification.</p>
-                    </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Can I purchase a firearm after training?</div>
+                <div class="faq-answer">
+                    <p>While we don't sell firearms, we can provide guidance on purchasing your first firearm and connect you with reputable dealers in the area.</p>
                 </div>
             </div>
         </div>
 
         <div class="comments-section">
             <h2 class="section-title">Have a Question?</h2>
-            <p>If you don't see your question answered here, feel free to ask below and we'll respond as soon as possible.</p>
+            <p>If you don't see your question answered here, feel free to ask below.</p>
             
-            <form class="comment-form" method="post" action="{% url 'faq' %}">
-                {% csrf_token %}
-                {{ form.content }}
-                <button type="submit">Submit Question</button>
-            </form>
+            {% if user.is_authenticated %}
+                <form class="comment-form" method="post" action="{% url 'faq' %}">
+                    {% csrf_token %}
+                    <textarea name="content" placeholder="Type your question here..." required></textarea>
+                    <button type="submit">Submit Question</button>
+                </form>
+            {% else %}
+                <p>Please <a href="{% url 'login' %}?next={% url 'faq' %}">login</a> to ask a question.</p>
+            {% endif %}
             
             <div class="comment-list">
                 <h3>Recent Questions</h3>
                 
                 {% for comment in comments %}
                 <div class="comment">
-                    <div class="comment-header">
-                        <div class="comment-author">
-                            <i class="fas fa-user"></i>
-                            <span>{{ comment.user.username }}</span>
-                        </div>
-                        <span class="comment-date">{{ comment.created_at|date:"M d, Y" }}</span>
-                    </div>
-                    <p class="comment-content">{{ comment.content }}</p>
-                    {% if comment.user == request.user %}
-                    <div class="comment-actions">
-                        <form method="POST" action="{% url 'delete_comment' comment.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-delete">
-                                <i class="fas fa-trash-alt"></i> Delete
-                            </button>
-                        </form>
-                    </div>
-                    {% endif %}
+                    <div class="comment-author">{{ comment.user.username }}</div>
+                    <div class="comment-date">{{ comment.created_at|date:"F j, Y" }}</div>
+                    <p>{{ comment.content }}</p>
                     
-                    <!-- نمایش پاسخ‌ها -->
-                    {% for reply in comment.replies.all %}
-                    <div class="reply">
-                        <div class="comment-header">
-                            <div class="comment-author">
-                                <i class="fas fa-reply"></i>
-                                <span>{{ reply.user.username }}</span>
-                            </div>
-                            <span class="comment-date">{{ reply.created_at|date:"M d, Y" }}</span>
-                        </div>
-                        <p class="comment-content">{{ reply.content }}</p>
-                    </div>
-                    {% endfor %}
+                    {% if comment.user == request.user %}
+                    <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="auth-btn" style="margin-top: 10px;">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </form>
+                    {% endif %}
                 </div>
                 {% empty %}
                 <p>No questions yet. Be the first to ask!</p>
@@ -962,55 +694,71 @@
         </div>
     </main>
 
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
+                    <p class="footer-about">Providing safe, professional firearms training for beginners in a comfortable and private setting.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'packages' %}">Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Ready Aim Learn. All rights reserved. | <a href="{% url 'legal' %}">Terms & Waiver</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // FAQ Accordion Functionality
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const item = question.parentNode;
-                const isActive = item.classList.contains('active');
-                
-                // Close all items first
-                document.querySelectorAll('.faq-item').forEach(el => {
-                    el.classList.remove('active');
-                });
-                
-                // Open clicked item if it wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
-                }
+                item.classList.toggle('active');
             });
         });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.site-header');
-            if (window.scrollY > 50) {
-                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.7)';
-                header.style.background = 'rgba(20, 20, 20, 0.95)';
-            } else {
-                header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.7)';
-                header.style.background = 'linear-gradient(to bottom, rgba(26, 26, 26, 0.95), rgba(20, 20, 20, 0.9))';
-            }
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
-        
-        // Form submission feedback
-        const commentForm = document.querySelector('.comment-form');
-        if (commentForm) {
-            commentForm.addEventListener('submit', function(e) {
-                const textarea = this.querySelector('textarea');
-                if (textarea && textarea.value.trim() === '') {
-                    e.preventDefault();
-                    textarea.focus();
-                    textarea.style.borderColor = 'var(--accent)';
-                    textarea.style.boxShadow = '0 0 0 3px rgba(139, 0, 0, 0.3)';
-                    
-                    setTimeout(() => {
-                        textarea.style.borderColor = '';
-                        textarea.style.boxShadow = '';
-                    }, 3000);
-                }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
             });
-        }
+        });
     </script>
 </body>
 </html>

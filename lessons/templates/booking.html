@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Training Packages | Ready Aim Learn | Professional Firearms Training</title>
+    <title>Book Training | Ready Aim Learn | Professional Firearms Training</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Professional firearms training packages for all skill levels. From basic marksmanship to advanced tactical shooting. Book your session today.">
+    <meta name="description" content="Book your professional firearms training session. Select your preferred date, firearm, and training package.">
     <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
     <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         :root {
             --primary: #e8b923;
@@ -231,8 +232,8 @@
             padding: 0;
         }
 
-        /* ================= HERO SECTION (MATCHING HOME.HTML STYLE) ================= */
-        .packages-hero {
+        /* ================= BOOKING HERO SECTION ================= */
+        .booking-hero {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "lessons/images/range-bg.jpg" %}');
             background-size: cover;
             background-position: center;
@@ -241,7 +242,7 @@
             margin-top: 84px;
         }
 
-        .packages-hero h1 {
+        .booking-hero h1 {
             font-size: 3rem;
             color: var(--primary);
             margin-bottom: 20px;
@@ -249,14 +250,14 @@
             letter-spacing: 2px;
         }
 
-        .packages-hero p {
+        .booking-hero p {
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto 40px;
         }
 
-        /* ================= PACKAGE CARDS ================= */
-        .packages-container {
+        /* ================= BOOKING FORM STYLES ================= */
+        .booking-container {
             padding: 80px 0;
         }
 
@@ -278,260 +279,271 @@
             margin: 15px auto 0;
         }
 
-        .package-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .package-card {
+        .booking-form {
             background: rgba(40, 40, 40, 0.6);
             border-radius: 8px;
-            overflow: hidden;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
             border: 1px solid rgba(232, 185, 35, 0.1);
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .package-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            border-radius: 4px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(232, 185, 35, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23e8b923' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .radio-option {
+            position: relative;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .radio-input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label {
+            display: block;
+            padding: 15px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-input:checked + .radio-label {
+            background: var(--primary);
+            color: var(--black);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .radio-input:focus + .radio-label {
+            box-shadow: 0 0 0 2px rgba(232, 185, 35, 0.5);
+        }
+
+        .radio-label:hover {
             border-color: var(--primary);
         }
 
-        /* ================= MOST POPULAR BADGE (IMPROVED) ================= */
-        .package-highlight {
-            position: relative;
-            border: 1px solid var(--primary);
+        .calendar-container {
+            margin-bottom: 30px;
         }
 
-        .package-highlight:before {
-            content: 'Most Popular';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--primary);
-            color: var(--black);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+        .flatpickr-calendar {
+            background: rgba(40, 40, 40, 0.9) !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(232, 185, 35, 0.2) !important;
+        }
+
+        .flatpickr-day {
+            color: var(--light) !important;
+        }
+
+        .flatpickr-day.selected, 
+        .flatpickr-day.selected:hover {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            color: var(--black) !important;
             font-weight: bold;
-            text-transform: uppercase;
-            z-index: 1;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .package-header {
+        .flatpickr-day.today {
+            border-color: var(--primary) !important;
+        }
+
+        .flatpickr-day.today:hover {
+            background: rgba(232, 185, 35, 0.2) !important;
+        }
+
+        .flatpickr-day.disabled {
+            color: var(--gray) !important;
+            background: transparent !important;
+        }
+
+        .flatpickr-day.available {
+            font-weight: bold;
+            color: var(--primary) !important;
+        }
+
+        .flatpickr-day.booked {
+            text-decoration: line-through;
+            color: #f44336 !important;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .time-slot {
+            padding: 10px;
             background: rgba(30, 30, 30, 0.8);
-            padding: 30px;
-            text-align: center;
-            border-bottom: 1px solid var(--primary);
-        }
-
-        .package-title {
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .package-price {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: white;
-            margin: 10px 0;
-        }
-
-        .package-price span {
-            font-size: 1rem;
-            color: var(--light);
-            opacity: 0.8;
-        }
-
-        .package-features {
-            padding: 30px;
-            flex-grow: 1;
-        }
-
-        .package-features ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .package-features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-        }
-
-        .package-features li:last-child {
-            border-bottom: none;
-        }
-
-        .package-features i {
-            color: var(--primary);
-            margin-right: 15px;
-            font-size: 1.1rem;
-        }
-
-        .package-cta {
-            padding: 0 30px 30px;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        /* ================= PACKAGE BUTTONS (MATCHING HOME.HTML STYLE) ================= */
-        .package-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--black);
+            border: 1px solid rgba(232, 185, 35, 0.3);
             border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            border: none;
+            text-align: center;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 250px;
-            text-align: center;
-            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
-        .package-btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        .time-slot:hover {
+            border-color: var(--primary);
         }
 
-        /* ================= COMPARISON TABLE ================= */
-        .comparison-section {
-            background: rgba(30, 30, 30, 0.8);
-            padding: 80px 0;
-            margin-top: 60px;
-            border-top: 1px solid var(--primary);
-            border-bottom: 1px solid var(--primary);
+        .time-slot.selected {
+            background: var(--primary);
+            color: var(--black);
+            font-weight: 600;
         }
 
-        .comparison-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .time-slot.booked {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            cursor: not-allowed;
+            text-decoration: line-through;
         }
 
-        .comparison-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 50px;
-            text-transform: uppercase;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(40, 40, 40, 0.6);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .comparison-table th {
-            background: rgba(232, 185, 35, 0.1);
-            color: var(--primary);
-            font-size: 1.1rem;
+        .availability-status {
+            margin-top: 20px;
             padding: 15px;
-            text-align: left;
-        }
-
-        .comparison-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .comparison-table .feature-name {
-            font-weight: bold;
-        }
-
-        .comparison-table .yes {
-            color: #4CAF50;
-            font-weight: bold;
-        }
-
-        .comparison-table .no {
-            color: #F44336;
-        }
-
-        /* ================= CTA SECTION (MATCHING HOME.HTML) ================= */
-        .cta-section {
-            background: rgba(30, 30, 30, 0.6);
-            padding: 80px 0;
+            border-radius: 4px;
             text-align: center;
+            font-weight: 600;
         }
 
-        .cta-title {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            text-transform: uppercase;
+        .available {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
         }
 
-        .cta-description {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
+        .unavailable {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+            border: 1px solid #F44336;
         }
 
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .weapon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .btn {
-            padding: 12px 30px;
+        .weapon-card {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .weapon-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .weapon-card.selected {
+            background: rgba(232, 185, 35, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+        }
+
+        .weapon-image {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .weapon-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .weapon-caliber {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .form-submit {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto 0;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
             border-radius: 4px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-size: 1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            font-size: 0.95rem;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--black);
-            border: none;
-        }
-
-        .btn-primary:hover {
+        .form-submit:hover {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: var(--black);
-            transform: translateY(-3px);
         }
 
         /* ================= FOOTER (MATCHING HOME.HTML EXACTLY) ================= */
@@ -699,48 +711,51 @@
                 justify-content: center;
             }
 
-            .packages-hero h1 {
+            .booking-hero h1 {
                 font-size: 2.5rem;
             }
 
-            .package-grid {
-                grid-template-columns: 1fr;
+            .section-title {
+                font-size: 2rem;
             }
 
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+            .booking-form {
+                padding: 30px;
             }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
+            .weapon-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .packages-hero {
+            .booking-hero {
                 padding: 150px 20px 80px;
             }
 
-            .packages-hero h1 {
+            .booking-hero h1 {
                 font-size: 2rem;
             }
 
-            .section-title, .comparison-title {
-                font-size: 2rem;
+            .section-title {
+                font-size: 1.8rem;
             }
 
-            .package-title {
-                font-size: 1.6rem;
+            .form-row {
+                flex-direction: column;
+                gap: 20px;
             }
 
-            .package-price {
-                font-size: 2.2rem;
+            .form-group {
+                width: 100%;
             }
 
-            .cta-title {
-                font-size: 2rem;
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .radio-option {
+                width: 100%;
             }
         }
 
@@ -749,29 +764,27 @@
                 font-size: 1.2rem;
             }
 
-            .packages-hero h1 {
+            .booking-hero h1 {
                 font-size: 1.8rem;
             }
 
-            .packages-hero p {
+            .booking-hero p {
                 font-size: 1rem;
             }
 
-            .section-title, .comparison-title {
-                font-size: 1.8rem;
+            .section-title {
+                font-size: 1.5rem;
             }
 
-            .package-features li {
-                padding: 12px 0;
-                font-size: 0.95rem;
+            .booking-form {
+                padding: 20px;
             }
 
-            .package-btn {
-                padding: 12px 20px;
-                font-size: 0.9rem;
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .footer-content {
+            .weapon-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -792,8 +805,8 @@
             <nav class="nav-menu">
                 <ul class="nav-links">
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'packages' %}" class="active">Packages</a></li>
-                    <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                    <li><a href="{% url 'packages' %}">Packages</a></li>
+                    <li><a href="{% url 'booking' %}" class="active">Book Lesson</a></li>
                     <li><a href="{% url 'about' %}">About</a></li>
                     <li><a href="{% url 'contact' %}">Contact</a></li>
                     <li><a href="{% url 'faq' %}">FAQ</a></li>
@@ -828,172 +841,135 @@
         </div>
     </header>
 
-    <section class="packages-hero">
+    <section class="booking-hero">
         <div class="container">
-            <h1>Professional Firearms Training</h1>
-            <p>Select from our specialized training packages designed to take you from basic marksmanship to advanced tactical shooting. All sessions include one-on-one instruction with our certified NRA instructors.</p>
-            <a href="{% url 'booking' %}" class="package-btn">View Availability</a>
+            <h1>Book Your Training Session</h1>
+            <p>Select your preferred date, time, and firearm for personalized firearms training with our certified instructors.</p>
         </div>
     </section>
 
-    <div class="packages-container">
-        <h2 class="section-title">Training Packages</h2>
+    <div class="booking-container">
+        <h2 class="section-title">Schedule Your Lesson</h2>
         
-        <div class="package-grid">
-            <!-- Basic Marksmanship Package -->
-            <div class="package-card">
-                <div class="package-header">
-                    <h3 class="package-title">Basic Marksmanship</h3>
-                    <div class="package-price">$150<span> / session</span></div>
+        <form class="booking-form" method="post">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="package" class="form-label">Training Package</label>
+                    <select id="package" name="package" class="form-control" required>
+                        <option value="" disabled selected>Select a package</option>
+                        <option value="basic">Basic Marksmanship - $150</option>
+                        <option value="tactical">Tactical Shooting - $275</option>
+                        <option value="advanced">Advanced Combat - $400</option>
+                    </select>
                 </div>
-                <div class="package-features">
-                    <ul>
-                        <li><i class="fas fa-check"></i> Firearm safety fundamentals</li>
-                        <li><i class="fas fa-check"></i> Proper grip & stance techniques</li>
-                        <li><i class="fas fa-check"></i> Sight alignment & trigger control</li>
-                        <li><i class="fas fa-check"></i> 50 rounds of 9mm ammunition</li>
-                        <li><i class="fas fa-check"></i> Eye & ear protection included</li>
-                        <li><i class="fas fa-times"></i> Moving targets</li>
-                        <li><i class="fas fa-times"></i> Advanced drills</li>
-                    </ul>
-                </div>
-                <div class="package-cta">
-                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
-                </div>
-            </div>
-
-            <!-- Tactical Shooting Package (Most Popular) -->
-            <div class="package-card package-highlight">
-                <div class="package-header">
-                    <h3 class="package-title">Tactical Shooting</h3>
-                    <div class="package-price">$275<span> / session</span></div>
-                </div>
-                <div class="package-features">
-                    <ul>
-                        <li><i class="fas fa-check"></i> All basic marksmanship skills</li>
-                        <li><i class="fas fa-check"></i> Multiple shooting positions</li>
-                        <li><i class="fas fa-check"></i> Tactical reloading drills</li>
-                        <li><i class="fas fa-check"></i> 100 rounds of ammunition</li>
-                        <li><i class="fas fa-check"></i> Moving target practice</li>
-                        <li><i class="fas fa-check"></i> Stress scenario training</li>
-                        <li><i class="fas fa-times"></i> Advanced weapon systems</li>
-                    </ul>
-                </div>
-                <div class="package-cta">
-                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
+                
+                <div class="form-group">
+                    <label for="duration" class="form-label">Session Duration</label>
+                    <select id="duration" name="duration" class="form-control" required>
+                        <option value="" disabled selected>Select duration</option>
+                        <option value="60">60 minutes</option>
+                        <option value="90">90 minutes</option>
+                        <option value="120">120 minutes</option>
+                    </select>
                 </div>
             </div>
-
-            <!-- Advanced Combat Package -->
-            <div class="package-card">
-                <div class="package-header">
-                    <h3 class="package-title">Advanced Combat</h3>
-                    <div class="package-price">$400<span> / session</span></div>
+            
+            <div class="form-group calendar-container">
+                <label for="date" class="form-label">Select Date</label>
+                <input type="text" id="date" name="date" class="form-control" placeholder="Select date" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Available Time Slots</label>
+                <div class="time-slots">
+                    <div class="time-slot">9:00 AM</div>
+                    <div class="time-slot">10:30 AM</div>
+                    <div class="time-slot booked">12:00 PM</div>
+                    <div class="time-slot">1:30 PM</div>
+                    <div class="time-slot">3:00 PM</div>
+                    <div class="time-slot">4:30 PM</div>
+                    <div class="time-slot booked">6:00 PM</div>
+                    <div class="time-slot">7:30 PM</div>
                 </div>
-                <div class="package-features">
-                    <ul>
-                        <li><i class="fas fa-check"></i> All tactical shooting skills</li>
-                        <li><i class="fas fa-check"></i> Multiple weapon systems</li>
-                        <li><i class="fas fa-check"></i> Advanced movement drills</li>
-                        <li><i class="fas fa-check"></i> 200 rounds of ammunition</li>
-                        <li><i class="fas fa-check"></i> Low-light conditions</li>
-                        <li><i class="fas fa-check"></i> Force-on-force scenarios</li>
-                        <li><i class="fas fa-check"></i> Video analysis & feedback</li>
-                    </ul>
-                </div>
-                <div class="package-cta">
-                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
+                <div class="availability-status available">
+                    <i class="fas fa-check-circle"></i> Selected time is available
                 </div>
             </div>
-        </div>
+            
+            <div class="form-group">
+                <label class="form-label">Select Firearm</label>
+                <div class="weapon-grid">
+                    <div class="weapon-card selected">
+                        <img src="{% static 'lessons/images/glock19.png' %}" alt="Glock 19" class="weapon-image">
+                        <div class="weapon-name">Glock 19</div>
+                        <div class="weapon-caliber">9mm</div>
+                        <input type="radio" name="weapon" value="glock19" class="radio-input" checked>
+                    </div>
+                    
+                    <div class="weapon-card">
+                        <img src="{% static 'lessons/images/sig-p320.png' %}" alt="Sig Sauer P320" class="weapon-image">
+                        <div class="weapon-name">Sig P320</div>
+                        <div class="weapon-caliber">9mm</div>
+                        <input type="radio" name="weapon" value="sig-p320" class="radio-input">
+                    </div>
+                    
+                    <div class="weapon-card">
+                        <img src="{% static 'lessons/images/1911.png' %}" alt="Colt 1911" class="weapon-image">
+                        <div class="weapon-name">Colt 1911</div>
+                        <div class="weapon-caliber">.45 ACP</div>
+                        <input type="radio" name="weapon" value="1911" class="radio-input">
+                    </div>
+                    
+                    <div class="weapon-card">
+                        <img src="{% static 'lessons/images/ar15.png' %}" alt="AR-15" class="weapon-image">
+                        <div class="weapon-name">AR-15</div>
+                        <div class="weapon-caliber">5.56 NATO</div>
+                        <input type="radio" name="weapon" value="ar15" class="radio-input">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes" class="form-label">Special Requests</label>
+                <textarea id="notes" name="notes" class="form-control" rows="4"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Payment Method</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="pay-now" name="payment" value="now" class="radio-input" checked>
+                        <label for="pay-now" class="radio-label">Pay Now</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="pay-later" name="payment" value="later" class="radio-input">
+                        <label for="pay-later" class="radio-label">Pay at Range</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="form-submit">Confirm Booking</button>
+        </form>
     </div>
-
-    <section class="comparison-section">
-        <div class="comparison-container">
-            <h2 class="comparison-title">Package Comparison</h2>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Basic</th>
-                        <th>Tactical</th>
-                        <th>Advanced</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="feature-name">Session Duration</td>
-                        <td>90 minutes</td>
-                        <td>2 hours</td>
-                        <td>3 hours</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Ammunition Included</td>
-                        <td>50 rounds</td>
-                        <td>100 rounds</td>
-                        <td>200 rounds</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Firearm Safety</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Basic Marksmanship</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Multiple Firearms</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Moving Targets</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Stress Scenarios</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Low-Light Training</td>
-                        <td class="no">Not Included</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Video Analysis</td>
-                        <td class="no">Not Included</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2 class="cta-title">Ready to Improve Your Skills?</h2>
-                <p class="cta-description">Our certified instructors are ready to help you achieve your firearms training goals. Book your session today and take the first step towards mastery.</p>
-                <div class="cta-buttons">
-                    <a href="{% url 'booking' %}" class="btn btn-primary">Book Online Now</a>
-                    <a href="tel:+15551234567" class="btn btn-secondary">
-                        <i class="fas fa-phone"></i> Call to Book
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <footer class="site-footer">
         <div class="container">
@@ -1036,6 +1012,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         // Hamburger menu functionality
         const hamburger = document.querySelector('.hamburger');
@@ -1057,14 +1034,61 @@
             });
         });
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Initialize calendar
+        flatpickr("#date", {
+            minDate: "today",
+            maxDate: new Date().fp_incr(30), // 30 days from now
+            disable: [
+                function(date) {
+                    // Disable Sundays
+                    return (date.getDay() === 0);
+                }
+            ],
+            onChange: function(selectedDates, dateStr, instance) {
+                // Here you would typically check availability for the selected date
+                console.log("Selected date: ", dateStr);
+                // This would be replaced with actual availability check
+            }
+        });
+
+        // Time slot selection
+        document.querySelectorAll('.time-slot:not(.booked)').forEach(slot => {
+            slot.addEventListener('click', function() {
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                // Update availability status
+                const status = document.querySelector('.availability-status');
+                status.className = 'availability-status available';
+                status.innerHTML = '<i class="fas fa-check-circle"></i> Selected time is available';
             });
+        });
+
+        // Weapon selection
+        document.querySelectorAll('.weapon-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (!this.querySelector('input').checked) {
+                    document.querySelectorAll('.weapon-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('.booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For demo purposes, we'll just show an alert
+            alert('Booking submitted successfully! We will contact you shortly to confirm your reservation.');
+            
+            // Reset form
+            this.reset();
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+            document.querySelectorAll('.weapon-card').forEach(c => c.classList.remove('selected'));
+            document.querySelector('.weapon-card').classList.add('selected');
+            document.querySelector('.weapon-card input').checked = true;
         });
     </script>
 </body>
