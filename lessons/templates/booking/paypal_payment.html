@@ -1,0 +1,574 @@
+{% block content %}
+<!-- Add this in your <head> section -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card payment-card">
+                <div class="card-header payment-card-header">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-lock payment-icon"></i>
+                        <h3 class="payment-title mb-0">Secure Payment</h3>
+                    </div>
+                </div>
+                
+                <div class="card-body payment-card-body">
+                    <!-- Payment Status Alerts -->
+                    <div class="alert alert-success payment-success-alert" style="display: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle me-3"></i>
+                            <div>
+                                <h5 class="alert-title mb-1">Payment Successful!</h5>
+                                <p class="mb-0">Your booking has been confirmed.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info payment-pending-alert" style="display: none;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock me-3"></i>
+                            <div>
+                                <h5 class="alert-title mb-1">Payment Processing</h5>
+                                <p class="mb-0">Your payment is being processed. Please wait.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-clipboard-list section-icon"></i>
+                            Booking Details
+                        </h4>
+                        
+                        <div class="summary-table-container">
+                            <table class="summary-table">
+                                <tbody>
+                                    <tr class="summary-row">
+                                        <th class="summary-header">Package</th>
+                                        <td class="summary-value">{{ package.name }}</td>
+                                    </tr>
+                                    <tr class="summary-row">
+                                        <th class="summary-header">Date</th>
+                                        <td class="summary-value">{{ pending_booking.date }}</td>
+                                    </tr>
+                                    <tr class="summary-row">
+                                        <th class="summary-header">Time</th>
+                                        <td class="summary-value">{{ pending_booking.time }}</td>
+                                    </tr>
+                                    <tr class="summary-row total-row">
+                                        <th class="summary-header">Total Amount</th>
+                                        <td class="summary-value total-amount">${{ package.price }}</td>
+                                    </tr>
+                                    <tr class="summary-row status-row">
+                                        <th class="summary-header">Status</th>
+                                        <td class="summary-value status-value">
+                                            <span class="status-badge pending">
+                                                <i class="fas fa-clock"></i> Pending
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="payment-section payment-methods">
+                        <h4 class="section-title">
+                            <i class="fas fa-credit-card section-icon"></i>
+                            Payment Method
+                        </h4>
+                        
+                        <div class="payment-option">
+                            <div class="payment-provider">
+                                <div class="provider-logo">
+                                    <i class="fab fa-paypal"></i>
+                                </div>
+                                <div class="provider-info">
+                                    <h5 class="provider-name">PayPal</h5>
+                                    <p class="provider-description">Secure online payments</p>
+                                </div>
+                            </div>
+                            
+                            <!-- PayPal Form (hidden) -->
+                            <form id="paypalForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: none;">
+                                <input type="hidden" name="cmd" value="_xclick">
+                                <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@example.com">
+                                <input type="hidden" name="item_name" value="{{ package.name }}">
+                                <input type="hidden" name="amount" value="{{ package.price }}">
+                                <input type="hidden" name="currency_code" value="USD">
+                                <input type="hidden" name="return" value="https://yourwebsite.com/payment/success">
+                                <input type="hidden" name="cancel_return" value="https://yourwebsite.com/payment/cancel">
+                                <input type="hidden" name="notify_url" value="https://yourwebsite.com/payment/ipn">
+                            </form>
+                            
+                            <button class="pay-now-btn paypal-btn" id="paypalCheckout">
+                                <i class="fab fa-paypal btn-icon"></i>
+                                Checkout with PayPal
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="security-notice">
+                        <i class="fas fa-shield-alt security-icon"></i>
+                        <p class="security-text">
+                            Your payment is securely processed by PayPal. We don't store your payment details.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ====== Color Variables ====== */
+    :root {
+        /* Primary Colors */
+        --primary: #2563eb;
+        --primary-dark: #1e40af;
+        
+        /* Status Colors */
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        
+        /* Grayscale */
+        --text-dark: #1f2937;
+        --text-medium: #4b5563;
+        --text-light: #9ca3af;
+        --bg-light: #f9fafb;
+        --border-light: #e5e7eb;
+        
+        /* PayPal Brand Colors */
+        --paypal-primary: #0070ba;
+        --paypal-secondary: #003087;
+        
+        /* Spacing */
+        --space-xs: 0.5rem;
+        --space-sm: 0.75rem;
+        --space-md: 1rem;
+        --space-lg: 1.5rem;
+        --space-xl: 2rem;
+        
+        /* Border Radius */
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+        --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    }
+
+    /* ====== Base Styles ====== */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-dark);
+        line-height: 1.5;
+        background-color: var(--bg-light);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-xl);
+    }
+
+    .py-5 {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    /* ====== Layout ====== */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 calc(var(--space-md) * -1);
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .col-md-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+
+    .col-lg-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    /* ====== Payment Card ====== */
+    .payment-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        margin-bottom: var(--space-xl);
+    }
+
+    .payment-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    /* Card Header */
+    .payment-card-header {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        padding: var(--space-lg);
+        display: flex;
+        align-items: center;
+    }
+
+    .payment-icon {
+        font-size: 1.25rem;
+        margin-right: var(--space-sm);
+    }
+
+    .payment-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    /* Card Body */
+    .payment-card-body {
+        padding: var(--space-xl);
+    }
+
+    /* ====== Status Alerts ====== */
+    .alert {
+        padding: var(--space-md);
+        border-radius: var(--radius-sm);
+        margin-bottom: var(--space-lg);
+        display: flex;
+        align-items: center;
+        border-left: 4px solid transparent;
+    }
+
+    .alert i {
+        font-size: 1.5rem;
+        margin-right: var(--space-md);
+    }
+
+    .alert-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    /* Success Alert */
+    .payment-success-alert {
+        background-color: rgba(16, 185, 129, 0.1);
+        border-left-color: var(--success);
+    }
+
+    .payment-success-alert i {
+        color: var(--success);
+    }
+
+    .payment-success-alert .alert-title {
+        color: var(--success);
+    }
+
+    /* Pending Alert */
+    .payment-pending-alert {
+        background-color: rgba(245, 158, 11, 0.1);
+        border-left-color: var(--warning);
+    }
+
+    .payment-pending-alert i {
+        color: var(--warning);
+    }
+
+    .payment-pending-alert .alert-title {
+        color: var(--warning);
+    }
+
+    /* ====== Sections ====== */
+    .payment-section {
+        margin-bottom: var(--space-xl);
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: var(--space-lg);
+        display: flex;
+        align-items: center;
+    }
+
+    .section-icon {
+        margin-right: var(--space-sm);
+        color: var(--primary);
+    }
+
+    /* ====== Summary Table ====== */
+    .summary-table-container {
+        background: var(--bg-light);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        margin-bottom: var(--space-xl);
+    }
+
+    .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .summary-row {
+        border-bottom: 1px solid var(--border-light);
+        transition: background-color 0.2s ease;
+    }
+
+    .summary-row:hover {
+        background-color: rgba(243, 244, 246, 0.5);
+    }
+
+    .summary-row:last-child {
+        border-bottom: none;
+    }
+
+    .summary-header {
+        padding: var(--space-md);
+        text-align: left;
+        font-weight: 500;
+        color: var(--text-medium);
+        width: 35%;
+    }
+
+    .summary-value {
+        padding: var(--space-md);
+        font-weight: 500;
+    }
+
+    .total-row {
+        background-color: rgba(16, 185, 129, 0.05);
+    }
+
+    .total-amount {
+        color: var(--success);
+        font-weight: 600;
+    }
+
+    /* ====== Status Badge ====== */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .status-badge i {
+        margin-right: 0.5rem;
+    }
+
+    .status-badge.pending {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: #b45309;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .status-badge.confirmed {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: #047857;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* ====== Payment Methods ====== */
+    .payment-option {
+        background: white;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-lg);
+    }
+
+    .payment-provider {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--space-lg);
+    }
+
+    .provider-logo {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: rgba(0, 112, 186, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--space-md);
+    }
+
+    .provider-logo i {
+        color: var(--paypal-primary);
+        font-size: 1.5rem;
+    }
+
+    .provider-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .provider-description {
+        color: var(--text-medium);
+        font-size: 0.875rem;
+    }
+
+    /* ====== Payment Button ====== */
+    .pay-now-btn {
+        width: 100%;
+        padding: var(--space-md);
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .paypal-btn {
+        background: linear-gradient(to bottom, var(--paypal-primary), var(--paypal-secondary));
+        color: white;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .paypal-btn:hover {
+        background: linear-gradient(to bottom, #0061a5, #002b63);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .paypal-btn:active {
+        transform: translateY(0);
+    }
+
+    .btn-icon {
+        margin-right: var(--space-sm);
+        font-size: 1.25rem;
+    }
+
+    /* ====== Security Notice ====== */
+    .security-notice {
+        background-color: var(--bg-light);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        margin-top: var(--space-xl);
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .security-icon {
+        color: var(--primary);
+        margin-right: var(--space-md);
+        margin-top: 2px;
+    }
+
+    .security-text {
+        font-size: 0.875rem;
+        color: var(--text-medium);
+        margin-bottom: 0;
+    }
+
+    /* ====== Responsive Adjustments ====== */
+    @media (max-width: 992px) {
+        .col-lg-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: var(--space-md);
+        }
+        
+        .payment-card {
+            border-radius: 0;
+            box-shadow: none;
+            border: 1px solid var(--border-light);
+        }
+        
+        .payment-card-body {
+            padding: var(--space-lg);
+        }
+        
+        .payment-option {
+            padding: var(--space-md);
+        }
+        
+        .summary-header,
+        .summary-value {
+            padding: var(--space-sm);
+            font-size: 0.95rem;
+        }
+        
+        .payment-title {
+            font-size: 1.3rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+        }
+
+        .alert {
+            padding: var(--space-sm);
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .alert i {
+            margin-bottom: var(--space-xs);
+            margin-right: 0;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check payment status from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if(urlParams.has('payment_status')) {
+            const paymentStatus = urlParams.get('payment_status');
+            
+            if(paymentStatus === 'completed') {
+                // Show success alert
+                document.querySelector('.payment-success-alert').style.display = 'flex';
+                document.querySelector('.status-badge').className = 'status-badge confirmed';
+                document.querySelector('.status-badge i').className = 'fas fa-check-circle';
+                document.querySelector('.status-badge').innerHTML = '<i class="fas fa-check-circle"></i> Confirmed';
+                
+                // Update status text
+                document.querySelector('.status-value').innerHTML = '<span class="status-badge confirmed"><i class="fas fa-check-circle"></i> Confirmed</span>';
+            } else if(paymentStatus === 'pending') {
+                // Show pending alert
+                document.querySelector('.payment-pending-alert').style.display = 'flex';
+            }
+            
+            // Clean the URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Handle PayPal button click
+        document.getElementById('paypalCheckout').addEventListener('click', function() {
+            // Show pending status immediately
+            document.querySelector('.payment-pending-alert').style.display = 'flex';
+            
+            // Submit the PayPal form
+            document.getElementById('paypalForm').submit();
+        });
+    });
+</script>
+{% endblock %}

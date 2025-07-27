@@ -1,0 +1,624 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ready Aim Learn | Private Firearms Training</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="One-on-one firearms training in a safe, private, and comfortable environment. Designed for beginners, couples, and first-timers. Book now.">
+    <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
+    <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e8b923;
+            --primary-dark: #d8a91b;
+            --accent: #e8b923;
+            --black: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #888;
+            --error: #f44336;
+            --success: #4CAF50;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .site-header {
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.7));
+        }
+
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1.5px;
+        }
+
+        /* Navigation */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--light);
+            padding: 8px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        /* Authentication */
+        .auth-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 30px;
+        }
+
+        .auth-state {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+
+        .auth-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            transition: all 0.3s ease;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .user-info:hover {
+            background: rgba(50, 50, 50, 0.8);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .logout-form {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ================= HAMBURGER MENU STYLES ================= */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+    
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+    
+        /* ================= MOBILE MENU STYLES ================= */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: block;
+            }
+    
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+                border-top: 1px solid var(--primary);
+            }
+    
+            .nav-menu.active {
+                left: 0;
+            }
+    
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+    
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+    
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+    
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+    
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    
+        @media (max-width: 576px) {
+            .logo {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1.2rem;
+            }
+            
+            .auth-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .user-info {
+                padding: 6px 10px;
+            }
+            
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+        }
+    
+        /* Animation for User Avatar */
+        @keyframes tactical-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(232, 185, 35, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0);
+            }
+        }
+    
+        .user-info:hover .user-avatar {
+            animation: tactical-pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
+            </div>
+
+            <button class="hamburger" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                    <li><a href="{% url 'packages' %}">Packages</a></li>
+                    <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                </ul>
+
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <span class="user-name">{{ user.username }}</span>
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="auth-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="auth-state">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="tagline">Confident. Safe. <span>Skilled.</span></h1>
+                <p class="hero-description">
+                    Master firearms basics with certified NRA instructors in a judgment-free environment.<br>
+                    Tailored lessons for beginners, couples, and first-timers — no pressure, just confidence.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{% url 'booking' %}" class="btn btn-primary">Book Your First Lesson</a>
+                    <a href="tel:+15551234567" class="btn btn-secondary">
+                        <i class="fas fa-phone"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="target-icon">
+            <i class="fas fa-bullseye"></i>
+        </div>
+        <div class="target-icon">
+            <i class="fas fa-crosshairs"></i>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="container">
+            <h2 class="section-title">Our Training Programs</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="card-title">Beginner's Course</h3>
+                    <p>Perfect for first-time shooters. Learn firearm safety, basic handling, and marksmanship fundamentals in a comfortable setting.</p>
+                    <a href="{% url 'packages' %}" class="service-link">Learn More →</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="card-title">Couples Package</h3>
+                    <p>Special training for couples who want to learn together. Build confidence and safety skills as a team.</p>
+                    <a href="{% url 'packages' %}" class="service-link">Learn More →</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3 class="card-title">CCW Preparation</h3>
+                    <p>Comprehensive training covering all requirements for your concealed carry permit application.</p>
+                    <a href="{% url 'packages' %}" class="service-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Training Gallery</h2>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="{% static 'lessons/images/gallery1.jpg' %}" alt="Private shooting instruction">
+                    <div class="gallery-overlay">
+                        <h3>One-on-One Instruction</h3>
+                        <p>Personalized attention for optimal learning</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="{% static 'lessons/images/gallery2.jpg' %}" alt="Safe firearm handling">
+                    <div class="gallery-overlay">
+                        <h3>Safety First</h3>
+                        <p>Learn proper handling techniques</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="{% static 'lessons/images/gallery3.jpg' %}" alt="Indoor shooting range">
+                    <div class="gallery-overlay">
+                        <h3>Private Range</h3>
+                        <p>Comfortable, climate-controlled environment</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="{% static 'lessons/images/gallery4.jpg' %}" alt="Various firearms">
+                    <div class="gallery-overlay">
+                        <h3>Equipment Provided</h3>
+                        <p>Try different firearms to find your fit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">Client Experiences</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"As a complete beginner, I was nervous but the instructor's patience and clear explanations made me feel safe and confident. Highly recommend!"</p>
+                        <div class="client-info">
+                            <img src="{% static 'lessons/images/user.png' %}" alt="Sarah K." class="client-avatar">
+                            <div class="client-details">
+                                <h4 class="client-name">Sarah K.</h4>
+                                <span class="client-type">First-Time Shooter</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"My wife and I took the couples package and it was fantastic! We learned so much together in a comfortable, no-pressure environment."</p>
+                        <div class="client-info">
+                            <img src="{% static 'lessons/images/user.png' %}" alt="Michael & Lisa T." class="client-avatar">
+                            <div class="client-details">
+                                <h4 class="client-name">Michael & Lisa T.</h4>
+                                <span class="client-type">Couples Package</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Begin Your Firearms Journey?</h2>
+                <p class="cta-description">Schedule your first lesson today and receive a free safety guide</p>
+                <div class="cta-buttons">
+                    <a href="{% url 'booking' %}" class="btn btn-primary">Book Online Now</a>
+                    <a href="tel:+15551234567" class="btn btn-secondary">
+                        <i class="fas fa-phone"></i> (555) 123-4567
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
+                    <p class="footer-about">Providing safe, professional firearms training for beginners in a comfortable and private setting.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'packages' %}">Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Ready Aim Learn. All rights reserved. | <a href="{% url 'legal' %}">Terms & Waiver</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-menu').classList.remove('active');
+                const hamburger = document.querySelector('.hamburger');
+                hamburger.querySelector('i').classList.remove('fa-times');
+                hamburger.querySelector('i').classList.add('fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>

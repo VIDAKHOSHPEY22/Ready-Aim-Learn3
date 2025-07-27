@@ -1,0 +1,865 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FAQ | Ready Aim Learn | Private Firearms Training</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Frequently asked questions about private firearms training for beginners. Get answers about safety, what to expect, and more.">
+    <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
+    <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       :root {
+            --primary: #e8b923;
+            --primary-dark: #d8a91b;
+            --accent: #e8b923;
+            --black: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #888;
+        }
+
+        /* ================= BASE STYLES ================= */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ================= IMPROVED HEADER STYLES (MATCHING HOME.HTML) ================= */
+        .site-header {
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.7));
+        }
+
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1.5px;
+        }
+
+        /* ================= HAMBURGER MENU (MATCHING HOME.HTML) ================= */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--light);
+            padding: 8px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        /* ================= AUTH STYLES (MATCHING HOME.HTML EXACTLY) ================= */
+        .auth-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 30px;
+        }
+
+        .auth-state {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+
+        .auth-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            transition: all 0.3s ease;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .user-info:hover {
+            background: rgba(50, 50, 50, 0.8);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .logout-form {
+            margin: 0;
+            padding: 0;
+        }
+
+    
+        /* ================= FAQ CONTENT STYLES ================= */
+        .faq-container {
+            max-width: 1000px;
+            margin: 120px auto 60px;
+            padding: 0 25px;
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .faq-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .faq-subtitle {
+            color: var(--light);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .faq-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+            text-transform: uppercase;
+        }
+        
+        .faq-item {
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 30, 30, 0.5);
+        }
+        
+        .faq-question:after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .faq-item.active .faq-question:after {
+            content: '-';
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        /* ================= COMMENTS SECTION ================= */
+        .comments-section {
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 5px;
+        }
+        
+        .comment-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid var(--gray);
+            color: var(--light);
+            border-radius: 4px;
+            min-height: 120px;
+            resize: vertical;
+            font-size: large;
+        }
+        
+        .comment-form button {
+            background: var(--primary);
+            color: var(--black);
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: large;
+        }
+        
+        .comment-form button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .comment-list {
+            margin-top: 30px;
+        }
+        
+        .comment {
+            background: rgba(40, 40, 40, 0.7);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .comment-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+       /* ================= HAMBURGER MENU STYLES ================= */
+       .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+    
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+    
+        /* ================= MOBILE MENU STYLES ================= */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: block;
+            }
+    
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+                border-top: 1px solid var(--primary);
+            }
+    
+            .nav-menu.active {
+                left: 0;
+            }
+    
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+    
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+    
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+    
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+    
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    
+        @media (max-width: 576px) {
+            .logo {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1.2rem;
+            }
+            
+            .auth-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .user-info {
+                padding: 6px 10px;
+            }
+            
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ================= LARGER FONT SIZES ================= */
+    
+        .faq-question {
+            font-size: 1.3rem;
+        }
+
+        .faq-answer {
+            font-size: 1.1rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.95);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .faq-title {
+                font-size: 2.2rem;
+            }
+            
+            .faq-question {
+                font-size: 1.2rem;
+                padding: 18px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            body {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .faq-title {
+                font-size: 1.8rem;
+            }
+
+            .faq-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
+            </div>
+
+            <button class="hamburger" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'packages' %}">Packages</a></li>
+                    <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'faq' %}" class="active">FAQ</a></li>
+                </ul>
+
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <span class="user-name">{{ user.username }}</span>
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="auth-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="auth-state">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="faq-container">
+        <div class="faq-header">
+            <h1 class="faq-title">Frequently Asked Questions</h1>
+            <p class="faq-subtitle">Find answers to common questions about our shooting lessons and services</p>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">General Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">What should I bring to my first lesson?</div>
+                <div class="faq-answer">
+                    <p>For your first lesson, you only need to bring yourself and comfortable clothing (avoid low-cut tops). We provide all firearms, ammunition, eye and ear protection, and any other necessary equipment.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is prior experience required?</div>
+                <div class="faq-answer">
+                    <p>No prior experience is necessary. Our beginner courses are designed specifically for first-time shooters. We start with the absolute basics in a comfortable, judgment-free environment.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What is the minimum age for training?</div>
+                <div class="faq-answer">
+                    <p>We accept students aged 12 and older for our training programs. Minors must be accompanied by a parent or legal guardian who will also participate in the training session.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Are your instructors certified?</div>
+                <div class="faq-answer">
+                    <p>Yes, all our instructors are NRA-certified and have extensive experience in firearms training. They undergo regular training to stay current with the latest safety protocols and teaching methods.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What types of firearms do you use for training?</div>
+                <div class="faq-answer">
+                    <p>We primarily use 9mm handguns for beginner training as they offer a good balance of control and manageable recoil. As students progress, we introduce other firearms including revolvers, rifles, and shotguns based on individual interests.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Safety & Procedures</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">What safety measures do you have in place?</div>
+                <div class="faq-answer">
+                    <p>Safety is our top priority. We maintain strict protocols including: 1:1 instructor supervision, unloaded firearms until ready to shoot, clearly marked safe zones, and comprehensive safety briefings before every session.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Can I bring my own firearm?</div>
+                <div class="faq-answer">
+                    <p>Yes, after completing at least one beginner session with our equipment. All personal firearms must be unloaded and cased when arriving, and will be inspected by our staff before use.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What if I'm nervous about handling a gun?</div>
+                <div class="faq-answer">
+                    <p>It's completely normal to feel nervous. Our instructors are specially trained to help first-timers overcome anxiety. We start with unloaded firearms and progress at your comfort level.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Do you offer training for people with disabilities?</div>
+                <div class="faq-answer">
+                    <p>Yes, our facility is wheelchair accessible and our instructors have experience adapting training methods for various physical abilities. Please contact us in advance so we can best accommodate your needs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Booking & Payments</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">How do I book a lesson?</div>
+                <div class="faq-answer">
+                    <p>You can book lessons online through our website, by phone, or in person at our facility. We recommend booking at least 48 hours in advance.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What is your cancellation policy?</div>
+                <div class="faq-answer">
+                    <p>We require 24 hours notice for cancellations to receive a full refund. Late cancellations may be charged 50% of the lesson fee. No-shows will be charged the full amount.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Do you offer gift certificates?</div>
+                <div class="faq-answer">
+                    <p>Yes, we offer gift certificates that can be purchased for any amount or specific package. They make excellent gifts for birthdays, holidays, or special occasions.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Are there any discounts available?</div>
+                <div class="faq-answer">
+                    <p>We offer 10% discounts for military, law enforcement, and first responders. We also have package deals that provide savings when booking multiple sessions at once.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What payment methods do you accept?</div>
+                <div class="faq-answer">
+                    <p>We accept all major credit cards, debit cards, cash, and Venmo. Payment is required at time of booking to secure your appointment.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">After Training</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Will I receive any certification?</div>
+                <div class="faq-answer">
+                    <p>Yes, upon completing any of our courses you'll receive a certificate of completion. For those interested in concealed carry permits, we offer state-approved certification courses.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How often should I take refresher courses?</div>
+                <div class="faq-answer">
+                    <p>We recommend at least one refresher session every 6 months to maintain skills. Many students choose to train monthly to continually improve their proficiency.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Can I purchase a firearm after training?</div>
+                <div class="faq-answer">
+                    <p>While we don't sell firearms, we can provide guidance on purchasing your first firearm and connect you with reputable dealers in the area.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="comments-section">
+            <h2 class="section-title">Have a Question?</h2>
+            <p>If you don't see your question answered here, feel free to ask below.</p>
+            
+            {% if user.is_authenticated %}
+                <form class="comment-form" method="post" action="{% url 'faq' %}">
+                    {% csrf_token %}
+                    <textarea name="content" placeholder="Type your question here..." required></textarea>
+                    <button type="submit">Submit Question</button>
+                </form>
+            {% else %}
+                <p>Please <a href="{% url 'login' %}?next={% url 'faq' %}">login</a> to ask a question.</p>
+            {% endif %}
+            
+            <div class="comment-list">
+                <h3>Recent Questions</h3>
+                
+                {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-author">{{ comment.user.username }}</div>
+                    <div class="comment-date">{{ comment.created_at|date:"F j, Y" }}</div>
+                    <p>{{ comment.content }}</p>
+                    
+                    {% if comment.user == request.user %}
+                    <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="auth-btn" style="margin-top: 10px;">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p>No questions yet. Be the first to ask!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
+                    <p class="footer-about">Providing safe, professional firearms training for beginners in a comfortable and private setting.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'packages' %}">Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Ready Aim Learn. All rights reserved. | <a href="{% url 'legal' %}">Terms & Waiver</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion Functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

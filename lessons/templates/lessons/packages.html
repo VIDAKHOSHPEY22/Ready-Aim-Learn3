@@ -1,0 +1,1071 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Training Packages | Ready Aim Learn | Professional Firearms Training</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Professional firearms training packages for all skill levels. From basic marksmanship to advanced tactical shooting. Book your session today.">
+    <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
+    <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e8b923;
+            --primary-dark: #d8a91b;
+            --accent: #e8b923;
+            --black: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #888;
+        }
+
+        /* ================= BASE STYLES ================= */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ================= IMPROVED HEADER STYLES (MATCHING HOME.HTML) ================= */
+        .site-header {
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.7));
+        }
+
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1.5px;
+        }
+
+        /* ================= HAMBURGER MENU (MATCHING HOME.HTML) ================= */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--light);
+            padding: 8px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        /* ================= AUTH STYLES (MATCHING HOME.HTML EXACTLY) ================= */
+        .auth-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 30px;
+        }
+
+        .auth-state {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+
+        .auth-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            transition: all 0.3s ease;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .user-info:hover {
+            background: rgba(50, 50, 50, 0.8);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .logout-form {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ================= HERO SECTION (MATCHING HOME.HTML STYLE) ================= */
+        .packages-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "lessons/images/range-bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            padding: 180px 0 100px;
+            text-align: center;
+            margin-top: 84px;
+        }
+
+        .packages-hero h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .packages-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        /* ================= PACKAGE CARDS ================= */
+        .packages-container {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+            margin: 15px auto 0;
+        }
+
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .package-card {
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        /* ================= MOST POPULAR BADGE (IMPROVED) ================= */
+        .package-highlight {
+            position: relative;
+            border: 1px solid var(--primary);
+        }
+
+        .package-highlight:before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: var(--black);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .package-header {
+            background: rgba(30, 30, 30, 0.8);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .package-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .package-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin: 10px 0;
+        }
+
+        .package-price span {
+            font-size: 1rem;
+            color: var(--light);
+            opacity: 0.8;
+        }
+
+        .package-features {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .package-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .package-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .package-features li:last-child {
+            border-bottom: none;
+        }
+
+        .package-features i {
+            color: var(--primary);
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .package-cta {
+            padding: 0 30px 30px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* ================= PACKAGE BUTTONS (MATCHING HOME.HTML STYLE) ================= */
+        .package-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 250px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .package-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        /* ================= COMPARISON TABLE ================= */
+        .comparison-section {
+            background: rgba(30, 30, 30, 0.8);
+            padding: 80px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--primary);
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .comparison-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .comparison-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: rgba(232, 185, 35, 0.1);
+            color: var(--primary);
+            font-size: 1.1rem;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .feature-name {
+            font-weight: bold;
+        }
+
+        .comparison-table .yes {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .comparison-table .no {
+            color: #F44336;
+        }
+
+        /* ================= CTA SECTION (MATCHING HOME.HTML) ================= */
+        .cta-section {
+            background: rgba(30, 30, 30, 0.6);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+
+        /* ================= FOOTER (MATCHING HOME.HTML EXACTLY) ================= */
+        .site-footer {
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 60px 0 0;
+            border-top: 1px solid var(--primary);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+        }
+
+        .footer-about {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--light);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .copyright {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= RESPONSIVE STYLES ================= */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+                border-top: 1px solid var(--primary);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .packages-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .package-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .packages-hero {
+                padding: 150px 20px 80px;
+            }
+
+            .packages-hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title, .comparison-title {
+                font-size: 2rem;
+            }
+
+            .package-title {
+                font-size: 1.6rem;
+            }
+
+            .package-price {
+                font-size: 2.2rem;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .site-title {
+                font-size: 1.2rem;
+            }
+
+            .packages-hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .packages-hero p {
+                font-size: 1rem;
+            }
+
+            .section-title, .comparison-title {
+                font-size: 1.8rem;
+            }
+
+            .package-features li {
+                padding: 12px 0;
+                font-size: 0.95rem;
+            }
+
+            .package-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
+            </div>
+
+            <button class="hamburger" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'packages' %}" class="active">Packages</a></li>
+                    <li><a href="{% url 'booking' %}">Book Lesson</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                </ul>
+
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <span class="user-name">{{ user.username }}</span>
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="auth-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="auth-state">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="packages-hero">
+        <div class="container">
+            <h1>Professional Firearms Training</h1>
+            <p>Select from our specialized training packages designed to take you from basic marksmanship to advanced tactical shooting. All sessions include one-on-one instruction with our certified NRA instructors.</p>
+            <a href="{% url 'booking' %}" class="package-btn">View Availability</a>
+        </div>
+    </section>
+
+    <div class="packages-container">
+        <h2 class="section-title">Training Packages</h2>
+        
+        <div class="package-grid">
+            <!-- Basic Marksmanship Package -->
+            <div class="package-card">
+                <div class="package-header">
+                    <h3 class="package-title">Basic Marksmanship</h3>
+                    <div class="package-price">$150<span> / session</span></div>
+                </div>
+                <div class="package-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> Firearm safety fundamentals</li>
+                        <li><i class="fas fa-check"></i> Proper grip & stance techniques</li>
+                        <li><i class="fas fa-check"></i> Sight alignment & trigger control</li>
+                        <li><i class="fas fa-check"></i> 50 rounds of 9mm ammunition</li>
+                        <li><i class="fas fa-check"></i> Eye & ear protection included</li>
+                        <li><i class="fas fa-times"></i> Moving targets</li>
+                        <li><i class="fas fa-times"></i> Advanced drills</li>
+                    </ul>
+                </div>
+                <div class="package-cta">
+                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
+                </div>
+            </div>
+
+            <!-- Tactical Shooting Package (Most Popular) -->
+            <div class="package-card package-highlight">
+                <div class="package-header">
+                    <h3 class="package-title">Tactical Shooting</h3>
+                    <div class="package-price">$275<span> / session</span></div>
+                </div>
+                <div class="package-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> All basic marksmanship skills</li>
+                        <li><i class="fas fa-check"></i> Multiple shooting positions</li>
+                        <li><i class="fas fa-check"></i> Tactical reloading drills</li>
+                        <li><i class="fas fa-check"></i> 100 rounds of ammunition</li>
+                        <li><i class="fas fa-check"></i> Moving target practice</li>
+                        <li><i class="fas fa-check"></i> Stress scenario training</li>
+                        <li><i class="fas fa-times"></i> Advanced weapon systems</li>
+                    </ul>
+                </div>
+                <div class="package-cta">
+                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
+                </div>
+            </div>
+
+            <!-- Advanced Combat Package -->
+            <div class="package-card">
+                <div class="package-header">
+                    <h3 class="package-title">Advanced Combat</h3>
+                    <div class="package-price">$400<span> / session</span></div>
+                </div>
+                <div class="package-features">
+                    <ul>
+                        <li><i class="fas fa-check"></i> All tactical shooting skills</li>
+                        <li><i class="fas fa-check"></i> Multiple weapon systems</li>
+                        <li><i class="fas fa-check"></i> Advanced movement drills</li>
+                        <li><i class="fas fa-check"></i> 200 rounds of ammunition</li>
+                        <li><i class="fas fa-check"></i> Low-light conditions</li>
+                        <li><i class="fas fa-check"></i> Force-on-force scenarios</li>
+                        <li><i class="fas fa-check"></i> Video analysis & feedback</li>
+                    </ul>
+                </div>
+                <div class="package-cta">
+                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="comparison-section">
+        <div class="comparison-container">
+            <h2 class="comparison-title">Package Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Basic</th>
+                        <th>Tactical</th>
+                        <th>Advanced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Session Duration</td>
+                        <td>90 minutes</td>
+                        <td>2 hours</td>
+                        <td>3 hours</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Ammunition Included</td>
+                        <td>50 rounds</td>
+                        <td>100 rounds</td>
+                        <td>200 rounds</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Firearm Safety</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Basic Marksmanship</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Multiple Firearms</td>
+                        <td class="no">Not Included</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Moving Targets</td>
+                        <td class="no">Not Included</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Stress Scenarios</td>
+                        <td class="no">Not Included</td>
+                        <td class="yes">Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Low-Light Training</td>
+                        <td class="no">Not Included</td>
+                        <td class="no">Not Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Video Analysis</td>
+                        <td class="no">Not Included</td>
+                        <td class="no">Not Included</td>
+                        <td class="yes">Included</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Improve Your Skills?</h2>
+                <p class="cta-description">Our certified instructors are ready to help you achieve your firearms training goals. Book your session today and take the first step towards mastery.</p>
+                <div class="cta-buttons">
+                    <a href="{% url 'booking' %}" class="btn btn-primary">Book Online Now</a>
+                    <a href="tel:+15551234567" class="btn btn-secondary">
+                        <i class="fas fa-phone"></i> Call to Book
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
+                    <p class="footer-about">Providing professional firearms training in a safe and controlled environment. Our certified instructors are dedicated to helping you develop proper technique and confidence.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'packages' %}">Training Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book a Lesson</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9am-7pm, Sat: 10am-4pm</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Ready Aim Learn. All rights reserved. | <a href="{% url 'legal' %}">Terms & Waiver</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.querySelector('i').classList.remove('fa-times');
+                hamburger.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

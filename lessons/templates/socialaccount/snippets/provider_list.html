@@ -1,0 +1,49 @@
+{% load socialaccount %}
+
+<div class="socialaccount-providers">
+    {% for provider in socialaccount_providers %}
+        <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}" 
+           title="{{provider.name}}" 
+           class="socialaccount-provider {{provider.id}}">
+            <img src="{% static 'images/'|add:provider.id|add:'-logo.png' %}" 
+                 alt="{{provider.name}}"
+                 class="provider-logo">
+            {% trans "Continue with" %} {{provider.name}}
+        </a>
+    {% endfor %}
+</div>
+
+<style>
+    .socialaccount-providers {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .socialaccount-provider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 15px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        transition: opacity 0.3s;
+    }
+    
+    .socialaccount-provider:hover {
+        opacity: 0.9;
+    }
+    
+    .google {
+        background: #4285F4;
+    }
+    
+    .provider-logo {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+</style>

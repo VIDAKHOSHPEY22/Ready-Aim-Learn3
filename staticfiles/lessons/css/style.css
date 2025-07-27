@@ -1,0 +1,1017 @@
+/* Call of Duty Inspired Base Styles */
+:root {
+    --primary: #e8b923; /* Gold accent color */
+    --primary-dark: #c99a1a;
+    --secondary: #1a1a1a; /* Dark gray/black */
+    --accent: #8b0000; /* Dark red */
+    --light: #e6e6e6; /* Off-white */
+    --dark: #121212; /* Very dark gray */
+    --gray: #4d4d4d; /* Medium gray */
+    --light-gray: #333333; /* Dark gray */
+    --white: #ffffff;
+    --black: #000000;
+    --camo-light: #5d5d5d;
+    --camo-dark: #2e2e2e;
+    --camo-green: #3a4a3a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Agency FB', 'Arial Narrow', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--light);
+    background-color: var(--dark);
+    overflow-x: hidden;
+    background-image: 
+        linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.8)),
+        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 2px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Agency FB', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--black);
+    border: 1px solid var(--primary-dark);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(232, 185, 35, 0.1);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Header Styles */
+.site-header {
+    background-color: rgba(26, 26, 26, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--primary);
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+}
+
+.site-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+.nav-menu {
+    display: flex;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-links a {
+    font-weight: 600;
+    color: var(--light);
+    padding: 5px 0;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-links a:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover:after,
+.nav-links a.active:after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--light);
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+    color: var(--white);
+    padding: 180px 0 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid var(--primary);
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.tagline {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tagline span {
+    color: var(--primary);
+    display: inline-block;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.target-icon {
+    position: absolute;
+    font-size: 2rem;
+    color: rgba(232, 185, 35, 0.3);
+    animation: float 6s ease-in-out infinite;
+}
+
+.target-icon:nth-child(1) {
+    top: 20%;
+    left: 10%;
+}
+
+.target-icon:nth-child(2) {
+    bottom: 15%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.bullet-hole {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e8b923"><circle cx="12" cy="12" r="10" stroke="%238b0000" stroke-width="1"/><circle cx="12" cy="12" r="5"/></svg>');
+    background-size: contain;
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Services Section */
+.services-section {
+    padding: 80px 0;
+    background-color: var(--dark);
+    background-image: 
+        linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)),
+        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    border-bottom: 1px solid var(--gray);
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    color: var(--primary);
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-title:after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary);
+    margin: 15px auto 0;
+    box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    background: linear-gradient(145deg, var(--camo-dark), var(--camo-light));
+    border-radius: 4px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--gray);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        transparent 45%,
+        rgba(232, 185, 35, 0.1) 48%,
+        rgba(232, 185, 35, 0.1) 52%,
+        transparent 55%
+    );
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary);
+}
+
+.service-card:hover:before {
+    opacity: 1;
+    animation: shine 1.5s ease;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    20% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.service-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.service-link:hover {
+    color: var(--white);
+}
+
+/* Gallery Section */
+.gallery-section {
+    padding: 80px 0;
+    background-color: var(--dark);
+    background-image: 
+        linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
+        url('https://www.transparenttextures.com/patterns/dark-denim-3.png');
+    border-bottom: 1px solid var(--gray);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 250px;
+    border: 2px solid var(--gray);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(232, 185, 35, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: grayscale(30%);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: var(--white);
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h3 {
+    margin-bottom: 5px;
+    color: var(--primary);
+    text-transform: uppercase;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    padding: 80px 0;
+    background-color: var(--dark);
+    background-image: 
+        linear-gradient(rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.9)),
+        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    border-bottom: 1px solid var(--gray);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.testimonial-card {
+    background: linear-gradient(145deg, var(--camo-dark), var(--camo-green));
+    border-radius: 4px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--gray);
+    position: relative;
+}
+
+.testimonial-card:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+}
+
+.rating {
+    color: var(--primary);
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.testimonial-text {
+    font-style: italic;
+    margin-bottom: 20px;
+    position: relative;
+    color: var(--light);
+}
+
+.testimonial-text:before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary);
+    opacity: 0.2;
+    position: absolute;
+    top: -20px;
+    left: -10px;
+}
+
+.client-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.client-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.client-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+.client-type {
+    font-size: 0.9rem;
+    color: var(--light-gray);
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                url('https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+    padding: 100px 0;
+    color: var(--white);
+    text-align: center;
+    border-bottom: 3px solid var(--primary);
+    position: relative;
+}
+
+.cta-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 48%, rgba(232, 185, 35, 0.1) 49%, rgba(232, 185, 35, 0.1) 51%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(232, 185, 35, 0.1) 49%, rgba(232, 185, 35, 0.1) 51%, transparent 52%);
+    background-size: 20px 20px;
+    opacity: 0.5;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--black);
+    color: var(--white);
+    padding: 60px 0 0;
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    border-top: 3px solid var(--primary);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-logo {
+    height: 50px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+}
+
+.footer-about {
+    opacity: 0.8;
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid var(--gray);
+}
+
+.social-links a:hover {
+    background-color: var(--primary);
+    color: var(--black);
+    transform: translateY(-3px);
+    border-color: var(--primary);
+}
+
+.footer-heading {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-heading:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary);
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+.contact-info {
+    list-style: none;
+}
+
+.contact-info li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.contact-info i {
+    margin-top: 3px;
+    color: var(--primary);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.copyright {
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+.copyright a {
+    opacity: 0.8;
+    color: var(--primary);
+}
+
+.copyright a:hover {
+    opacity: 1;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background-color: var(--dark);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s ease;
+        border-top: 1px solid var(--primary);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .hero-buttons,
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tagline {
+        font-size: 2.5rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 150px 0 80px;
+    }
+
+    .tagline {
+        font-size: 2rem;
+    }
+
+    .service-card,
+    .testimonial-card {
+        padding: 20px;
+    }
+}
+
+/* Call of Duty Specific Elements */
+.ammo-counter {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 15px;
+    border-radius: 4px;
+    border-left: 4px solid var(--primary);
+    font-family: 'Agency FB', 'Arial Narrow', Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ammo-icon {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* Keyframes for tactical animations */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(232, 185, 35, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(232, 185, 35, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(232, 185, 35, 0);
+    }
+}
+
+@keyframes tactical-scan {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ================= AUTHENTICATION STYLES ================= */
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 30px;
+}
+
+.auth-state {
+    display: flex;
+    gap: 15px;
+}
+
+.auth-btn {
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--primary);
+    background: rgba(30, 30, 30, 0.6);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auth-btn:hover {
+    background: var(--primary);
+    color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.auth-btn.primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--black);
+    border: none;
+}
+
+.auth-btn.primary:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 15px;
+    background: rgba(40, 40, 40, 0.6);
+    border-radius: 30px;
+    border: 1px solid rgba(232, 185, 35, 0.3);
+    transition: all 0.3s ease;
+}
+
+.user-info:hover {
+    background: rgba(50, 50, 50, 0.8);
+    box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+}
+
+.user-name {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.logout-form {
+    margin: 0;
+    padding: 0;
+}
+
+/* Tactical Effects for Auth Elements */
+.auth-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(232, 185, 35, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.auth-btn:hover:before {
+    left: 100%;
+}
+
+/* Responsive Styles for Auth */
+@media (max-width: 992px) {
+    .auth-links {
+        margin-left: 0;
+        margin-top: 30px;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+    
+    .auth-state {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .auth-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .user-info {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .user-name {
+        display: none;
+    }
+    
+    .user-info {
+        padding: 6px 10px;
+    }
+    
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation for User Avatar */
+@keyframes tactical-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(232, 185, 35, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(232, 185, 35, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(232, 185, 35, 0);
+    }
+}
+
+.user-info:hover .user-avatar {
+    animation: tactical-pulse 1.5s infinite;
+}

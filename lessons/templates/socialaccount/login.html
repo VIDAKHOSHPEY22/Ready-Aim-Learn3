@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static socialaccount %}
+
+{% block content %}
+<div class="google-login-container">
+    <div class="login-card">
+        <!-- Header -->
+        <div class="login-header">
+            <img src="{% static 'images/logo.png' %}" alt="Site Logo" class="site-logo">
+            <h1>Sign In with Google</h1>
+            <p>Access your account using your Google credentials</p>
+        </div>
+
+        <!-- Google Button -->
+        <div class="login-body">
+            <a href="{% provider_login_url 'google' %}" class="google-login-btn">
+                <img src="{% static 'images/google-icon.png' %}" alt="Google Icon" class="google-icon">
+                Continue with Google
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="login-footer">
+            <p>Don't have Google? <a href="{% url 'account_login' %}">Use email instead</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Base Styles */
+    .google-login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 20px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        padding: 40px;
+        text-align: center;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .login-header {
+        margin-bottom: 30px;
+    }
+
+    .site-logo {
+        width: 80px;
+        margin-bottom: 20px;
+    }
+
+    .login-header h1 {
+        font-size: 24px;
+        color: #2d3748;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .login-header p {
+        color: #718096;
+        font-size: 14px;
+    }
+
+    /* Google Button */
+    .google-login-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #4285F4;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(66, 133, 244, 0.3);
+    }
+
+    .google-login-btn:hover {
+        background: #3367D6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+    }
+
+    .google-icon {
+        width: 20px;
+        margin-right: 12px;
+        background: white;
+        padding: 3px;
+        border-radius: 3px;
+    }
+
+    /* Footer */
+    .login-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #edf2f7;
+        font-size: 14px;
+        color: #718096;
+    }
+
+    .login-footer a {
+        color: #4299e1;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+        .login-card {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{% endblock %}

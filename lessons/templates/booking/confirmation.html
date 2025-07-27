@@ -1,0 +1,468 @@
+{% block content %}
+<!-- Add this script for showing success alert when returning -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if we should show success message from sessionStorage
+        if(sessionStorage.getItem('showBookingSuccess') === 'true') {
+            alert('Booking was successful! Your reservation has been confirmed.');
+            sessionStorage.removeItem('showBookingSuccess');
+            
+            // Clean the URL if it has success parameter
+            if(window.location.search.includes('success=true')) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+    });
+</script>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card payment-confirmation-card">
+                <div class="card-header payment-confirmation-header">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle confirmation-icon"></i>
+                        <h3 class="confirmation-title mb-0">Booking Confirmed</h3>
+                    </div>
+                </div>
+                
+                <div class="card-body payment-confirmation-body">
+                    <div class="alert payment-success-alert">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle alert-icon"></i>
+                            <div>
+                                <h5 class="alert-title">Payment Successful</h5>
+                                <p class="alert-message mb-0">Your booking has been confirmed. A receipt has been sent to your email.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-details-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-clipboard-list section-icon"></i>
+                            Booking Summary
+                        </h4>
+                        
+                        <div class="details-table-container">
+                            <table class="details-table">
+                                <tbody>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Booking ID</th>
+                                        <td class="detail-value">#{{ booking.id }}</td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Package</th>
+                                        <td class="detail-value">{{ booking.package.name }}</td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Instructor</th>
+                                        <td class="detail-value">{{ booking.instructor.user.get_full_name }}</td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Date & Time</th>
+                                        <td class="detail-value">{{ booking.date }} at {{ booking.time|time:"H:i" }}</td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Duration</th>
+                                        <td class="detail-value">{{ booking.duration }} minutes</td>
+                                    </tr>
+                                    <tr class="detail-row total-row">
+                                        <th class="detail-header">Amount</th>
+                                        <td class="detail-value total-amount">${{ booking.amount_paid }}</td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Payment Method</th>
+                                        <td class="detail-value">
+                                            <span class="payment-method-badge {{ booking.get_payment_method_display|lower }}">
+                                                {{ booking.get_payment_method_display }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <th class="detail-header">Location</th>
+                                        <td class="detail-value">
+                                            {% if booking.instructor.location %}
+                                                {{ booking.instructor.location }}
+                                            {% else %}
+                                                Main Office: 123 Fitness St, Sports City
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {% if booking.payment_method == 'cash' or booking.payment_method == 'bank_transfer' %}
+                    <div class="payment-instructions-section">
+                        <h4 class="section-title">
+                            <i class="fas fa-money-bill-wave section-icon"></i>
+                            Payment Instructions
+                        </h4>
+                        
+                        {% if booking.payment_method == 'cash' %}
+                        <div class="instruction-card cash-instruction">
+                            <div class="instruction-header">
+                                <i class="fas fa-hand-holding-usd instruction-icon"></i>
+                                <h5 class="instruction-title">Cash Payment</h5>
+                            </div>
+                            <div class="instruction-content">
+                                <p>Please bring exact cash amount to your appointment:</p>
+                                <div class="payment-amount-display">
+                                    <span class="amount">${{ booking.amount_paid }}</span>
+                                </div>
+                                <div class="location-info mt-3">
+                                    <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> 
+                                    {% if booking.instructor.location %}
+                                        {{ booking.instructor.location }}
+                                    {% else %}
+                                        Main Office: 123 Fitness St, Sports City
+                                    {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if booking.payment_method == 'bank_transfer' %}
+                        <div class="instruction-card bank-instruction">
+                            <div class="instruction-header">
+                                <i class="fas fa-university instruction-icon"></i>
+                                <h5 class="instruction-title">Bank Transfer</h5>
+                            </div>
+                            <div class="instruction-content">
+                                <div class="bank-details">
+                                    <div class="bank-detail-row">
+                                        <span class="detail-label">Bank Name:</span>
+                                        <span class="detail-value">XYZ Bank</span>
+                                    </div>
+                                    <div class="bank-detail-row">
+                                        <span class="detail-label">Account Name:</span>
+                                        <span class="detail-value">Your Company Name</span>
+                                    </div>
+                                    <div class="bank-detail-row">
+                                        <span class="detail-label">Account Number:</span>
+                                        <span class="detail-value">1234 5678 9012</span>
+                                    </div>
+                                    <div class="bank-detail-row">
+                                        <span class="detail-label">Reference:</span>
+                                        <span class="detail-value">Booking #{{ booking.id }}</span>
+                                    </div>
+                                </div>
+                                <div class="payment-amount-display mt-3">
+                                    <p>Please transfer the exact amount:</p>
+                                    <span class="amount">${{ booking.amount_paid }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="action-buttons mt-5">
+                        <a href="{% url 'booking' %}" class="btn btn-primary btn-dashboard" onclick="sessionStorage.setItem('showBookingSuccess', 'true')">
+                            <i class="fas fa-user-circle btn-icon"></i> Back
+                        </a>
+                        <a href="{% url 'packages' %}" class="btn btn-outline-secondary btn-back">
+                            <i class="fas fa-arrow-left btn-icon"></i> Browse More Packages
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #4CAF50;
+        --primary-dark: #388E3C;
+        --secondary-color: #2196F3;
+        --success-color: #4CAF50;
+        --info-color: #00BCD4;
+        --text-color: #333;
+        --light-gray: #f5f5f5;
+        --medium-gray: #e0e0e0;
+        --dark-gray: #757575;
+        --cash-color: #FF9800;
+        --bank-color: #3F51B5;
+        --card-color: #9C27B0;
+    }
+    
+    body {
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+    
+    /* Card Styles */
+    .payment-confirmation-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+    
+    .payment-confirmation-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        padding: 1.5rem;
+        border-bottom: none;
+    }
+    
+    .payment-confirmation-body {
+        padding: 2.5rem;
+        background-color: white;
+    }
+    
+    /* Typography */
+    .confirmation-title {
+        font-weight: 600;
+        font-size: 1.75rem;
+        margin-left: 0.75rem;
+    }
+    
+    .confirmation-icon {
+        font-size: 1.75rem;
+    }
+    
+    .section-title {
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+    }
+    
+    .section-icon {
+        margin-right: 0.75rem;
+        color: var(--primary-color);
+    }
+    
+    /* Alert Styles */
+    .payment-success-alert {
+        background-color: rgba(76, 175, 80, 0.1);
+        border-left: 4px solid var(--success-color);
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+    }
+    
+    .alert-icon {
+        color: var(--success-color);
+        font-size: 1.5rem;
+        margin-right: 1rem;
+    }
+    
+    .alert-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: var(--success-color);
+    }
+    
+    .alert-message {
+        color: var(--dark-gray);
+    }
+    
+    /* Table Styles */
+    .details-table-container {
+        background-color: var(--light-gray);
+        border-radius: 10px;
+        padding: 1px;
+        margin-bottom: 2rem;
+    }
+    
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .detail-row {
+        border-bottom: 1px solid var(--medium-gray);
+    }
+    
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+    
+    .detail-header {
+        padding: 1rem 1.5rem;
+        text-align: left;
+        font-weight: 500;
+        color: var(--dark-gray);
+        width: 35%;
+    }
+    
+    .detail-value {
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+    }
+    
+    .total-row {
+        background-color: rgba(76, 175, 80, 0.05);
+    }
+    
+    .total-amount {
+        color: var(--success-color);
+        font-weight: 600;
+        font-size: 1.125rem;
+    }
+    
+    /* Payment Method Badges */
+    .payment-method-badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    
+    .payment-method-badge.cash {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: var(--cash-color);
+        border: 1px solid rgba(255, 152, 0, 0.3);
+    }
+    
+    .payment-method-badge.bank_transfer {
+        background-color: rgba(63, 81, 181, 0.1);
+        color: var(--bank-color);
+        border: 1px solid rgba(63, 81, 181, 0.3);
+    }
+    
+    .payment-method-badge.card {
+        background-color: rgba(156, 39, 176, 0.1);
+        color: var(--card-color);
+        border: 1px solid rgba(156, 39, 176, 0.3);
+    }
+    
+    /* Payment Instructions */
+    .instruction-card {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .instruction-header {
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        background-color: var(--light-gray);
+    }
+    
+    .instruction-icon {
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+    }
+    
+    .cash-instruction .instruction-icon {
+        color: var(--cash-color);
+    }
+    
+    .bank-instruction .instruction-icon {
+        color: var(--bank-color);
+    }
+    
+    .instruction-title {
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .instruction-content {
+        padding: 1.5rem;
+    }
+    
+    .payment-amount-display {
+        background-color: rgba(76, 175, 80, 0.1);
+        border: 1px dashed rgba(76, 175, 80, 0.3);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .payment-amount-display .amount {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--success-color);
+    }
+    
+    .bank-detail-row {
+        display: flex;
+        margin-bottom: 0.75rem;
+    }
+    
+    .detail-label {
+        font-weight: 500;
+        width: 120px;
+        color: var(--dark-gray);
+    }
+    
+    .detail-value {
+        font-weight: 500;
+        flex-grow: 1;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-dashboard {
+        background-color: var(--primary-color);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-dashboard:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .btn-back {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-back:hover {
+        background-color: var(--light-gray);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .btn-icon {
+        margin-right: 0.5rem;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .payment-confirmation-body {
+            padding: 1.5rem;
+        }
+        
+        .detail-header {
+            width: 40%;
+            padding: 0.75rem 1rem;
+        }
+        
+        .detail-value {
+            padding: 0.75rem 1rem;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .action-buttons .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

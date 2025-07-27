@@ -1,0 +1,994 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book Your Lesson | Ready Aim Learn | Professional Firearms Training</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Book your professional firearms training session with Ready Aim Learn. Choose from our expert-led packages and available time slots.">
+    <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
+    <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e8b923;
+            --primary-dark: #d8a91b;
+            --accent: #e8b923;
+            --black: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #888;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .site-header {
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.7));
+        }
+
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1.5px;
+        }
+
+        /* Navigation */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger i {
+            color: var(--primary);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            color: var(--light);
+            padding: 8px 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        /* Authentication */
+        .auth-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 30px;
+        }
+
+        .auth-state {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            background: rgba(30, 30, 30, 0.6);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+
+        .auth-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            transition: all 0.3s ease;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .user-info:hover {
+            background: rgba(50, 50, 50, 0.8);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.2);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .logout-form {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Booking-specific styles */
+        .booking-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "lessons/images/range-bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            padding: 180px 0 100px;
+            text-align: center;
+            margin-top: 84px;
+        }
+
+        .booking-hero h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .booking-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .booking-container {
+            padding: 80px 0;
+        }
+
+        .booking-card {
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 8px;
+            padding: 40px;
+            margin: 0 auto;
+            max-width: 800px;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .booking-card h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            border-radius: 4px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(232, 185, 35, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .radio-option input[type="radio"]:checked::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radio-label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .radio-title {
+            font-weight: bold;
+            color: var(--light);
+        }
+
+        .radio-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(232, 185, 35, 0.3);
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary);
+            background: rgba(232, 185, 35, 0.1);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: var(--black);
+            font-weight: bold;
+        }
+
+        .time-slot.unavailable {
+            opacity: 0.5;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .form-note {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Error messages */
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 60px 0 0;
+            border-top: 1px solid var(--primary);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.5));
+        }
+
+        .footer-about {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--light);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .copyright {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 84px);
+                background: rgba(26, 26, 26, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+                border-top: 1px solid var(--primary);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+                width: 100%;
+            }
+
+            .auth-links {
+                margin-left: 0;
+                margin-top: 30px;
+                width: 100%;
+            }
+
+            .auth-state {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .auth-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .booking-hero {
+                padding: 150px 20px 80px;
+            }
+
+            .booking-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .booking-card {
+                padding: 30px 20px;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .booking-hero h1 {
+                font-size: 2rem;
+            }
+
+            .booking-card h2 {
+                font-size: 1.6rem;
+            }
+
+            .radio-group {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .site-title {
+                font-size: 1.2rem;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .user-info {
+                padding: 6px 10px;
+            }
+
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+
+            .booking-hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .booking-hero p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animation for User Avatar */
+        @keyframes tactical-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(232, 185, 35, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0);
+            }
+        }
+
+        .user-info:hover .user-avatar {
+            animation: tactical-pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
+            </div>
+
+            <button class="hamburger" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'packages' %}">Packages</a></li>
+                    <li><a href="{% url 'booking' %}" class="active">Book Lesson</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                </ul>
+
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <span class="user-name">{{ user.username }}</span>
+                            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="auth-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="auth-state">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="auth-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="{% url 'signup' %}" class="auth-btn primary">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="booking-hero">
+        <div class="container">
+            <h1>Book Your Training Session</h1>
+            <p>Select your preferred training package, instructor, date, and time to schedule your professional firearms instruction.</p>
+        </div>
+    </section>
+
+    <div class="booking-container">
+        <div class="container">
+            <div class="booking-card">
+                <h2>Schedule Your Lesson</h2>
+                
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form method="post" id="booking-form">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <label for="id_package">Training Package</label>
+                        <div class="radio-group">
+                            {% for package in packages %}
+                            <div class="radio-option">
+                                <input type="radio" name="package" id="package-{{ package.id }}" value="{{ package.id }}" required 
+                                    {% if form.package.value == package.id|stringformat:"i" %}checked{% endif %}>
+                                <div class="radio-label">
+                                    <span class="radio-title">{{ package.name }} - ${{ package.price }}</span>
+                                    <span class="radio-description">{{ package.duration }} minutes • {{ package.description }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.package.errors %}
+                        <div class="error-message">{{ form.package.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_instructor">Instructor</label>
+                        <select name="instructor" id="id_instructor" class="form-control" required>
+                            <option value="">Select an instructor</option>
+                            {% for instructor in instructors %}
+                            <option value="{{ instructor.id }}" 
+                                {% if form.instructor.value == instructor.id|stringformat:"i" %}selected{% endif %}>
+                                {{ instructor.user.get_full_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% if form.instructor.errors %}
+                        <div class="error-message">{{ form.instructor.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_date">Lesson Date</label>
+                        <input type="date" name="date" id="id_date" class="form-control" 
+                            min="{{ min_date }}" value="{{ form.date.value|default_if_none:'' }}" required>
+                        <p class="form-note">Please select a date at least 24 hours in advance</p>
+                        {% if form.date.errors %}
+                        <div class="error-message">{{ form.date.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_time">Available Time Slots</label>
+                        <select name="time" id="id_time" class="form-control" required>
+                            <option value="">Select a time</option>
+                            {% for hour, display in available_times %}
+                            <option value="{{ hour }}" {% if form.time.value == hour %}selected{% endif %}>{{ display }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if form.time.errors %}
+                        <div class="error-message">{{ form.time.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="payment_method" id="payment-paypal" value="paypal" required 
+                                    {% if form.payment_method.value == "paypal" %}checked{% endif %}>
+                                <label for="payment-paypal" class="radio-title">PayPal (Pay Now)</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="payment_method" id="payment-cash" value="cash" 
+                                    {% if form.payment_method.value == "cash" %}checked{% endif %}>
+                                <label for="payment-cash" class="radio-title">Cash (Pay In Person)</label>
+                            </div>
+                        </div>
+                        {% if form.payment_method.errors %}
+                        <div class="error-message">{{ form.payment_method.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-calendar-check"></i> Confirm Booking
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Questions About Booking?</h2>
+                <p class="cta-description">Our team is happy to help you choose the right package or answer any questions about our training sessions.</p>
+                <div class="cta-buttons">
+                    <a href="tel:+15551234567" class="btn btn-primary">
+                        <i class="fas fa-phone"></i> Call Us Now
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Send Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
+                    <p class="footer-about">Providing professional firearms training in a safe and controlled environment. Our certified instructors are dedicated to helping you develop proper technique and confidence.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'packages' %}">Training Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book a Lesson</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9am-7pm, Sat: 10am-4pm</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Ready Aim Learn. All rights reserved. | <a href="{% url 'legal' %}">Terms & Waiver</a> | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.querySelector('i').classList.remove('fa-times');
+                hamburger.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        // Date input restrictions
+        const dateInput = document.getElementById('id_date');
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        // Format as YYYY-MM-DD
+        const minDate = tomorrow.toISOString().split('T')[0];
+        dateInput.min = minDate;
+
+        // Dynamic time slot availability
+        dateInput.addEventListener('change', function() {
+            const selectedDate = this.value;
+            const instructorId = document.getElementById('id_instructor').value;
+            
+            if (!selectedDate || !instructorId) {
+                return;
+            }
+            
+            fetch("{% url 'check_availability' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `date=${selectedDate}&instructor_id=${instructorId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                const timeSelect = document.getElementById('id_time');
+                timeSelect.innerHTML = '<option value="">Select a time</option>';
+                
+                if (data.success) {
+                    data.available_slots.forEach(slot => {
+                        const option = document.createElement('option');
+                        option.value = slot.value;
+                        option.textContent = slot.display;
+                        timeSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Error fetching available times:', data.error);
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'No available time slots';
+                    timeSelect.appendChild(option);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const timeSelect = document.getElementById('id_time');
+                timeSelect.innerHTML = '<option value="">Error loading time slots</option>';
+            });
+        });
+
+        // Also check availability when instructor changes
+        document.getElementById('id_instructor').addEventListener('change', function() {
+            if (document.getElementById('id_date').value) {
+                document.getElementById('id_date').dispatchEvent(new Event('change'));
+            }
+        });
+
+        // Form submission handling
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            const selectedTime = document.getElementById('id_time').value;
+            if (!selectedTime) {
+                e.preventDefault();
+                alert('Please select an available time slot');
+            }
+        });
+
+        // Initialize if date is already selected
+        if (dateInput.value) {
+            dateInput.dispatchEvent(new Event('change'));
+        }
+    </script>
+</body>
+</html>

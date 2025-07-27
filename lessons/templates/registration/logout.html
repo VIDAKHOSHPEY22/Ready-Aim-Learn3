@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Ready Aim Learn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Agency+FB:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e8b923;
+            --primary-dark: #c99a1a;
+            --secondary: #1a1a1a;
+            --accent: #8b0000;
+            --light: #e6e6e6;
+            --dark: #121212;
+            --gray: #4d4d4d;
+            --light-gray: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Agency FB', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            background-image: 
+                linear-gradient(rgba(20, 20, 20, 0.95), rgba(20, 20, 20, 0.95)),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            color: var(--light);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Tactical Pattern Overlay */
+        body:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(232, 185, 35, 0.03) 0%, transparent 8%),
+                radial-gradient(circle at 70% 60%, rgba(232, 185, 35, 0.03) 0%, transparent 8%),
+                linear-gradient(45deg, transparent 48%, rgba(232, 185, 35, 0.05) 49%, rgba(232, 185, 35, 0.05) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(232, 185, 35, 0.05) 49%, rgba(232, 185, 35, 0.05) 51%, transparent 52%);
+            background-size: 300px 300px, 300px 300px, 25px 25px, 25px 25px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        .logout-container {
+            background: rgba(30, 30, 30, 0.85);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .lock-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(232, 185, 35, 0.5);
+            position: relative;
+        }
+
+        .lock-icon:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.3;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(232, 185, 35, 0.3);
+            position: relative;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .logout-message {
+            font-size: 1.3rem;
+            margin: 30px 0;
+            line-height: 1.8;
+            color: var(--light);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .logout-message strong {
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .btn {
+            padding: 14px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            text-align: center;
+            border: 2px solid var(--primary);
+            display: block;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, var(--accent), #6a0000);
+            color: var(--light);
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+            border: none;
+        }
+
+        .btn-logout:hover {
+            background: linear-gradient(135deg, #6a0000, var(--accent));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 0, 0, 0.6);
+        }
+
+        .btn-home {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .btn-home:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        /* Bullet hole decorations */
+        .bullet-hole {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238b0000" opacity="0.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>');
+            background-size: contain;
+            z-index: -1;
+        }
+
+        .bullet-1 { top: 15%; left: 15%; }
+        .bullet-2 { top: 20%; right: 20%; }
+        .bullet-3 { bottom: 25%; left: 20%; }
+        .bullet-4 { bottom: 15%; right: 15%; }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logout-container {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .logout-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .logout-message {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                font-size: 1.1rem;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .lock-icon {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bullet hole decorations -->
+    <div class="bullet-hole bullet-1"></div>
+    <div class="bullet-hole bullet-2"></div>
+    <div class="bullet-hole bullet-3"></div>
+    <div class="bullet-hole bullet-4"></div>
+
+    <div class="logout-container">
+        <div class="lock-icon">🔒</div>
+        <h2>Tactical Logout</h2>
+        
+        <div class="logout-message">
+            <p>You are about to <strong>terminate your session</strong>.</p>
+            <p>Confirm your identity to securely exit the system.</p>
+        </div>
+        
+        <div class="action-buttons">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-logout">Confirm Logout</button>
+            </form>
+            <a href="{% url 'home' %}" class="btn btn-home">Return to Home Base</a>
+        </div>
+    </div>
+</body>
+</html>
