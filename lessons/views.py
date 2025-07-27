@@ -149,106 +149,211 @@ def booking(request, package_id=None):
     
     return render_booking_form(request, package_id, quick_booking_date, resources, min_date)
 
-def handle_booking_post(request, resources, min_date):
-    """Process booking form submission"""
+def handle_booking_post(request, resources: dict, min_date: date):
+    """
+    Process booking form submission with comprehensive validation
+    
+    Args:
+        request: HttpRequest object
+        resources: Dictionary of active resources (packages, weapons, etc.)
+        min_date: Minimum allowed booking date
+        
+    Returns:
+        HttpResponse: Redirect on success or form with errors
+    """
     form = BookingForm(request.POST, user=request.user)
+    
+    # Handle invalid form
     if not form.is_valid():
-        return handle_invalid_form(form, resources, min_date)
+        return handle_invalid_form(request, form, resources, min_date)
     
     try:
+        # Prepare booking object
         booking = form.save(commit=False)
         booking.user = request.user
         booking.duration = booking.duration or booking.package.duration
         
+        # Validate availability
         if not validate_booking_availability(booking):
-            messages.error(request, "The selected time slot is not available.")
+            messages.error(request, "The selected time slot is no longer available.")
             return render_booking_form_with_context(request, form, resources, min_date)
         
+        # Process confirmation
         return process_booking_confirmation(request, booking)
-    
+        
     except Exception as e:
-        logger.error(f"Booking error: {str(e)}", exc_info=True)
-        messages.error(request, "An error occurred. Please try again.")
+        logger.error(f"Booking processing failed: {str(e)}", exc_info=True)
+        messages.error(request, "A system error occurred. Please try again later.")
         return render_booking_form_with_context(request, form, resources, min_date)
 
-def validate_booking_availability(booking):
-    """Validate instructor availability and time slot"""
+
+def validate_booking_availability(booking: Booking) -> bool:
+    """
+    Validate instructor availability for the booking
+    
+    Args:
+        booking: Booking object to validate
+        
+    Returns:
+        bool: True if available, False if not
+    """
     try:
+        # Check instructor availability
         if not is_instructor_available(booking.instructor, booking.date, booking.time):
             return False
         
-        return not Booking.objects.filter(
+        # Check for existing bookings
+        conflicting_bookings = Booking.objects.filter(
             date=booking.date,
             time=booking.time,
             instructor=booking.instructor,
             status__in=['pending', 'confirmed']
         ).exists()
+        
+        return not conflicting_bookings
+        
     except Exception as e:
-        logger.error(f"Validation error: {str(e)}", exc_info=True)
+        logger.error(f"Availability validation failed: {str(e)}", exc_info=True)
         return False
 
-def process_booking_confirmation(request, booking):
-    """Process booking confirmation based on payment method"""
+
+def process_booking_confirmation(request, booking: Booking):
+    """
+    Handle booking confirmation based on payment method
+    
+    Args:
+        request: HttpRequest object
+        booking: Booking object to confirm
+        
+    Returns:
+        HttpResponse: Redirect to appropriate next step
+    """
     booking.status = 'pending'
     
     if booking.payment_method == 'paypal':
         return handle_paypal_payment(request, booking)
     
-    booking.save()
-    send_booking_confirmation(booking, request.user)
-    messages.success(request, "Your booking has been confirmed!")
-    return redirect('booking_confirmation', booking_id=booking.id)
+    # Handle non-PayPal payments
+    try:
+        booking.save()
+        send_booking_confirmation(booking, request.user)
+        messages.success(request, "Your booking has been confirmed!")
+        return redirect('booking_confirmation', booking_id=booking.id)
+        
+    except Exception as e:
+        logger.error(f"Booking confirmation failed: {str(e)}", exc_info=True)
+        messages.error(request, "Failed to save your booking. Please contact support.")
+        return redirect('booking')
 
-def handle_paypal_payment(request, booking):
-    """Prepare session data for PayPal payment"""
-    request.session['pending_booking'] = {
-        'package_id': booking.package.id,
-        'weapon_id': booking.weapon.id if booking.weapon else None,
-        'instructor_id': booking.instructor.id,
-        'location_id': booking.location.id if booking.location else None,
-        'date': booking.date.isoformat(),
-        'time': booking.time.isoformat(),
-        'duration': booking.duration,
-        'payment_method': 'paypal',
-        'notes': booking.notes,
-    }
-    return redirect('process_payment')
 
-def render_booking_form(request, package_id, quick_booking_date, resources, min_date):
-    """Render booking form with initial data"""
+def handle_paypal_payment(request, booking: Booking):
+    """
+    Prepare PayPal payment process by storing booking in session
+    
+    Args:
+        request: HttpRequest object
+        booking: Booking object to process
+        
+    Returns:
+        HttpResponseRedirect: To PayPal payment page
+    """
+    try:
+        request.session['pending_booking'] = {
+            'package_id': booking.package.id,
+            'weapon_id': booking.weapon.id if booking.weapon else None,
+            'instructor_id': booking.instructor.id,
+            'location_id': booking.location.id if booking.location else None,
+            'date': booking.date.isoformat(),
+            'time': booking.time.isoformat(),
+            'duration': booking.duration,
+            'payment_method': 'paypal',
+            'notes': booking.notes,
+        }
+        return redirect('process_payment')
+        
+    except Exception as e:
+        logger.error(f"PayPal setup failed: {str(e)}", exc_info=True)
+        messages.error(request, "Failed to initialize payment. Please try again.")
+        return redirect('booking')
+
+
+def render_booking_form(request, package_id: int = None, 
+                      quick_booking_date: str = None, 
+                      resources: dict = None, 
+                      min_date: date = None):
+    """
+    Render booking form with appropriate initial data
+    
+    Args:
+        request: HttpRequest object
+        package_id: Optional package ID for pre-selection
+        quick_booking_date: Optional pre-selected date
+        resources: Dictionary of active resources
+        min_date: Minimum allowed booking date
+        
+    Returns:
+        HttpResponse: Rendered booking form
+    """
     initial = {}
+    
     if package_id:
         package = get_object_or_404(TrainingPackage, pk=package_id)
         initial.update({
             'package': package,
             'duration': package.duration,
         })
+        
         if quick_booking_date:
             try:
                 initial['date'] = parse_date(quick_booking_date)
             except ValueError:
-                logger.warning(f"Invalid quick booking date format: {quick_booking_date}")
+                logger.warning(f"Invalid quick booking date: {quick_booking_date}")
     
     form = BookingForm(initial=initial, user=request.user)
     return render_booking_form_with_context(request, form, resources, min_date)
 
-def render_booking_form_with_context(request, form, resources, min_date):
-    """Render booking template with context"""
+
+def render_booking_form_with_context(request, form, resources: dict, min_date: date):
+    """
+    Render booking template with complete context
+    
+    Args:
+        request: HttpRequest object
+        form: BookingForm instance
+        resources: Dictionary of active resources
+        min_date: Minimum allowed booking date
+        
+    Returns:
+        HttpResponse: Rendered booking page
+    """
     context = {
         'form': form,
         'available_times': TIME_SLOTS,
         'min_date': min_date,
+        **resources  # Unpack resources into context
     }
-    context.update(resources)
     return render(request, 'booking/booking.html', context)
 
-def handle_invalid_form(form, resources, min_date):
-    """Handle invalid form submission"""
+
+def handle_invalid_form(request, form, resources: dict, min_date: date):
+    """
+    Handle invalid form submissions with error messages
+    
+    Args:
+        request: HttpRequest object
+        form: Invalid BookingForm instance
+        resources: Dictionary of active resources
+        min_date: Minimum allowed booking date
+        
+    Returns:
+        HttpResponse: Rendered booking form with errors
+    """
     for field, errors in form.errors.items():
         for error in errors:
             messages.error(request, f"{field}: {error}")
-    return render_booking_form_with_context(None, form, resources, min_date)
-
+            
+    return render_booking_form_with_context(request, form, resources, min_date)
+    
 def is_instructor_available(instructor, date, time):
     """Check if instructor is available for given date and time"""
     try:
