@@ -58,11 +58,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ready_aim_learn.urls'
+import os
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,8 +125,6 @@ USE_TZ = True
 
 # settings.py
 
-# settings.py
-DEBUG = True  # Must be True during development
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -210,27 +209,46 @@ PAYPAL_RECEIVER_EMAIL = 'your-business-email@example.com'  # ایمیل حساب
 PAYPAL_TEST = True  # حالت تست (برای محیط توسعه)
 
 
-SITE_ID = 1
+# Authentication Settings
+# settings.py - Essential Configuration
+# Authentication Settings
+SITE_ID = 1  # Must match your Site object in admin
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# URL Redirects
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/'
 
+# Email Settings (for development)
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Disable email verification for now
+ACCOUNT_SIGNUP_FIELDS = ['username', 'password1', 'password2']  # Replace deprecated setting
 
+# Security Settings for Development
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+SOCIALACCOUNT_LOGIN_ON_GET = True  # Skip confirmation page
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
+
+# Google OAuth Configuration
+# settings.py
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv()  # Load environment variables from .env file
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
         'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
-            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),  # Read from .env
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),  # Read from .env
             'key': ''
         }
     }

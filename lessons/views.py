@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
+from django.urls import path
 from django.http import JsonResponse
 from django.db.models import Count, Q
 from paypal.standard.forms import PayPalPaymentsForm
@@ -884,3 +885,19 @@ def handler500(request):
     """Custom 500 error handler with logging"""
     logger.error('500 Server Error', exc_info=True)
     return render(request, 'errors/500.html', status=500)
+
+
+def auth_debug(request):
+    from allauth.socialaccount.models import SocialApp
+    from django.contrib.sites.models import Site
+    
+    data = {
+        'site': {
+            'id': Site.objects.get_current().id,
+            'domain': Site.objects.get_current().domain,
+        },
+        'google_app': SocialApp.objects.filter(provider='google').first(),
+        'session': dict(request.session),
+        'user': str(request.user),
+    }
+    return JsonResponse(data)
