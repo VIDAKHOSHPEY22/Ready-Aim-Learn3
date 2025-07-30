@@ -37,6 +37,12 @@
       {
         "html-has-lang": "off"
       }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
     ]
   }
 }

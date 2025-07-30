@@ -1,0 +1,499 @@
+<!-- templates/account/dashboard.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | Ready Aim Learn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e8b923;
+            --primary-dark: #d8a91b;
+            --black: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #888;
+            --dark-bg: #121212;
+            --card-bg: rgba(40, 40, 40, 0.6);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .site-header {
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 5px rgba(232, 185, 35, 0.7));
+        }
+
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1.5px;
+        }
+
+        /* Dashboard Content */
+        .dashboard-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('{% static "lessons/images/range-bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            padding: 180px 0 100px;
+            text-align: center;
+            margin-top: 84px;
+        }
+
+        .dashboard-hero h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .dashboard-container {
+            padding: 60px 0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .dashboard-sidebar {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+            height: fit-content;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin: 0 auto 15px;
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.5);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, 
+        .sidebar-menu a.active {
+            background: rgba(232, 185, 35, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-menu i {
+            width: 25px;
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        .dashboard-content {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(232, 185, 35, 0.3);
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .booking-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .booking-title {
+            color: var(--primary);
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+        }
+
+        .status-confirmed {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .detail-item i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(232, 185, 35, 0.3);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(232, 185, 35, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-sidebar {
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-hero {
+                padding: 150px 20px 80px;
+            }
+            
+            .dashboard-hero h1 {
+                font-size: 2rem;
+            }
+
+            .booking-details {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
+                <h1 class="site-title">Ready Aim Learn</h1>
+            </div>
+            <nav>
+                <a href="{% url 'packages' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Training
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="dashboard-hero">
+        <div class="container">
+            <h1>Welcome, {{ user.first_name|default:user.username }}</h1>
+            <p>Manage your training bookings and account settings</p>
+        </div>
+    </section>
+
+    <section class="dashboard-container">
+        <div class="container">
+            <div class="dashboard-grid">
+                <aside class="dashboard-sidebar">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            {{ user.first_name|first|default:user.username|first|upper }}
+                        </div>
+                        <h3>{{ user.first_name|default:user.username }}</h3>
+                        <p>{{ user.email }}</p>
+                    </div>
+                    
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active"><i class="fas fa-calendar-alt"></i> My Bookings</a></li>
+                        <li><a href="#"><i class="fas fa-user"></i> Profile Settings</a></li>
+                        <li><a href="#"><i class="fas fa-lock"></i> Change Password</a></li>
+                        <li><a href="#"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+                        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </aside>
+                
+                <main class="dashboard-content">
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-calendar-alt"></i> Upcoming Training Sessions</h2>
+                            <a href="{% url 'packages' %}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Book New Session
+                            </a>
+                        </div>
+                        
+                        {% if upcoming_bookings %}
+                            {% for booking in upcoming_bookings %}
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <h3 class="booking-title">{{ booking.package.name }}</h3>
+                                    <span class="booking-status status-{{ booking.status }}">
+                                        {{ booking.get_status_display }}
+                                    </span>
+                                </div>
+                                
+                                <div class="booking-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <span>{{ booking.date|date:"F j, Y" }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>{{ booking.time|time:"g:i A" }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-user-tie"></i>
+                                        <span>{{ booking.instructor.user.get_full_name }}</span>
+                                    </div>
+                                    {% if booking.location %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>{{ booking.location.name }}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                {% if booking.notes %}
+                                <div class="booking-notes">
+                                    <p><strong>Notes:</strong> {{ booking.notes }}</p>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="booking-actions">
+                                    <a href="{% url 'booking_detail' booking.id %}" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                    {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                                    <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-outline">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="fas fa-calendar-times"></i>
+                                <h3>No Upcoming Sessions</h3>
+                                <p>You don't have any upcoming training sessions.</p>
+                                <a href="{% url 'packages' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Book Now
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-history"></i> Training History</h2>
+                        </div>
+                        
+                        {% if past_bookings %}
+                            {% for booking in past_bookings %}
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <h3 class="booking-title">{{ booking.package.name }}</h3>
+                                    <span class="booking-status status-{{ booking.status }}">
+                                        {{ booking.get_status_display }}
+                                    </span>
+                                </div>
+                                
+                                <div class="booking-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <span>{{ booking.date|date:"F j, Y" }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>{{ booking.time|time:"g:i A" }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-user-tie"></i>
+                                        <span>{{ booking.instructor.user.get_full_name }}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="booking-actions">
+                                    <a href="{% url 'booking_detail' booking.id %}" class="btn btn-outline">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                    <a href="{% url 'leave_review' booking.id %}" class="btn btn-outline">
+                                        <i class="fas fa-star"></i> Leave Review
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="fas fa-history"></i>
+                                <h3>No Past Sessions</h3>
+                                <p>Your completed training sessions will appear here.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

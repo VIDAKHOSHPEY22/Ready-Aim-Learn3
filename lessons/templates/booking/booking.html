@@ -199,6 +199,7 @@
             transition: all 0.3s ease;
             height: 40px;
             box-sizing: border-box;
+            cursor: pointer;
         }
 
         .user-info:hover {
@@ -218,6 +219,7 @@
             font-weight: bold;
             font-size: 1rem;
             box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+            transition: all 0.3s ease;
         }
 
         .user-name {
@@ -230,7 +232,7 @@
             padding: 0;
         }
 
-        /* Booking-specific styles */
+        /* Booking Hero Section */
         .booking-hero {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "lessons/images/range-bg.jpg" %}');
             background-size: cover;
@@ -254,6 +256,7 @@
             margin: 0 auto 40px;
         }
 
+        /* Booking Form Container */
         .booking-container {
             padding: 80px 0;
         }
@@ -277,6 +280,7 @@
             letter-spacing: 1px;
         }
 
+        /* Form Elements */
         .form-group {
             margin-bottom: 25px;
         }
@@ -356,29 +360,7 @@
             color: var(--gray);
         }
 
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--black);
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-        }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
-        }
-
+        /* Time Slots */
         .time-slots {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -413,6 +395,7 @@
             text-decoration: line-through;
         }
 
+        /* Form Notes and Errors */
         .form-note {
             font-size: 0.9rem;
             color: var(--gray);
@@ -420,11 +403,97 @@
             font-style: italic;
         }
 
-        /* Error messages */
         .error-message {
             color: #ff6b6b;
             font-size: 0.9rem;
             margin-top: 5px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: rgba(30, 30, 30, 0.6);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--black);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-3px);
         }
 
         /* Footer */
@@ -539,7 +608,7 @@
             text-decoration: underline;
         }
 
-        /* Responsive adjustments */
+        /* Responsive Styles */
         @media (max-width: 992px) {
             .hamburger {
                 display: block;
@@ -607,6 +676,16 @@
             .time-slots {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -620,6 +699,10 @@
 
             .radio-group {
                 gap: 10px;
+            }
+
+            .cta-title {
+                font-size: 2rem;
             }
         }
 
@@ -648,6 +731,10 @@
 
             .booking-hero p {
                 font-size: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -694,10 +781,12 @@
                 <div class="auth-links">
                     {% if user.is_authenticated %}
                         <div class="user-info">
-                            <div class="user-avatar">
-                                {{ user.username|first|upper }}
-                            </div>
-                            <span class="user-name">{{ user.username }}</span>
+                            <a href="{% url 'user_dashboard' %}" class="avatar-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
+                                <div class="user-avatar">
+                                    {{ user.username|first|upper }}
+                                </div>
+                                <span class="user-name">{{ user.username }}</span>
+                            </a>
                             <form method="post" action="{% url 'logout' %}" class="logout-form">
                                 {% csrf_token %}
                                 <button type="submit" class="auth-btn">
@@ -732,10 +821,12 @@
             <div class="booking-card">
                 <h2>Schedule Your Lesson</h2>
                 
+                <!-- Improved messages display -->
                 {% if messages %}
                 <div class="messages">
                     {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
+                        <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
                         {{ message }}
                     </div>
                     {% endfor %}
@@ -745,9 +836,15 @@
                 <form method="post" id="booking-form">
                     {% csrf_token %}
                     
+                    <!-- Improved non-field errors display -->
                     {% if form.non_field_errors %}
-                    <div class="error-message">
-                        {{ form.non_field_errors }}
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <ul class="error-list">
+                            {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     {% endif %}
                     
@@ -766,7 +863,10 @@
                             {% endfor %}
                         </div>
                         {% if form.package.errors %}
-                        <div class="error-message">{{ form.package.errors }}</div>
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.package.errors }}
+                        </div>
                         {% endif %}
                     </div>
 
@@ -782,7 +882,10 @@
                             {% endfor %}
                         </select>
                         {% if form.instructor.errors %}
-                        <div class="error-message">{{ form.instructor.errors }}</div>
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.instructor.errors }}
+                        </div>
                         {% endif %}
                     </div>
                     
@@ -792,7 +895,10 @@
                             min="{{ min_date }}" value="{{ form.date.value|default_if_none:'' }}" required>
                         <p class="form-note">Please select a date at least 24 hours in advance</p>
                         {% if form.date.errors %}
-                        <div class="error-message">{{ form.date.errors }}</div>
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.date.errors }}
+                        </div>
                         {% endif %}
                     </div>
                     
@@ -805,7 +911,10 @@
                             {% endfor %}
                         </select>
                         {% if form.time.errors %}
-                        <div class="error-message">{{ form.time.errors }}</div>
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.time.errors }}
+                        </div>
                         {% endif %}
                     </div>
                     
@@ -824,7 +933,10 @@
                             </div>
                         </div>
                         {% if form.payment_method.errors %}
-                        <div class="error-message">{{ form.payment_method.errors }}</div>
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ form.payment_method.errors }}
+                        </div>
                         {% endif %}
                     </div>
                     
@@ -989,6 +1101,16 @@
         if (dateInput.value) {
             dateInput.dispatchEvent(new Event('change'));
         }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>

@@ -901,3 +901,20 @@ def auth_debug(request):
         'user': str(request.user),
     }
     return JsonResponse(data)
+
+
+def gallery_view(request):
+    """
+    View function to display the gallery page
+    """
+    # You can add context data here if needed
+    context = {
+        'page_title': 'Training Gallery',
+        'images': [
+            {'src': 'lessons/images/gallery1.jpg', 'alt': 'Basic marksmanship training'},
+            {'src': 'lessons/images/gallery2.jpg', 'alt': 'Tactical shooting drill'},
+            {'src': 'lessons/images/gallery3.jpg', 'alt': 'Advanced combat training'},
+            # Add more images as needed
+        ]
+    }
+    return render(request, 'lessons/gallery.html', context)

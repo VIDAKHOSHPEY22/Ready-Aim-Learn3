@@ -20,6 +20,7 @@ urlpatterns = [
     path('process-payment/', views.process_payment, name='process_payment'),
     path('paypal/', include(paypal_urls)),
     path('accounts/', include('allauth.urls')),
+    path('gallery/', views.gallery_view, name='gallery'),
     
     # About and instructors
     path('about/', views.about, name='about'),

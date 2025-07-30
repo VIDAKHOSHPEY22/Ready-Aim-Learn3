@@ -219,11 +219,19 @@
             font-weight: bold;
             font-size: 1rem;
             box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(232, 185, 35, 0.7);
         }
 
         .user-name {
             font-size: 0.95rem;
             letter-spacing: 1px;
+            cursor: pointer;
         }
 
         .logout-form {
@@ -534,6 +542,16 @@
             transform: translateY(-3px);
         }
 
+        /* ================= GALLERY LINK SECTION ================= */
+        .gallery-link {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px 0;
+            background: rgba(30, 30, 30, 0.6);
+            border-top: 1px solid rgba(232, 185, 35, 0.2);
+            border-bottom: 1px solid rgba(232, 185, 35, 0.2);
+        }
+
         /* ================= FOOTER (MATCHING HOME.HTML EXACTLY) ================= */
         .site-footer {
             background-color: rgba(26, 26, 26, 0.9);
@@ -802,10 +820,12 @@
                 <div class="auth-links">
                     {% if user.is_authenticated %}
                         <div class="user-info">
-                            <div class="user-avatar">
-                                {{ user.username|first|upper }}
-                            </div>
-                            <span class="user-name">{{ user.username }}</span>
+                            <a href="{% url 'user_dashboard' %}" class="avatar-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
+                                <div class="user-avatar">
+                                    {{ user.username|first|upper }}
+                                </div>
+                                <span class="user-name">{{ user.username }}</span>
+                            </a>
                             <form method="post" action="{% url 'logout' %}" class="logout-form">
                                 {% csrf_token %}
                                 <button type="submit" class="auth-btn">
@@ -852,6 +872,7 @@
                         <li><i class="fas fa-check"></i> Proper grip & stance techniques</li>
                         <li><i class="fas fa-check"></i> Sight alignment & trigger control</li>
                         <li><i class="fas fa-check"></i> 50 rounds of 9mm ammunition</li>
+                        <li><i class="fas fa-check"></i> Handgun: Glock 22 (.40 S&W)</li>
                         <li><i class="fas fa-check"></i> Eye & ear protection included</li>
                         <li><i class="fas fa-times"></i> Moving targets</li>
                         <li><i class="fas fa-times"></i> Advanced drills</li>
@@ -873,7 +894,8 @@
                         <li><i class="fas fa-check"></i> All basic marksmanship skills</li>
                         <li><i class="fas fa-check"></i> Multiple shooting positions</li>
                         <li><i class="fas fa-check"></i> Tactical reloading drills</li>
-                        <li><i class="fas fa-check"></i> 100 rounds of ammunition</li>
+                        <li><i class="fas fa-check"></i> 100 rounds of mixed ammunition</li>
+                        <li><i class="fas fa-check"></i> Handgun: Glock 22 + Rifle: AR-15</li>
                         <li><i class="fas fa-check"></i> Moving target practice</li>
                         <li><i class="fas fa-check"></i> Stress scenario training</li>
                         <li><i class="fas fa-times"></i> Advanced weapon systems</li>
@@ -893,12 +915,12 @@
                 <div class="package-features">
                     <ul>
                         <li><i class="fas fa-check"></i> All tactical shooting skills</li>
-                        <li><i class="fas fa-check"></i> Multiple weapon systems</li>
+                        <li><i class="fas fa-check"></i> Multiple weapon systems: Glock 22 & AR-15</li>
                         <li><i class="fas fa-check"></i> Advanced movement drills</li>
-                        <li><i class="fas fa-check"></i> 200 rounds of ammunition</li>
-                        <li><i class="fas fa-check"></i> Low-light conditions</li>
-                        <li><i class="fas fa-check"></i> Force-on-force scenarios</li>
-                        <li><i class="fas fa-check"></i> Video analysis & feedback</li>
+                        <li><i class="fas fa-check"></i> 200 rounds of mixed caliber</li>
+                        <li><i class="fas fa-check"></i> Low-light shooting & flashlight tactics</li>
+                        <li><i class="fas fa-check"></i> Force-on-force simulated scenarios</li>
+                        <li><i class="fas fa-check"></i> Video analysis & instructor feedback</li>
                     </ul>
                 </div>
                 <div class="package-cta">
@@ -977,6 +999,14 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </section>
+
+    <!-- Gallery Link Section -->
+    <section class="gallery-link">
+        <div class="container">
+            <h2 class="section-title">Want to see our weapons & training gallery?</h2>
+            <a href="{% url 'gallery' %}" class="package-btn">View Gallery</a>
         </div>
     </section>
 
@@ -1064,6 +1094,13 @@
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
+            });
+        });
+
+        // Make avatar clickable (added functionality)
+        document.querySelectorAll('.user-avatar, .user-name').forEach(element => {
+            element.addEventListener('click', function() {
+                window.location.href = "{% url 'user_dashboard' %}";
             });
         });
     </script>
