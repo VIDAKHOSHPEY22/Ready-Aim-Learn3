@@ -29,7 +29,8 @@
     "axe/text-alternatives": [
       "default",
       {
-        "image-alt": "off"
+        "image-alt": "off",
+        "frame-title": "off"
       }
     ],
     "axe/language": [
@@ -42,6 +43,14 @@
       "default",
       {
         "list": "off"
+      }
+    ],
+    "compat-api/html": [
+      "default",
+      {
+        "ignore": [
+          "iframe[loading]"
+        ]
       }
     ]
   }

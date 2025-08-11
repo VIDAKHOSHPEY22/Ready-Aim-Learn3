@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Training Packages | Ready Aim Learn | Professional Firearms Training</title>
+    <title>About Us | Ready Aim Learn - Private Firearms Training</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Professional firearms training packages for all skill levels. From basic marksmanship to advanced tactical shooting. Book your session today.">
+    <meta name="description" content="Learn about Ready Aim Learn - our mission, certified instructors, and commitment to safe firearms training for beginners in a comfortable environment.">
     <link rel="stylesheet" href="{% static 'lessons/css/style.css' %}" />
     <link rel="icon" href="{% static 'lessons/images/favicon.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,9 +16,11 @@
             --black: #1a1a1a;
             --light: #f8f8f8;
             --gray: #888;
+            --error: #f44336;
+            --success: #4CAF50;
         }
 
-        /* ================= BASE STYLES ================= */
+        /* Base Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #121212;
@@ -35,7 +37,7 @@
             padding: 0 20px;
         }
 
-        /* ================= IMPROVED HEADER STYLES (MATCHING HOME.HTML) ================= */
+        /* Header Styles */
         .site-header {
             background-color: rgba(26, 26, 26, 0.95);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -74,7 +76,7 @@
             letter-spacing: 1.5px;
         }
 
-        /* ================= HAMBURGER MENU (MATCHING HOME.HTML) ================= */
+        /* Navigation */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -136,7 +138,7 @@
             width: 100%;
         }
 
-        /* ================= AUTH STYLES (MATCHING HOME.HTML EXACTLY) ================= */
+        /* Authentication */
         .auth-links {
             display: flex;
             align-items: center;
@@ -200,6 +202,7 @@
             transition: all 0.3s ease;
             height: 40px;
             box-sizing: border-box;
+            cursor: pointer;
         }
 
         .user-info:hover {
@@ -219,19 +222,12 @@
             font-weight: bold;
             font-size: 1rem;
             box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
-            cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(232, 185, 35, 0.7);
         }
 
         .user-name {
             font-size: 0.95rem;
             letter-spacing: 1px;
-            cursor: pointer;
         }
 
         .logout-form {
@@ -239,33 +235,47 @@
             padding: 0;
         }
 
-        /* ================= HERO SECTION (MATCHING HOME.HTML STYLE) ================= */
-        .packages-hero {
+        /* About Hero Section */
+        .about-hero {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "lessons/images/range-bg.jpg" %}');
             background-size: cover;
             background-position: center;
             padding: 180px 0 100px;
             text-align: center;
             margin-top: 84px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .packages-hero h1 {
-            font-size: 3rem;
-            color: var(--primary);
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-tagline {
+            font-size: 3.5rem;
+            color: var(--light);
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        .packages-hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 40px;
+        .about-tagline span {
+            color: var(--primary);
+            font-weight: bold;
         }
 
-        /* ================= PACKAGE CARDS ================= */
-        .packages-container {
-            padding: 80px 0;
+        .about-hero-description {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        /* About Content Section */
+        .about-section {
+            padding: 100px 0;
+            background-color: rgba(18, 18, 18, 0.9);
         }
 
         .section-title {
@@ -286,203 +296,170 @@
             margin: 15px auto 0;
         }
 
-        .package-grid {
+        .about-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
         }
 
-        .package-card {
-            background: rgba(40, 40, 40, 0.6);
+        .about-image {
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid rgba(232, 185, 35, 0.1);
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .package-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: var(--primary);
-        }
-
-        /* ================= MOST POPULAR BADGE (IMPROVED) ================= */
-        .package-highlight {
-            position: relative;
-            border: 1px solid var(--primary);
-        }
-
-        .package-highlight:before {
-            content: 'Most Popular';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--primary);
-            color: var(--black);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            z-index: 1;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .package-header {
-            background: rgba(30, 30, 30, 0.8);
-            padding: 30px;
-            text-align: center;
-            border-bottom: 1px solid var(--primary);
-        }
-
-        .package-title {
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .package-price {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: white;
-            margin: 10px 0;
-        }
-
-        .package-price span {
-            font-size: 1rem;
-            color: var(--light);
-            opacity: 0.8;
-        }
-
-        .package-features {
-            padding: 30px;
-            flex-grow: 1;
-        }
-
-        .package-features ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .package-features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            height: 100%;
             display: flex;
             align-items: center;
         }
 
-        .package-features li:last-child {
-            border-bottom: none;
-        }
-
-        .package-features i {
-            color: var(--primary);
-            margin-right: 15px;
-            font-size: 1.1rem;
-        }
-
-        .package-cta {
-            padding: 0 30px 30px;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        /* ================= PACKAGE BUTTONS (MATCHING HOME.HTML STYLE) ================= */
-        .package-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--black);
-            border-radius: 4px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        .about-image img {
             width: 100%;
-            max-width: 250px;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+            object-fit: cover;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .mission-values {
+            margin-top: 50px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .value-card {
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 8px;
+            padding: 30px;
             text-align: center;
-            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(232, 185, 35, 0.1);
         }
 
-        .package-btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(232, 185, 35, 0.4);
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
         }
 
-        /* ================= COMPARISON TABLE ================= */
-        .comparison-section {
-            background: rgba(30, 30, 30, 0.8);
-            padding: 80px 0;
-            margin-top: 60px;
-            border-top: 1px solid var(--primary);
-            border-bottom: 1px solid var(--primary);
-        }
-
-        .comparison-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .comparison-title {
-            text-align: center;
+        .value-icon {
             font-size: 2.5rem;
             color: var(--primary);
-            margin-bottom: 50px;
-            text-transform: uppercase;
+            margin-bottom: 20px;
         }
 
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
+        .value-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        /* Instructors Section */
+        .instructors-section {
+            padding: 100px 0;
+            background-color: rgba(26, 26, 26, 0.9);
+        }
+
+        .instructor-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .instructor-card {
             background: rgba(40, 40, 40, 0.6);
             border-radius: 8px;
             overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(232, 185, 35, 0.1);
+            display: flex;
+            flex-direction: column;
         }
 
-        .comparison-table th {
+        .instructor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
+        }
+
+        .instructor-image {
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .instructor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .instructor-card:hover .instructor-image img {
+            transform: scale(1.05);
+        }
+
+        .instructor-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .instructor-name {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .instructor-title {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .instructor-bio {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .instructor-certifications {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .certification-badge {
             background: rgba(232, 185, 35, 0.1);
             color: var(--primary);
-            font-size: 1.1rem;
-            padding: 15px;
-            text-align: left;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .comparison-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .comparison-table .feature-name {
-            font-weight: bold;
-        }
-
-        .comparison-table .yes {
-            color: #4CAF50;
-            font-weight: bold;
-        }
-
-        .comparison-table .no {
-            color: #F44336;
-        }
-
-        /* ================= CTA SECTION (MATCHING HOME.HTML) ================= */
+        /* CTA Section */
         .cta-section {
             padding: 100px 0;
             background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('{% static "lessons/images/gallery5.jpg" %}');
@@ -501,6 +478,9 @@
         .cta-description {
             font-size: 1.2rem;
             margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-buttons {
@@ -510,14 +490,14 @@
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 15px 35px;
             border-radius: 4px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s ease;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .btn-primary {
@@ -544,17 +524,7 @@
             transform: translateY(-3px);
         }
 
-        /* ================= GALLERY LINK SECTION ================= */
-        .gallery-link {
-            text-align: center;
-            margin: 60px 0;
-            padding: 40px 0;
-            background: rgba(30, 30, 30, 0.6);
-            border-top: 1px solid rgba(232, 185, 35, 0.2);
-            border-bottom: 1px solid rgba(232, 185, 35, 0.2);
-        }
-
-        /* ================= FOOTER (MATCHING HOME.HTML EXACTLY) ================= */
+        /* Footer */
         .site-footer {
             background-color: rgba(26, 26, 26, 0.9);
             padding: 60px 0 0;
@@ -666,7 +636,7 @@
             text-decoration: underline;
         }
 
-        /* ================= RESPONSIVE STYLES ================= */
+        /* Responsive Styles */
         @media (max-width: 992px) {
             .hamburger {
                 display: block;
@@ -719,12 +689,35 @@
                 justify-content: center;
             }
 
-            .packages-hero h1 {
+            .about-tagline {
                 font-size: 2.5rem;
             }
 
-            .package-grid {
+            .about-content {
                 grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                order: -1;
+                max-height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-tagline {
+                font-size: 2rem;
+            }
+
+            .about-hero-description {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-title {
+                font-size: 2rem;
             }
 
             .cta-buttons {
@@ -732,35 +725,8 @@
                 align-items: center;
             }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .packages-hero {
-                padding: 150px 20px 80px;
-            }
-
-            .packages-hero h1 {
-                font-size: 2rem;
-            }
-
-            .section-title, .comparison-title {
-                font-size: 2rem;
-            }
-
-            .package-title {
-                font-size: 1.6rem;
-            }
-
-            .package-price {
-                font-size: 2.2rem;
-            }
-
-            .cta-title {
-                font-size: 2rem;
+            .instructor-image {
+                height: 350px;
             }
         }
 
@@ -769,31 +735,38 @@
                 font-size: 1.2rem;
             }
 
-            .packages-hero h1 {
+            .about-tagline {
                 font-size: 1.8rem;
             }
 
-            .packages-hero p {
-                font-size: 1rem;
-            }
-
-            .section-title, .comparison-title {
+            .section-title {
                 font-size: 1.8rem;
             }
 
-            .package-features li {
-                padding: 12px 0;
-                font-size: 0.95rem;
+            .user-name {
+                display: none;
             }
 
-            .package-btn {
-                padding: 12px 20px;
-                font-size: 0.9rem;
+            .instructor-image {
+                height: 300px;
             }
+        }
 
-            .footer-content {
-                grid-template-columns: 1fr;
+        /* Animation for User Avatar */
+        @keyframes tactical-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0.6);
             }
+            70% {
+                box-shadow: 0 0 0 8px rgba(232, 185, 35, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(232, 185, 35, 0);
+            }
+        }
+
+        .user-info:hover .user-avatar {
+            animation: tactical-pulse 1.5s infinite;
         }
     </style>
 </head>
@@ -812,13 +785,12 @@
             <nav class="nav-menu">
                 <ul class="nav-links">
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'packages' %}" class="active">Packages</a></li>
+                    <li><a href="{% url 'packages' %}">Packages</a></li>
                     <li><a href="{% url 'booking' %}">Book Lesson</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'about' %}" class="active">About</a></li>
                     <li><a href="{% url 'contact' %}">Contact</a></li>
                     <li><a href="{% url 'faq' %}">FAQ</a></li>
                 </ul>
-
                 <div class="auth-links">
                     {% if user.is_authenticated %}
                         <div class="user-info">
@@ -850,177 +822,99 @@
         </div>
     </header>
 
-    <section class="packages-hero">
+    <section class="about-hero">
         <div class="container">
-            <h1>Professional Firearms Training</h1>
-            <p>Select from our specialized training packages designed to take you from basic marksmanship to advanced tactical shooting. All sessions include one-on-one instruction with our certified NRA instructors.</p>
-            <a href="{% url 'booking' %}" class="package-btn">View Availability</a>
+            <div class="about-hero-content">
+                <h1 class="about-tagline">Our <span>Mission</span> Is Your Safety</h1>
+                <p class="about-hero-description">
+                    At Ready Aim Learn, we're committed to providing the highest quality firearms training in a safe, comfortable, and judgment-free environment.
+                </p>
+            </div>
         </div>
     </section>
 
-    <div class="packages-container">
-        <h2 class="section-title">Training Packages</h2>
-        
-        <div class="package-grid">
-            <!-- Basic Marksmanship Package -->
-            <div class="package-card">
-                <div class="package-header">
-                    <h3 class="package-title">Basic Marksmanship</h3>
-                    <div class="package-price">$150<span> / session</span></div>
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Our Training</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Building Confidence Through Education</h3>
+                    <p>Founded in 2015, Ready Aim Learn was created to fill a gap in firearms training - a welcoming environment for beginners, women, and those who may feel intimidated by traditional gun ranges.</p>
+                    <p>Our private training facility offers a comfortable setting where you can learn at your own pace, ask questions freely, and develop real skills without pressure.</p>
+                    <p>Whether you're interested in home defense, concealed carry, or simply want to be more comfortable around firearms, our certified instructors will tailor the experience to your goals.</p>
+                    
+                    <div class="mission-values">
+                        <h3>Our Core Values</h3>
+                        <div class="values-grid">
+                            <div class="value-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4 class="value-title">Safety First</h4>
+                                <p>Every lesson begins and ends with safety. We instill proper habits from day one.</p>
+                            </div>
+                            
+                            <div class="value-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h4 class="value-title">Quality Instruction</h4>
+                                <p>Our certified instructors have years of experience teaching beginners.</p>
+                            </div>
+                            
+                            <div class="value-card">
+                                <div class="value-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <h4 class="value-title">Comfort Matters</h4>
+                                <p>Private lessons mean no crowds, no pressure, just focused learning.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="package-features">
-                    <ul>
-                        <li><i class="fas fa-check"></i> Firearm safety fundamentals</li>
-                        <li><i class="fas fa-check"></i> Proper grip & stance techniques</li>
-                        <li><i class="fas fa-check"></i> Sight alignment & trigger control</li>
-                        <li><i class="fas fa-check"></i> 50 rounds of 9mm ammunition</li>
-                        <li><i class="fas fa-check"></i> Handgun: Glock 22 (.40 S&W)</li>
-                        <li><i class="fas fa-check"></i> Eye & ear protection included</li>
-                        <li><i class="fas fa-times"></i> Moving targets</li>
-                        <li><i class="fas fa-times"></i> Advanced drills</li>
-                    </ul>
-                </div>
-                <div class="package-cta">
-                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
-                </div>
-            </div>
-
-            <!-- Tactical Shooting Package (Most Popular) -->
-            <div class="package-card package-highlight">
-                <div class="package-header">
-                    <h3 class="package-title">Tactical Shooting</h3>
-                    <div class="package-price">$275<span> / session</span></div>
-                </div>
-                <div class="package-features">
-                    <ul>
-                        <li><i class="fas fa-check"></i> All basic marksmanship skills</li>
-                        <li><i class="fas fa-check"></i> Multiple shooting positions</li>
-                        <li><i class="fas fa-check"></i> Tactical reloading drills</li>
-                        <li><i class="fas fa-check"></i> 100 rounds of mixed ammunition</li>
-                        <li><i class="fas fa-check"></i> Handgun: Glock 22 + Rifle: AR-15</li>
-                        <li><i class="fas fa-check"></i> Moving target practice</li>
-                        <li><i class="fas fa-check"></i> Stress scenario training</li>
-                        <li><i class="fas fa-times"></i> Advanced weapon systems</li>
-                    </ul>
-                </div>
-                <div class="package-cta">
-                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
+                
+                <div class="about-image">
+                    <img src="{% static 'lessons/images/gallery8.jpg' %}" alt="Private firearms training session">
                 </div>
             </div>
-
-            <!-- Advanced Combat Package -->
-            <div class="package-card">
-                <div class="package-header">
-                    <h3 class="package-title">Advanced Combat</h3>
-                    <div class="package-price">$400<span> / session</span></div>
-                </div>
-                <div class="package-features">
-                    <ul>
-                        <li><i class="fas fa-check"></i> All tactical shooting skills</li>
-                        <li><i class="fas fa-check"></i> Multiple weapon systems: Glock 22 & AR-15</li>
-                        <li><i class="fas fa-check"></i> Advanced movement drills</li>
-                        <li><i class="fas fa-check"></i> 200 rounds of mixed caliber</li>
-                        <li><i class="fas fa-check"></i> Low-light shooting & flashlight tactics</li>
-                        <li><i class="fas fa-check"></i> Force-on-force simulated scenarios</li>
-                        <li><i class="fas fa-check"></i> Video analysis & instructor feedback</li>
-                    </ul>
-                </div>
-                <div class="package-cta">
-                    <a href="{% url 'booking' %}" class="package-btn">Book Now</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section class="comparison-section">
-        <div class="comparison-container">
-            <h2 class="comparison-title">Package Comparison</h2>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Basic</th>
-                        <th>Tactical</th>
-                        <th>Advanced</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="feature-name">Session Duration</td>
-                        <td>90 minutes</td>
-                        <td>2 hours</td>
-                        <td>3 hours</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Ammunition Included</td>
-                        <td>50 rounds</td>
-                        <td>100 rounds</td>
-                        <td>200 rounds</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Firearm Safety</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Basic Marksmanship</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Multiple Firearms</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Moving Targets</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Stress Scenarios</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Low-Light Training</td>
-                        <td class="no">Not Included</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Video Analysis</td>
-                        <td class="no">Not Included</td>
-                        <td class="no">Not Included</td>
-                        <td class="yes">Included</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </section>
 
-    <!-- Gallery Link Section -->
-    <section class="gallery-link">
+    <section class="instructors-section">
         <div class="container">
-            <h2 class="section-title">Want to see our weapons & training gallery?</h2>
-            <a href="{% url 'gallery' %}" class="package-btn">View Gallery</a>
+            <h2 class="section-title">Meet Our Instructor</h2>
+            
+            <div class="instructor-container">
+                <div class="instructor-card">
+                    <div class="instructor-image">
+                        <img src="{% static 'lessons/images/gallery7.jpg' %}" alt="Luis David Valencia Hernandez">
+                    </div>
+                    <div class="instructor-info">
+                        <h3 class="instructor-name">Luis David Valencia Hernandez</h3>
+                        <p class="instructor-title">Lead Instructor & Founder</p>
+                        <p class="instructor-bio">With extensive experience in firearms training, Luis specializes in beginner education and defensive techniques. His patient teaching style and commitment to safety make him the perfect instructor for first-time shooters.</p>
+                        <div class="instructor-certifications">
+                            <span class="certification-badge">NRA Certified</span>
+                            <span class="certification-badge">USCCA Instructor</span>
+                            <span class="certification-badge">First Aid/CPR</span>
+                            <span class="certification-badge">Defensive Tactics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="cta-section">
         <div class="container">
             <div class="cta-content">
-                <h2 class="cta-title">Ready to Improve Your Skills?</h2>
-                <p class="cta-description">Our certified instructors are ready to help you achieve your firearms training goals. Book your session today and take the first step towards mastery.</p>
+                <h2 class="cta-title">Ready to Begin Your Firearms Journey?</h2>
+                <p class="cta-description">Schedule your first lesson today and receive a free safety guide</p>
                 <div class="cta-buttons">
                     <a href="{% url 'booking' %}" class="btn btn-primary">Book Online Now</a>
                     <a href="tel:+15551234567" class="btn btn-secondary">
-                        <i class="fas fa-phone"></i> Call to Book
+                        <i class="fas fa-phone"></i> (555) 123-4567
                     </a>
                 </div>
             </div>
@@ -1032,7 +926,7 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn" class="footer-logo">
-                    <p class="footer-about">Providing professional firearms training in a safe and controlled environment. Our certified instructors are dedicated to helping you develop proper technique and confidence.</p>
+                    <p class="footer-about">Providing safe, professional firearms training for beginners in a comfortable and private setting.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -1044,8 +938,8 @@
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
                         <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'packages' %}">Training Packages</a></li>
-                        <li><a href="{% url 'booking' %}">Book a Lesson</a></li>
+                        <li><a href="{% url 'packages' %}">Packages</a></li>
+                        <li><a href="{% url 'booking' %}">Book Lesson</a></li>
                         <li><a href="{% url 'about' %}">About Us</a></li>
                         <li><a href="{% url 'contact' %}">Contact</a></li>
                     </ul>
@@ -1057,7 +951,6 @@
                         <li><i class="fas fa-map-marker-alt"></i> 123 Range Street, Suite 100, Los Angeles, CA</li>
                         <li><i class="fas fa-phone"></i> (555) 123-4567</li>
                         <li><i class="fas fa-envelope"></i> info@readyaimlearn.com</li>
-                        <li><i class="fas fa-clock"></i> Mon-Fri: 9am-7pm, Sat: 10am-4pm</li>
                     </ul>
                 </div>
             </div>
@@ -1070,20 +963,17 @@
 
     <script>
         // Hamburger menu functionality
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-
-        hamburger.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            const icon = this.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
         });
 
         // Close menu when clicking on a link
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
+                document.querySelector('.nav-menu').classList.remove('active');
+                const hamburger = document.querySelector('.hamburger');
                 hamburger.querySelector('i').classList.remove('fa-times');
                 hamburger.querySelector('i').classList.add('fa-bars');
             });
@@ -1096,13 +986,6 @@
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
-            });
-        });
-
-        // Make avatar clickable (added functionality)
-        document.querySelectorAll('.user-avatar, .user-name').forEach(element => {
-            element.addEventListener('click', function() {
-                window.location.href = "{% url 'user_dashboard' %}";
             });
         });
     </script>
