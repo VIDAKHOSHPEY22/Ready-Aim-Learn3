@@ -1,0 +1,114 @@
+{% extends "account/dashboard.html" %}
+{% load static %}
+
+{% block title %}Cancel Booking | Ready Aim Learn{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="section-header">
+        <h2><i class="fas fa-calendar-times"></i> Cancel Booking</h2>
+    </div>
+
+    <div class="confirmation-card" style="background: var(--card-bg); border-radius: 8px; padding: 30px; border: 1px solid rgba(232, 185, 35, 0.1); margin-top: 30px;">
+        <div class="confirmation-header" style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px;">
+            <div class="warning-icon" style="background: rgba(244, 67, 54, 0.2); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 1.8rem; color: #f44336;"></i>
+            </div>
+            <div>
+                <h3 style="margin: 0; color: var(--light);">Cancel Training Session</h3>
+                <p style="margin: 5px 0 0; color: var(--gray);">
+                    You're about to cancel your booking on {{ booking.date|date:"F j, Y" }} at {{ booking.time|time:"g:i A" }}
+                </p>
+            </div>
+        </div>
+
+        <div class="booking-details" style="background: rgba(30, 30, 30, 0.8); padding: 20px; border-radius: 6px; margin-bottom: 25px; border-left: 3px solid #f44336;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Package</div>
+                    <div>{{ booking.package.name }}</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Instructor</div>
+                    <div>{{ booking.instructor.user.get_full_name }}</div>
+                </div>
+                {% if booking.location %}
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Location</div>
+                    <div>{{ booking.location.name }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="cancellation-notice" style="background: rgba(244, 67, 54, 0.1); padding: 15px; border-radius: 6px; margin-bottom: 30px; border-left: 3px solid #f44336;">
+            <h4 style="color: #f44336; margin-top: 0; margin-bottom: 10px;">
+                <i class="fas fa-info-circle"></i> Cancellation Policy
+            </h4>
+            <p style="margin: 0;">
+                Cancellations must be made at least 24 hours before the scheduled session. 
+                The cutoff time for this booking is {{ cutoff_time|date:"F j, Y g:i A" }}.
+            </p>
+        </div>
+
+        <form method="POST" class="cancellation-form">
+            {% csrf_token %}
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label class="form-label" for="cancellation_reason" style="display: block; margin-bottom: 8px; color: var(--primary); font-weight: 600;">
+                    <i class="fas fa-comment-dots"></i> Reason for Cancellation (Optional)
+                </label>
+                <textarea name="cancellation_reason" id="cancellation_reason" class="form-control" rows="3" 
+                          style="width: 100%; padding: 12px 15px; background: rgba(30, 30, 30, 0.8); border: 1px solid rgba(232, 185, 35, 0.3); border-radius: 6px; color: var(--light); font-size: 1rem;"></textarea>
+            </div>
+
+            <div class="form-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="{% url 'booking_detail' booking.id %}" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Back to Booking
+                </a>
+                <button type="submit" class="btn btn-danger" style="background: #f44336; color: white; border: none;">
+                    <i class="fas fa-times"></i> Confirm Cancellation
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-outline {
+        border: 1px solid var(--primary);
+        color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+        background: rgba(232, 185, 35, 0.1);
+    }
+    
+    .btn-danger {
+        background: #f44336;
+        color: white;
+    }
+    
+    .btn-danger:hover {
+        background: #d32f2f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(232, 185, 35, 0.2);
+    }
+</style>
+{% endblock %}

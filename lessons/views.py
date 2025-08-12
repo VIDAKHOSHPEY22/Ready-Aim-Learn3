@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
@@ -187,7 +187,6 @@ def handle_booking_post(request, resources: dict, min_date: date):
         messages.error(request, "A system error occurred. Please try again later.")
         return render_booking_form_with_context(request, form, resources, min_date)
 
-
 def validate_booking_availability(booking: Booking) -> bool:
     """
     Validate instructor availability for the booking
@@ -217,7 +216,6 @@ def validate_booking_availability(booking: Booking) -> bool:
         logger.error(f"Availability validation failed: {str(e)}", exc_info=True)
         return False
 
-
 def process_booking_confirmation(request, booking: Booking):
     """
     Handle booking confirmation based on payment method
@@ -245,7 +243,6 @@ def process_booking_confirmation(request, booking: Booking):
         logger.error(f"Booking confirmation failed: {str(e)}", exc_info=True)
         messages.error(request, "Failed to save your booking. Please contact support.")
         return redirect('booking')
-
 
 def handle_paypal_payment(request, booking: Booking):
     """
@@ -276,7 +273,6 @@ def handle_paypal_payment(request, booking: Booking):
         logger.error(f"PayPal setup failed: {str(e)}", exc_info=True)
         messages.error(request, "Failed to initialize payment. Please try again.")
         return redirect('booking')
-
 
 def render_booking_form(request, package_id: int = None, 
                       quick_booking_date: str = None, 
@@ -313,7 +309,6 @@ def render_booking_form(request, package_id: int = None,
     form = BookingForm(initial=initial, user=request.user)
     return render_booking_form_with_context(request, form, resources, min_date)
 
-
 def render_booking_form_with_context(request, form, resources: dict, min_date: date):
     """
     Render booking template with complete context
@@ -334,7 +329,6 @@ def render_booking_form_with_context(request, form, resources: dict, min_date: d
         **resources  # Unpack resources into context
     }
     return render(request, 'booking/booking.html', context)
-
 
 def handle_invalid_form(request, form, resources: dict, min_date: date):
     """
@@ -618,8 +612,6 @@ def check_availability(request):
         'error': 'Invalid request method'
     }, status=405)
 
-# ... (rest of your views remain unchanged)
-
 def about(request):
     """About page with instructor information"""
     instructors = Instructor.objects.filter(is_active=True).annotate(
@@ -791,90 +783,188 @@ def user_logout(request):
         messages.success(request, "You have been logged out successfully.")
     return redirect('home')
 
+
 @login_required
 def user_dashboard(request):
     """User dashboard with booking management and pagination"""
-    now = timezone.now().date()
-    
-    # Upcoming bookings
-    upcoming_bookings = Booking.objects.filter(
-        user=request.user,
-        date__gte=now
-    ).order_by('date', 'time')
-    
-    # Past bookings (paginated)
-    past_bookings = Booking.objects.filter(
-        user=request.user,
-        date__lt=now
-    ).order_by('-date', '-time')
-    
-    paginator = Paginator(past_bookings, 5)
-    page_number = request.GET.get('page')
-    past_bookings_page = paginator.get_page(page_number)
-    
-    return render(request, 'account/dashboard.html', {
-        'upcoming_bookings': upcoming_bookings,
-        'past_bookings': past_bookings_page,
-        'now': now
-    })
+    try:
+        now = timezone.now().date()
+        
+        upcoming_bookings = Booking.objects.filter(
+            user=request.user,
+            date__gte=now
+        ).order_by('date', 'time')
+        
+        past_bookings = Booking.objects.filter(
+            user=request.user,
+            date__lt=now
+        ).order_by('-date', '-time')
+        
+        paginator = Paginator(past_bookings, 5)
+        page_number = request.GET.get('page')
+        past_bookings_page = paginator.get_page(page_number)
+        
+        context = {
+            'upcoming_bookings': upcoming_bookings,
+            'past_bookings': past_bookings_page,
+            'now': now
+        }
+        
+        return render(request, 'account/dashboard.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in user_dashboard: {str(e)}")
+        messages.error(request, "An error occurred while loading your dashboard.")
+        return redirect('home')
 
 @login_required
 def booking_detail(request, booking_id):
     """Detailed booking view with permission check"""
-    booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
-    
-    # Check if cancellation is allowed (at least 24 hours before)
-    cutoff_time = timezone.make_aware(datetime.combine(booking.date, dt_time(0, 0)))
-    can_cancel = (cutoff_time - timezone.now()) > timezone.timedelta(hours=24)
-    
-    return render(request, 'account/booking_detail.html', {
-        'booking': booking,
-        'can_cancel': can_cancel,
-        'cutoff_time': cutoff_time
-    })
+    try:
+        booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
+        
+        cutoff_time = timezone.make_aware(datetime.combine(booking.date, dt_time(0, 0)))
+        can_cancel = (cutoff_time - timezone.now()) > timezone.timedelta(hours=24)
+        
+        context = {
+            'booking': booking,
+            'can_cancel': can_cancel,
+            'cutoff_time': cutoff_time
+        }
+        
+        return render(request, 'account/booking_detail.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in booking_detail: {str(e)}")
+        messages.error(request, "An error occurred while loading booking details.")
+        return redirect('user_dashboard')
 
 @login_required
 def cancel_booking(request, booking_id):
     """Handle booking cancellation with validation"""
-    booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
-    
-    # Check cancellation policy
-    cutoff_time = timezone.make_aware(datetime.combine(booking.date, dt_time(0, 0)))
-    if timezone.now() > cutoff_time - timezone.timedelta(hours=24):
-        messages.error(request, "Cancellations must be made at least 24 hours in advance.")
-        return redirect('booking_detail', booking_id=booking.id)
-    
-    if request.method == 'POST':
-        # Send cancellation email
-        send_mail(
-            'Booking Cancellation Confirmation',
-            f'Your booking on {booking.date} at {booking.time} has been cancelled.',
-            settings.DEFAULT_FROM_EMAIL,
-            [request.user.email],
-            fail_silently=True,
-        )
+    try:
+        booking = get_object_or_404(Booking, pk=booking_id, user=request.user)
         
-        booking.delete()
-        messages.success(request, "Your booking has been cancelled successfully.")
-        return redirect('user_dashboard')
-    
-    return render(request, 'account/cancel_booking.html', {'booking': booking})
+        cutoff_time = timezone.make_aware(datetime.combine(booking.date, dt_time(0, 0)))
+        if timezone.now() > cutoff_time - timezone.timedelta(hours=24):
+            messages.error(request, "Cancellations must be made at least 24 hours in advance.")
+            return redirect('booking_detail', booking_id=booking.id)
+        
+        if request.method == 'POST':
+            try:
+                send_mail(
+                    'Booking Cancellation Confirmation',
+                    f'Your booking on {booking.date} at {booking.time} has been cancelled.',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [request.user.email],
+                    fail_silently=False,
+                )
+            except Exception as email_error:
+                logger.error(f"Failed to send cancellation email: {str(email_error)}")
+            
+            booking.delete()
+            messages.success(request, "Your booking has been cancelled successfully.")
+            return redirect('user_dashboard')
+        
+        return render(request, 'account/cancel_booking.html', {'booking': booking})
+        
+    except Exception as e:
+        logger.error(f"Error in cancel_booking: {str(e)}")
+        messages.error(request, "An error occurred while processing your cancellation.")
+        return redirect('booking_detail', booking_id=booking_id)
 
 @login_required
 def delete_comment(request, comment_id):
     """Handle FAQ comment deletion with confirmation"""
-    comment = get_object_or_404(FAQComment, id=comment_id, user=request.user)
-    
-    if request.method == 'POST':
-        comment.delete()
-        messages.success(request, "Your comment has been deleted.")
+    try:
+        comment = get_object_or_404(FAQComment, id=comment_id, user=request.user)
+        
+        if request.method == 'POST':
+            comment.delete()
+            messages.success(request, "Your comment has been deleted.")
+            return redirect('faq')
+        
+        context = {
+            'object': comment,
+            'object_type': 'comment',
+            'cancel_url': reverse('faq')
+        }
+        
+        return render(request, 'account/confirm_delete.html', context)
+        
+    except Exception as e:
+        logger.error(f"Error in delete_comment: {str(e)}")
+        messages.error(request, "An error occurred while deleting your comment.")
         return redirect('faq')
-    
-    return render(request, 'account/confirm_delete.html', {
-        'object': comment,
-        'object_type': 'comment',
-        'cancel_url': reverse('faq')
-    })
+
+@login_required
+def profile_settings(request):
+    """Handle user profile updates"""
+    try:
+        if request.method == 'POST':
+            user = request.user
+            user.first_name = request.POST.get('first_name', user.first_name)
+            user.last_name = request.POST.get('last_name', user.last_name)
+            new_email = request.POST.get('email', user.email)
+            
+            if new_email != user.email:
+                if User.objects.filter(email=new_email).exists():
+                    messages.error(request, "This email is already in use.")
+                else:
+                    user.email = new_email
+            
+            user.save()
+            messages.success(request, "Your profile has been updated.")
+            return redirect('profile_settings')
+        
+        return render(request, 'dashboard/profile_settings.html')
+        
+    except Exception as e:
+        logger.error(f"Error in profile_settings: {str(e)}")
+        messages.error(request, "An error occurred while updating your profile.")
+        return redirect('profile_settings')
+
+@login_required
+def change_password(request):
+    """Handle password change requests"""
+    try:
+        if request.method == 'POST':
+            current_password = request.POST.get('current_password')
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('confirm_password')
+            
+            user = request.user
+            
+            if not user.check_password(current_password):
+                messages.error(request, "Your current password is incorrect.")
+            elif new_password != confirm_password:
+                messages.error(request, "New passwords don't match.")
+            elif len(new_password) < 8:
+                messages.error(request, "Password must be at least 8 characters.")
+            else:
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, "Your password has been changed successfully.")
+                return redirect('change_password')
+        
+        return render(request, 'dashboard/change_password.html')
+        
+    except Exception as e:
+        logger.error(f"Error in change_password: {str(e)}")
+        messages.error(request, "An error occurred while changing your password.")
+        return redirect('change_password')
+
+@login_required
+def payment_methods(request):
+    """Display and manage payment methods"""
+    try:
+        # Implementation would depend on your payment processor
+        return render(request, 'dashboard/payment_methods.html')
+    except Exception as e:
+        logger.error(f"Error in payment_methods: {str(e)}")
+        messages.error(request, "An error occurred while loading payment methods.")
+        return redirect('user_dashboard')
 
 def handler404(request, exception):
     """Custom 404 error handler with logging"""
@@ -886,8 +976,12 @@ def handler500(request):
     logger.error('500 Server Error', exc_info=True)
     return render(request, 'errors/500.html', status=500)
 
-
+@login_required
 def auth_debug(request):
+    """Debug view for authentication (restrict in production)"""
+    if not settings.DEBUG:
+        return handler404(request, Exception("Debug view not available in production"))
+    
     from allauth.socialaccount.models import SocialApp
     from django.contrib.sites.models import Site
     
@@ -902,19 +996,20 @@ def auth_debug(request):
     }
     return JsonResponse(data)
 
-
+@login_required
 def gallery_view(request):
-    """
-    View function to display the gallery page
-    """
-    # You can add context data here if needed
-    context = {
-        'page_title': 'Training Gallery',
-        'images': [
-            {'src': 'lessons/images/gallery1.jpg', 'alt': 'Basic marksmanship training'},
-            {'src': 'lessons/images/gallery2.jpg', 'alt': 'Tactical shooting drill'},
-            {'src': 'lessons/images/gallery3.jpg', 'alt': 'Advanced combat training'},
-            # Add more images as needed
-        ]
-    }
-    return render(request, 'lessons/gallery.html', context)
+    """View function to display the gallery page"""
+    try:
+        context = {
+            'page_title': 'Training Gallery',
+            'images': [
+                {'src': 'lessons/images/gallery1.jpg', 'alt': 'Basic marksmanship training'},
+                {'src': 'lessons/images/gallery2.jpg', 'alt': 'Tactical shooting drill'},
+                {'src': 'lessons/images/gallery3.jpg', 'alt': 'Advanced combat training'},
+            ]
+        }
+        return render(request, 'lessons/gallery.html', context)
+    except Exception as e:
+        logger.error(f"Error in gallery_view: {str(e)}")
+        messages.error(request, "An error occurred while loading the gallery.")
+        return redirect('user_dashboard')

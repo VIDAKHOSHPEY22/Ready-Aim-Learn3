@@ -1,0 +1,171 @@
+{% extends "account/dashboard.html" %}
+{% load static %}
+
+{% block title %}Booking Details | Ready Aim Learn{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="section-header">
+        <h2><i class="fas fa-calendar-check"></i> Booking Details</h2>
+        <span class="booking-id" style="color: var(--gray); font-size: 0.9rem;">
+            Booking #{{ booking.id }}
+        </span>
+    </div>
+    
+    <div class="booking-card" style="position: relative;">
+        <div class="booking-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 class="booking-title" style="color: var(--primary); margin: 0; font-size: 1.5rem;">
+                {{ booking.package.name }}
+            </h3>
+            <span class="booking-status status-{{ booking.status }}" 
+                  style="display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">
+                {{ booking.get_status_display }}
+            </span>
+        </div>
+        
+        <div class="booking-details" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px;">
+            <div class="detail-item" style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-calendar-day" style="color: var(--primary); width: 20px; text-align: center;"></i>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Date</div>
+                    <div>{{ booking.date|date:"F j, Y" }}</div>
+                </div>
+            </div>
+            
+            <div class="detail-item" style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-clock" style="color: var(--primary); width: 20px; text-align: center;"></i>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Time</div>
+                    <div>{{ booking.time|time:"g:i A" }}</div>
+                </div>
+            </div>
+            
+            <div class="detail-item" style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-user-tie" style="color: var(--primary); width: 20px; text-align: center;"></i>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Instructor</div>
+                    <div>{{ booking.instructor.user.get_full_name }}</div>
+                </div>
+            </div>
+            
+            {% if booking.location %}
+            <div class="detail-item" style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-map-marker-alt" style="color: var(--primary); width: 20px; text-align: center;"></i>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Location</div>
+                    <div>{{ booking.location.name }}</div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="detail-item" style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-dollar-sign" style="color: var(--primary); width: 20px; text-align: center;"></i>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Price</div>
+                    <div>${{ booking.package.price }}</div>
+                </div>
+            </div>
+            
+            <div class="detail-item" style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-hourglass-half" style="color: var(--primary); width: 20px; text-align: center;"></i>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--gray);">Duration</div>
+                    <div>{{ booking.package.duration }} hours</div>
+                </div>
+            </div>
+        </div>
+        
+        {% if booking.notes %}
+        <div class="booking-notes" style="background: rgba(30, 30, 30, 0.8); padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid var(--primary);">
+            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 10px;">
+                <i class="fas fa-sticky-note"></i> Instructor Notes
+            </h4>
+            <p style="margin: 0;">{{ booking.notes }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="package-description" style="margin-bottom: 25px;">
+            <h4 style="color: var(--primary); margin-top: 0; margin-bottom: 10px;">
+                <i class="fas fa-info-circle"></i> Package Details
+            </h4>
+            <p>{{ booking.package.description }}</p>
+        </div>
+        
+        <div class="booking-actions" style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(232, 185, 35, 0.2);">
+            <div>
+                {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-outline" style="margin-right: 10px;">
+                    <i class="fas fa-times"></i> Cancel Booking
+                </a>
+                {% endif %}
+                <a href="#" class="btn btn-outline">
+                    <i class="fas fa-print"></i> Print Details
+                </a>
+            </div>
+            <a href="{% url 'user_dashboard' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .booking-card {
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 30px;
+        border: 1px solid rgba(232, 185, 35, 0.1);
+    }
+    
+    .status-pending {
+        background-color: rgba(255, 193, 7, 0.2);
+        color: #FFC107;
+    }
+    
+    .status-confirmed {
+        background-color: rgba(76, 175, 80, 0.2);
+        color: #4CAF50;
+    }
+    
+    .status-cancelled {
+        background-color: rgba(244, 67, 54, 0.2);
+        color: #F44336;
+    }
+    
+    .status-completed {
+        background-color: rgba(33, 150, 243, 0.2);
+        color: #2196F3;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background: var(--primary);
+        color: var(--black);
+    }
+    
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(232, 185, 35, 0.3);
+    }
+    
+    .btn-outline {
+        border: 1px solid var(--primary);
+        color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+        background: rgba(232, 185, 35, 0.1);
+    }
+</style>
+{% endblock %}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard | Ready Aim Learn</title>
+    <title>{% block title %}User Dashboard | Ready Aim Learn{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -17,6 +17,10 @@
             --card-bg: rgba(40, 40, 40, 0.6);
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--dark-bg);
@@ -24,6 +28,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -50,6 +55,7 @@
             justify-content: space-between;
             align-items: center;
             height: 60px;
+            position: relative;
         }
 
         .logo-container {
@@ -70,6 +76,35 @@
             color: var(--primary);
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
             letter-spacing: 1.5px;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Overlay for mobile menu */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
         }
 
         /* Dashboard Content */
@@ -106,6 +141,7 @@
             padding: 30px;
             border: 1px solid rgba(232, 185, 35, 0.1);
             height: fit-content;
+            transition: all 0.3s ease;
         }
 
         .user-profile {
@@ -126,6 +162,13 @@
             font-size: 2.5rem;
             margin: 0 auto 15px;
             box-shadow: 0 0 15px rgba(232, 185, 35, 0.5);
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .sidebar-menu {
@@ -256,14 +299,14 @@
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
             gap: 8px;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            cursor: pointer;
         }
 
         .btn-primary {
@@ -280,6 +323,7 @@
         .btn-outline {
             border: 1px solid var(--primary);
             color: var(--primary);
+            background: transparent;
         }
 
         .btn-outline:hover {
@@ -293,10 +337,24 @@
         }
 
         .empty-state i {
-            font-size: 3rem;
+            font-size: 1rem;
             color: var(--gray);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             opacity: 0.5;
+        }
+
+        /* Google Account Indicator */
+        .google-account {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .google-account i {
+            color: #4285F4;
         }
 
         /* Responsive Styles */
@@ -313,10 +371,42 @@
         @media (max-width: 768px) {
             .dashboard-hero {
                 padding: 150px 20px 80px;
+                margin-top: 70px;
             }
             
             .dashboard-hero h1 {
                 font-size: 2rem;
+            }
+
+            .header-container {
+                height: auto;
+                flex-wrap: wrap;
+                padding: 10px 0;
+            }
+
+            .logo-container {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 15px;
+                left: 20px;
+            }
+
+            .site-header nav {
+                width: 100%;
+                text-align: center;
+            }
+
+            .site-header .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px;
+                font-size: 0.9rem;
             }
 
             .booking-details {
@@ -326,12 +416,82 @@
             .booking-actions {
                 flex-direction: column;
             }
+
+            .booking-actions .btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .section-header .btn {
+                width: 100%;
+            }
+
+            .dashboard-sidebar {
+                position: fixed;
+                top: 70px; /* Adjusted to match header height */
+                left: -100%;
+                width: 280px;
+                height: calc(100vh - 70px); /* Full height minus header */
+                overflow-y: auto;
+                z-index: 999;
+                border-radius: 0;
+                padding-top: 20px; /* Reduced from 160px */
+                transition: left 0.3s ease;
+            }
+
+            .dashboard-sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .dashboard-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .site-title {
+                font-size: 1.2rem;
+            }
+
+            .booking-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .booking-status {
+                align-self: flex-start;
+            }
+
+            .dashboard-sidebar {
+                width: 85%;
+                top: 60px; /* Adjusted for smaller devices */
+                height: calc(100vh - 60px); /* Adjusted for smaller devices */
+            }
         }
     </style>
 </head>
 <body>
     <header class="site-header">
         <div class="container header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="logo-container">
                 <img src="{% static 'lessons/images/logo.png' %}" alt="Ready Aim Learn Logo" class="logo" />
                 <h1 class="site-title">Ready Aim Learn</h1>
@@ -344,6 +504,8 @@
         </div>
     </header>
 
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <section class="dashboard-hero">
         <div class="container">
             <h1>Welcome, {{ user.first_name|default:user.username }}</h1>
@@ -354,25 +516,37 @@
     <section class="dashboard-container">
         <div class="container">
             <div class="dashboard-grid">
-                <aside class="dashboard-sidebar">
+                <aside class="dashboard-sidebar" id="dashboardSidebar">
                     <div class="user-profile">
                         <div class="user-avatar">
-                            {{ user.first_name|first|default:user.username|first|upper }}
+                            {% if user.socialaccount_set.all.0.get_avatar_url %}
+                                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Profile Picture">
+                            {% else %}
+                                {{ user.first_name|first|default:user.username|first|upper }}
+                            {% endif %}
                         </div>
                         <h3>{{ user.first_name|default:user.username }}</h3>
                         <p>{{ user.email }}</p>
+                        {% if user.socialaccount_set.all.0.provider == 'google' %}
+                            <div class="google-account">
+                                <i class="fab fa-google"></i>
+                                <span>Google Account</span>
+                            </div>
+                        {% endif %}
                     </div>
                     
                     <ul class="sidebar-menu">
-                        <li><a href="#" class="active"><i class="fas fa-calendar-alt"></i> My Bookings</a></li>
-                        <li><a href="#"><i class="fas fa-user"></i> Profile Settings</a></li>
-                        <li><a href="#"><i class="fas fa-lock"></i> Change Password</a></li>
-                        <li><a href="#"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+                        <li><a href="{% url 'user_dashboard' %}" {% if request.path == '/dashboard/' %}class="active"{% endif %}><i class="fas fa-calendar-alt"></i> My Bookings</a></li>
+                        <li><a href="{% url 'profile_settings' %}" {% if request.path == '/profile/settings/' %}class="active"{% endif %}><i class="fas fa-user"></i> Profile Settings</a></li>
+                        <li><a href="{% url 'change_password' %}" {% if request.path == '/profile/change-password/' %}class="active"{% endif %}><i class="fas fa-lock"></i> Change Password</a></li>
+                        <li><a href="{% url 'payment_methods' %}" {% if request.path == '/payment/methods/' %}class="active"{% endif %}><i class="fas fa-credit-card"></i> Payment Methods</a></li>
                         <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </aside>
                 
                 <main class="dashboard-content">
+                    {% block content %}
+                    <!-- Default content (Dashboard Home) -->
                     <div class="dashboard-section">
                         <div class="section-header">
                             <h2><i class="fas fa-calendar-alt"></i> Upcoming Training Sessions</h2>
@@ -487,9 +661,46 @@
                             </div>
                         {% endif %}
                     </div>
+                    {% endblock %}
                 </main>
             </div>
         </div>
     </section>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const dashboardSidebar = document.getElementById('dashboardSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dashboardSidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking overlay
+        sidebarOverlay.addEventListener('click', function() {
+            dashboardSidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dashboardSidebar.contains(event.target) && event.target !== mobileMenuBtn) {
+                dashboardSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking a link
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                dashboardSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>

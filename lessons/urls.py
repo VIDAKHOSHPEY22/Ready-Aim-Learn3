@@ -45,7 +45,18 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
     path('signup/', views.signup, name='signup'),
+    
+    # Dashboard routes (added from your template)
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
+    path('profile/settings/', views.profile_settings, name='profile_settings'),
+    path('profile/change-password/', auth_views.PasswordChangeView.as_view(
+        template_name='account/change_password.html',
+        success_url='/profile/change-password/done/'
+    ), name='change_password'),
+    path('profile/change-password/done/', auth_views.PasswordChangeDoneView.as_view(
+        template_name='account/change_password_done.html'
+    ), name='password_change_done'),
+    path('payment/methods/', views.payment_methods, name='payment_methods'),
     
     # API endpoints
     path('api/check-availability/', views.check_availability, name='api_check_availability'),
